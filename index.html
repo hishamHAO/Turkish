@@ -4,114 +4,75 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#1D4E89">
-<title>Lale — learn Turkish in 90 days</title>
+<title>Lale — learn Turkish</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
 <style>
-  :root{
-    --paper:#F4EEE1; --ink:#17242E; --cobalt:#1D4E89; --turq:#12868B;
-    --coral:#E4572E; --gold:#C08A2E; --muted:#6C7A82; --line:#DED6C4;
-    --card:#FBF7EE; --shadow:0 10px 30px -12px rgba(23,36,46,.35);
-  }
+  :root{--paper:#F4EEE1;--ink:#17242E;--cobalt:#1D4E89;--turq:#12868B;--coral:#E4572E;
+    --gold:#C08A2E;--muted:#6C7A82;--line:#DED6C4;--card:#FBF7EE;--shadow:0 10px 30px -12px rgba(23,36,46,.35)}
   *{box-sizing:border-box}
   html,body{margin:0;height:100%}
-  body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;
-    line-height:1.5;-webkit-font-smoothing:antialiased;
-    padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
-  .wrap{max-width:560px;margin:0 auto;padding:20px 18px 110px;min-height:100%}
+  body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;
+    -webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+  .wrap{max-width:600px;margin:0 auto;padding:20px 18px 108px;min-height:100%}
   header{display:flex;align-items:center;gap:12px;margin-bottom:4px}
   .mark{width:34px;height:34px;flex:none}
   h1{font-family:Fraunces,serif;font-weight:900;font-size:30px;letter-spacing:-.02em;margin:0;line-height:1}
   h1 .dot{color:var(--coral)}
-  .tag{color:var(--muted);font-size:13px;margin:2px 0 18px 46px}
-  /* stats */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+  .tag{color:var(--muted);font-size:13px;margin:2px 0 20px 46px}
+  h2.sec{font-family:Fraunces,serif;font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:2px 0 12px}
+  /* ---- contents / book ---- */
+  .theme{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:14px;overflow:hidden}
+  .theme-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+  .theme-ic{width:44px;height:44px;border-radius:12px;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none}
+  .theme-t{flex:1;min-width:0}
+  .theme-n{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+  .theme-title{font-family:Fraunces,serif;font-weight:600;font-size:19px;line-height:1.15}
+  .theme-en{font-size:12.5px;color:var(--muted)}
+  .ring{width:40px;height:40px;flex:none}
+  .chev{width:18px;height:18px;color:var(--muted);transition:transform .2s;flex:none}
+  .theme.open .chev{transform:rotate(90deg)}
+  .chapters{border-top:1px solid var(--line);display:none}
+  .theme.open .chapters{display:block}
+  .chap{display:flex;align-items:center;gap:12px;padding:13px 18px 13px 22px;cursor:pointer;border-top:1px solid var(--line)}
+  .chap:first-child{border-top:none}
+  .chap-dot{width:9px;height:9px;border-radius:50%;background:var(--line);flex:none}
+  .chap-dot.done{background:var(--turq)} .chap-dot.part{background:var(--gold)}
+  .chap-t{flex:1;font-weight:600;font-size:15px}
+  .chap-c{font-size:12px;color:var(--muted)}
+  /* ---- chapter page ---- */
+  .back-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:none;font:inherit;font-weight:600;color:var(--cobalt);cursor:pointer;padding:0;margin-bottom:12px}
+  .page-title{font-family:Fraunces,serif;font-weight:600;font-size:26px;letter-spacing:-.02em;margin:0 0 2px}
+  .page-sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+  .entry{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .entry-t{flex:1;min-width:0}
+  .entry-tr{font-family:Fraunces,serif;font-weight:600;font-size:22px;line-height:1.15;word-break:break-word}
+  .entry-en{font-size:14px;color:var(--muted)}
+  .entry-note{font-size:12.5px;color:var(--turq);margin-top:3px}
+  .spk{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--cobalt);flex:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .spk svg{width:18px;height:18px}
+  .pill{display:inline-block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle}
+  .pill.grammar{background:#DDEDEC;color:var(--turq)} .pill.phrase{background:#F7E2DB;color:var(--coral)}
+  /* ---- buttons ---- */
+  .btn{font:inherit;font-weight:600;border:none;border-radius:14px;padding:15px;cursor:pointer;width:100%}
+  .reveal{background:var(--ink);color:var(--paper);font-size:16px}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:500;font-size:14px}
+  .sticky-cta{position:sticky;bottom:96px;margin-top:18px}
+  /* ---- stats ---- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 8px;text-align:center}
   .stat b{display:block;font-family:Fraunces,serif;font-weight:600;font-size:22px;line-height:1.1}
   .stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-  .stat.due b{color:var(--coral)} .stat.new b{color:var(--cobalt)}
-  /* card */
-  .stage{perspective:1200px;margin-bottom:16px}
-  .flip{position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-  .flip.rev{transform:rotateY(180deg)}
-  .face{backface-visibility:hidden;background:var(--card);border:1px solid var(--line);
-    border-radius:22px;box-shadow:var(--shadow);padding:34px 26px;min-height:250px;
-    display:flex;flex-direction:column;justify-content:center;text-align:center}
-  .back{position:absolute;inset:0;transform:rotateY(180deg)}
-  .kind{position:absolute;top:16px;left:20px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
-  .kind.vocab{color:var(--cobalt)} .kind.grammar{color:var(--turq)} .kind.phrase{color:var(--coral)}
-  .rank{position:absolute;top:16px;right:20px;font-size:11px;color:var(--muted)}
-  .prompt{font-family:Fraunces,serif;font-size:38px;font-weight:600;letter-spacing:-.02em;word-break:break-word}
-  .sub{color:var(--muted);margin-top:10px;font-size:15px}
-  .answer{font-family:Fraunces,serif;font-size:32px;font-weight:600;color:var(--cobalt);word-break:break-word}
-  .note{margin-top:14px;font-size:14px;background:#EFE7D6;border-radius:12px;padding:10px 14px;text-align:left}
-  .note b{color:var(--turq)}
-  .say{margin-top:16px;display:inline-flex;align-items:center;gap:7px;align-self:center;
-    background:transparent;border:1px solid var(--line);border-radius:999px;padding:8px 15px;
-    font:inherit;font-size:13px;font-weight:600;color:var(--cobalt);cursor:pointer}
-  .say svg{width:15px;height:15px}
-  /* controls */
-  .btn{font:inherit;font-weight:600;border:none;border-radius:14px;padding:14px;cursor:pointer;width:100%}
-  .reveal{background:var(--ink);color:var(--paper);font-size:16px}
-  .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  .g{color:#fff;font-size:13px;padding:14px 6px;border-radius:14px;border:none;font-weight:600;cursor:pointer}
-  .g small{display:block;font-weight:400;opacity:.85;font-size:10px;margin-top:2px}
-  .g.again{background:var(--coral)} .g.hard{background:var(--gold)}
-  .g.good{background:var(--turq)} .g.easy{background:var(--cobalt)}
-  .empty{text-align:center;padding:36px 20px;color:var(--muted)}
-  .empty h2{font-family:Fraunces,serif;color:var(--ink);font-weight:600;margin:.2em 0}
-  /* profile */
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px}
-  .panel h3{font-family:Fraunces,serif;font-weight:600;margin:0 0 4px;font-size:19px}
-  .panel .lead{font-size:13px;color:var(--muted);margin:0 0 14px}
-  .cov{font-family:Fraunces,serif;font-size:54px;font-weight:900;line-height:1;color:var(--cobalt)}
-  .cov small{font-size:18px;color:var(--muted);font-weight:600}
-  .cefr{display:inline-block;margin-top:8px;background:var(--cobalt);color:#fff;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600}
-  .bar{height:12px;background:#E7DFCE;border-radius:999px;overflow:hidden;margin:14px 0 6px}
-  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--turq),var(--cobalt));border-radius:999px}
-  .barrow{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
-  .tiers{display:flex;flex-direction:column;gap:10px;margin-top:6px}
-  .tier{display:flex;align-items:center;gap:12px}
-  .tier .tb{flex:1;height:9px;background:#E7DFCE;border-radius:999px;overflow:hidden}
-  .tier .tb i{display:block;height:100%;background:var(--turq)}
-  .tier .tl{width:96px;font-size:13px;font-weight:600}
-  .tier .tn{width:64px;text-align:right;font-size:12px;color:var(--muted)}
-  .pace{display:flex;gap:10px;align-items:baseline}
-  .pace b{font-family:Fraunces,serif;font-size:30px;font-weight:600}
-  .ontrack{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px}
-  .ontrack.ok{background:#DCEBE4;color:#0F7A52} .ontrack.behind{background:#F6E1D9;color:#B5431F}
-  .goalinput{display:flex;gap:8px;margin-top:12px}
-  .goalinput input{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--paper);color:var(--ink)}
-  /* tabs */
-  nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);
-    display:flex;padding:6px 8px calc(6px + env(safe-area-inset-bottom));z-index:5}
-  nav button{flex:1;background:none;border:none;font:inherit;font-weight:600;font-size:12px;color:var(--muted);
-    padding:8px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
-  nav button[aria-current="true"]{color:var(--cobalt)}
-  nav svg{width:22px;height:22px}
-  .fab{position:fixed;right:calc(18px + env(safe-area-inset-right));bottom:calc(78px + env(safe-area-inset-bottom));
-    width:54px;height:54px;border-radius:50%;background:var(--coral);color:#fff;border:none;font-size:28px;
-    box-shadow:var(--shadow);cursor:pointer;line-height:1;z-index:6}
-  .row{display:flex;gap:8px;margin-top:12px}
-  .row .btn{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:500;font-size:14px}
-  dialog{border:none;border-radius:20px;padding:0;max-width:460px;width:92%;box-shadow:var(--shadow);background:var(--card)}
-  dialog::backdrop{background:rgba(23,36,46,.45)}
-  .sheet{padding:22px}
-  .sheet h3{font-family:Fraunces,serif;margin:0 0 14px;font-weight:600}
-  label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 5px}
-  input,select,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:var(--paper);color:var(--ink)}
-  textarea{resize:vertical;min-height:52px}
-  .seg{display:flex;gap:6px}
-  .seg button{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:var(--paper);font:inherit;font-weight:600;cursor:pointer;font-size:13px;color:var(--muted)}
-  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  :focus-visible{outline:3px solid var(--turq);outline-offset:2px}
-  .hidden{display:none}
-  @media (prefers-reduced-motion:reduce){.flip{transition:none}}
-  /* exercises */
+  .stat.due b{color:var(--coral)}
+  /* ---- exercises ---- */
   .qbox{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:30px 24px;text-align:center;position:relative}
-  .qprompt{font-family:Fraunces,serif;font-size:34px;font-weight:600;letter-spacing:-.02em;word-break:break-word}
+  .kind{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+  .kind.vocab{color:var(--cobalt)} .kind.grammar{color:var(--turq)} .kind.phrase{color:var(--coral)}
+  .qprompt{font-family:Fraunces,serif;font-size:34px;font-weight:600;letter-spacing:-.02em;word-break:break-word;margin-top:4px}
   .qsub{color:var(--muted);font-size:14px;margin-top:8px}
+  .say{margin-top:16px;display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid var(--line);border-radius:999px;padding:8px 15px;font:inherit;font-size:13px;font-weight:600;color:var(--cobalt);cursor:pointer}
+  .say svg{width:15px;height:15px}
   .opts{display:grid;gap:9px;margin-top:14px}
   .opt{padding:15px;border-radius:14px;border:1px solid var(--line);background:var(--card);font:inherit;font-weight:600;cursor:pointer;text-align:center;color:var(--ink)}
   .opt.correct{background:#DCEBE4;border-color:#0F7A52;color:#0F7A52}
@@ -122,9 +83,70 @@
   .ansrow{min-height:54px;border:1px dashed var(--line);border-radius:14px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-top:14px;background:var(--paper)}
   .typein{width:100%;font:inherit;font-size:20px;text-align:center;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);margin-top:14px}
   .feedback{margin-top:12px;padding:12px;border-radius:12px;text-align:center;font-weight:600;font-family:Fraunces,serif}
-  .feedback.good{background:#DCEBE4;color:#0F7A52}
-  .feedback.bad{background:#F6E1D9;color:#B5431F}
+  .feedback.good{background:#DCEBE4;color:#0F7A52} .feedback.bad{background:#F6E1D9;color:#B5431F}
   .feedback .fn{display:block;font-family:Inter,sans-serif;font-weight:400;font-size:13px;color:var(--ink);margin-top:6px}
+  .note{font-size:14px;background:#EFE7D6;border-radius:12px;padding:10px 14px;text-align:left}
+  .note b{color:var(--turq)}
+  .empty{text-align:center;padding:36px 20px;color:var(--muted)}
+  .empty h3{font-family:Fraunces,serif;color:var(--ink);font-weight:600;margin:.2em 0}
+  /* ---- profile ---- */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px}
+  .panel h3{font-family:Fraunces,serif;font-weight:600;margin:0 0 4px;font-size:19px}
+  .panel .lead{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .cov{font-family:Fraunces,serif;font-size:54px;font-weight:900;line-height:1;color:var(--cobalt)}
+  .cov small{font-size:18px;color:var(--muted);font-weight:600}
+  .cefr{display:inline-block;margin-top:8px;background:var(--cobalt);color:#fff;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600}
+  .bar{height:12px;background:#E7DFCE;border-radius:999px;overflow:hidden;margin:14px 0 6px}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--turq),var(--cobalt));border-radius:999px}
+  .barrow{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+  .pace{display:flex;gap:10px;align-items:baseline}
+  .pace b{font-family:Fraunces,serif;font-size:30px;font-weight:600}
+  .ontrack{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px}
+  .ontrack.ok{background:#DCEBE4;color:#0F7A52} .ontrack.behind{background:#F6E1D9;color:#B5431F}
+  .goalinput{display:flex;gap:8px;margin-top:12px}
+  .goalinput input{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--paper);color:var(--ink)}
+  /* ---- nav ---- */
+  nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:5}
+  nav button{flex:1;background:none;border:none;font:inherit;font-weight:600;font-size:11px;color:var(--muted);padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+  nav button[aria-current="true"]{color:var(--cobalt)}
+  nav svg{width:22px;height:22px}
+  .fab{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(78px + env(safe-area-inset-bottom));width:54px;height:54px;border-radius:50%;background:var(--coral);color:#fff;border:none;font-size:28px;box-shadow:var(--shadow);cursor:pointer;line-height:1;z-index:6}
+  dialog{border:none;border-radius:20px;padding:0;max-width:460px;width:92%;box-shadow:var(--shadow);background:var(--card)}
+  dialog::backdrop{background:rgba(23,36,46,.45)}
+  .sheet{padding:22px}
+  .sheet h3{font-family:Fraunces,serif;margin:0 0 14px;font-weight:600}
+  label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 5px}
+  input,select,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:var(--paper);color:var(--ink)}
+  textarea{resize:vertical;min-height:52px}
+  .seg{display:flex;gap:6px}
+  .seg button{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:var(--paper);font:inherit;font-weight:600;cursor:pointer;font-size:13px;color:var(--muted)}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .row{display:flex;gap:8px;margin-top:12px}
+  :focus-visible{outline:3px solid var(--turq);outline-offset:2px}
+  .bubble{max-width:84%;padding:11px 14px;border-radius:16px;margin:8px 0}
+  .bubble .btr{font-family:Fraunces,serif;font-weight:600;font-size:17px;line-height:1.25}
+  .bubble .ben{font-size:13px;color:var(--muted);margin-top:2px}
+  .bA{background:#EFE7D6;border:1px solid var(--line);border-top-left-radius:4px;margin-right:auto}
+  .bB{background:#E3EDF4;border:1px solid #CBDDEA;border-top-right-radius:4px;margin-left:auto}
+  .turnbadge{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .dprog{height:8px;background:#E7DFCE;border-radius:999px;overflow:hidden;margin:6px 0 14px}
+  .dprog i{display:block;height:100%;background:linear-gradient(90deg,var(--turq),var(--cobalt))}
+  .today-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .today-head h3{font-size:20px;font-family:Fraunces,serif;font-weight:600;margin:0}
+  .tlist{display:flex;flex-direction:column}
+  .task{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+  .task:first-child{border-top:none}
+  .task-ic{width:34px;height:34px;border-radius:10px;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .task.tdone .task-ic{background:#DCEBE4;color:#0F7A52}
+  .task-t{flex:1;min-width:0}.task-t b{display:block;font-size:15px}.task-t small{color:var(--muted);font-size:12.5px}
+  .task.tdone .task-t b{color:var(--muted)}
+  .phase{background:linear-gradient(180deg,#EFE7D6,transparent);border-radius:16px;padding:14px 16px;margin:14px 0 10px}
+  .phase-head{display:flex;align-items:center;justify-content:space-between}
+  .phase-days{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+  .phase-title{font-family:Fraunces,serif;font-weight:600;font-size:20px}
+  .phase-pct{font-family:Fraunces,serif;font-weight:600;font-size:20px;color:var(--cobalt)}
+  .phase-goal{font-size:13px;color:var(--ink);margin-top:2px}
+  .hidden{display:none}
 </style>
 </head>
 <body>
@@ -137,73 +159,31 @@
     </svg>
     <h1>Lale<span class="dot">.</span></h1>
   </header>
-  <p class="tag" id="tagline">Turkish for real conversation — 90-day plan.</p>
+  <p class="tag" id="tagline">Turkish, chapter by chapter.</p>
 
-  <!-- STUDY VIEW -->
-  <section id="view-study">
+  <section id="view-learn"></section>
+  <section id="view-talk" class="hidden"></section>
+  <section id="view-review" class="hidden">
     <div class="stats">
       <div class="stat due"><b id="s-due">0</b><span>Due</span></div>
-      <div class="stat new"><b id="s-new">0</b><span>New</span></div>
       <div class="stat"><b id="s-known">0</b><span>Known</span></div>
+      <div class="stat"><b id="s-started">0</b><span>Started</span></div>
       <div class="stat"><b id="s-streak">0</b><span>Streak</span></div>
     </div>
-    <main id="study"></main>
+    <div id="review"></div>
   </section>
 
-  <!-- PROFILE VIEW -->
-  <section id="view-profile" class="hidden">
-    <div class="panel">
-      <h3>Coverage</h3>
-      <p class="lead">Estimated share of everyday spoken Turkish you can follow.</p>
-      <div><span class="cov" id="cov">0<small>%</small></span></div>
-      <div class="cefr" id="cefr">A0 · Beginner</div>
-    </div>
+  <section id="view-listen" class="hidden"></section>
 
-    <div class="panel">
-      <h3>90-day plan</h3>
-      <p class="lead" id="planLead">Reach conversational Turkish by your target date.</p>
-      <div class="pace">
-        <b id="dayX">Day 1</b><span style="color:var(--muted)">of 90</span>
-        <span class="ontrack ok" id="track" style="margin-left:auto">on track</span>
-      </div>
-      <div class="bar"><i id="planBar" style="width:0%"></i></div>
-      <div class="barrow"><span id="knownLbl">0 words</span><span id="goalLbl">goal 1500</span></div>
-      <div class="goalinput">
-        <input id="goalField" type="number" min="100" step="50" value="1500" aria-label="Word goal">
-        <button class="btn reveal" id="goalSet" style="width:auto;padding:10px 16px">Set goal</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h3>Word bank</h3>
-      <p class="lead">Frequency tiers — earlier tiers do the heavy lifting.</p>
-      <div class="tiers" id="tiers"></div>
-    </div>
-
-    <div class="panel">
-      <h3>Your deck</h3>
-      <div class="row" style="margin-top:0">
-        <button class="btn" id="exportBtn">Export</button>
-        <button class="btn" id="importBtn">Import</button>
-        <input type="file" id="importFile" accept="application/json" hidden>
-      </div>
-      <div class="row">
-        <button class="btn" id="resetBtn" style="color:var(--coral)">Reset all progress</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCAN VIEW -->
   <section id="view-scan" class="hidden">
     <div class="panel">
       <h3>Scan Turkish</h3>
-      <p class="lead">Point your camera at a sign, menu, or any Turkish text. Read it, tidy it up, save it to practise.</p>
-      <input type="file" id="scanFile" accept="image/*" capture="environment" hidden>
-      <button class="btn reveal" id="scanBtn">📷 Open camera</button>
+      <p class="lead">Point your camera at a sign, menu, or any Turkish text. Read it, tidy it, save it to your book.</p>
+      <input type="file" id="scanFile" accept="image/*" hidden>
+      <button class="btn reveal" id="scanBtn">📷 Take or choose a photo</button>
       <div id="scanBusy" class="hidden" style="text-align:center;color:var(--muted);margin-top:14px">Reading the image… <span id="scanPct"></span></div>
       <img id="scanPrev" alt="" style="display:none;width:100%;border-radius:14px;margin-top:14px;border:1px solid var(--line)">
     </div>
-
     <div class="panel hidden" id="scanReview">
       <h3>Check it</h3>
       <p class="lead">Fix any OCR slips, then save. Translation is a suggestion — correct it if needed.</p>
@@ -212,36 +192,71 @@
       <label>English <span style="text-transform:none;font-weight:400">(your gloss)</span></label>
       <div class="goalinput">
         <input id="scanEn" placeholder="what it means">
-        <button class="btn" id="scanTranslate" style="width:auto;padding:10px 14px;border:1px solid var(--line)">Suggest</button>
+        <button class="btn ghost" id="scanTranslate" style="width:auto;padding:10px 14px">Suggest</button>
       </div>
       <div class="row">
-        <button class="btn" id="scanDiscard" style="border:1px solid var(--line)">Discard</button>
-        <button class="btn reveal" id="scanSave">Save to deck</button>
+        <button class="btn ghost" id="scanDiscard">Discard</button>
+        <button class="btn reveal" id="scanSave">Save to book</button>
       </div>
     </div>
+  </section>
 
+  <section id="view-profile" class="hidden">
     <div class="panel">
-      <h3>Recent scans</h3>
-      <div id="scanList"><p class="lead">Nothing scanned yet.</p></div>
+      <h3>Coverage</h3>
+      <p class="lead">Estimated share of everyday spoken Turkish you can follow.</p>
+      <div><span class="cov" id="cov">0<small>%</small></span></div>
+      <div class="cefr" id="cefr">A0 · Beginner</div>
+    </div>
+    <div class="panel">
+      <h3>90-day plan</h3>
+      <p class="lead" id="planLead">Reach conversational Turkish by your target date.</p>
+      <div class="pace"><b id="dayX">Day 1</b><span style="color:var(--muted)">of 90</span>
+        <span class="ontrack ok" id="track" style="margin-left:auto">on track</span></div>
+      <div class="bar"><i id="planBar" style="width:0%"></i></div>
+      <div class="barrow"><span id="knownLbl">0 words</span><span id="goalLbl">goal 1500</span></div>
+      <div class="goalinput">
+        <input id="goalField" type="number" min="100" step="50" value="1500" aria-label="Word goal">
+        <button class="btn reveal" id="goalSet" style="width:auto;padding:10px 16px">Set</button>
+      </div>
+    </div>
+    <div class="panel">
+    <div class="panel">
+      <h3>AI conversation</h3>
+      <p class="lead">Paste your Anthropic API key to enable the AI partner in Talk. Stored only in this browser — fine for personal use; move to a server before any public launch, and never commit it to GitHub.</p>
+      <div class="goalinput">
+        <input id="aiKey" type="password" placeholder="sk-ant-…" autocomplete="off">
+        <button class="btn reveal" id="aiKeySave" style="width:auto;padding:10px 16px">Save</button>
+      </div>
+      <div id="aiKeyState" class="lead" style="margin-top:8px"></div>
+    </div>
+    <div class="panel">
+      <h3>Your book</h3>
+      <div class="row" style="margin-top:0">
+        <button class="btn ghost" id="exportBtn">Export</button>
+        <button class="btn ghost" id="importBtn">Import</button>
+        <input type="file" id="importFile" accept="application/json" hidden>
+      </div>
+      <div class="row"><button class="btn ghost" id="resetBtn" style="color:var(--coral)">Reset progress</button></div>
     </div>
   </section>
 </div>
 
-<button class="fab" id="addFab" aria-label="Add a card">+</button>
+<button class="fab hidden" id="addFab" aria-label="Add a card">+</button>
 
 <nav>
-  <button id="tabStudy" aria-current="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>
-    Study
-  </button>
+  <button id="tabLearn" aria-current="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 012-2h6v18H6a2 2 0 01-2-2zM20 5a2 2 0 00-2-2h-6v18h6a2 2 0 002-2z"/></svg>Learn</button>
+  <button id="tabTalk">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Talk</button>
+  <button id="tabReview">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 019-9 9 9 0 018 5M21 12a9 9 0 01-9 9 9 9 0 01-8-5"/><path d="M17 8h4V4M7 16H3v4"/></svg>Review</button>
+  <button id="tabListen">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 14v-2a9 9 0 0118 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>Listen</button>
   <button id="tabScan">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V6a2 2 0 012-2h2M16 4h2a2 2 0 012 2v2M20 16v2a2 2 0 01-2 2h-2M8 20H6a2 2 0 01-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
-    Scan
-  </button>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V6a2 2 0 012-2h2M16 4h2a2 2 0 012 2v2M20 16v2a2 2 0 01-2 2h-2M8 20H6a2 2 0 01-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>Scan</button>
   <button id="tabProfile">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
-    Profile
-  </button>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</button>
 </nav>
 
 <dialog id="addDlg">
@@ -260,7 +275,7 @@
     <label>Example / note <span style="text-transform:none;font-weight:400">(optional)</span></label>
     <textarea id="fNote" placeholder="evde = in the house"></textarea>
     <div class="row">
-      <button class="btn" id="cancelBtn" style="border:1px solid var(--line)">Cancel</button>
+      <button class="btn ghost" id="cancelBtn">Cancel</button>
       <button class="btn reveal" id="saveBtn">Save card</button>
     </div>
   </div>
@@ -268,344 +283,730 @@
 
 <script>
 "use strict";
-const KEY="lale.v2", DAY=864e5, now=()=>Date.now();
+const KEY="lale.v3", DAY=864e5, now=()=>Date.now();
 const todayKey=()=>new Date().toISOString().slice(0,10);
 
-/* ============================================================
-   FREQUENCY WORD BANK — ordered roughly by everyday frequency.
-   Array position = frequency rank. Curated for correctness and
-   communicative value (function words, top verbs, core nouns).
-   Extend by importing a fuller frequency dictionary later.
-   ============================================================ */
-const WORDS=[
- // pronouns & top function words
- ["ben","I",""],["sen","you",""],["o","he / she / it",""],["biz","we",""],["siz","you (pl./formal)",""],["onlar","they",""],
- ["bu","this",""],["şu","that (near)",""],["ne","what",""],["kim","who",""],["var","there is",""],["yok","there isn't",""],
- ["ve","and",""],["ama","but",""],["için","for",""],["ile","with",""],["gibi","like / as",""],["çünkü","because",""],
- ["değil","not",""],["çok","very / many",""],["az","little / few",""],["daha","more",""],["en","most",""],["de","also / too","also spelled da by harmony"],
- ["evet","yes",""],["hayır","no",""],["belki","maybe",""],
- // question words
- ["nerede","where",""],["ne zaman","when",""],["nasıl","how",""],["neden","why",""],["kaç","how many",""],["hangi","which",""],
- // time & place adverbs
- ["şimdi","now",""],["sonra","after / later",""],["önce","before",""],["bugün","today",""],["yarın","tomorrow",""],["dün","yesterday",""],
- ["burada","here",""],["orada","there",""],["hep","always",""],["hiç","never / at all",""],
- // top verbs (dictionary form)
- ["olmak","to be / become",""],["yapmak","to do / make",""],["gitmek","to go","gidiyorum = I'm going (t→d)"],["gelmek","to come",""],
- ["görmek","to see",""],["bakmak","to look",""],["bilmek","to know",""],["istemek","to want",""],["vermek","to give",""],
- ["almak","to take / buy",""],["demek","to say",""],["konuşmak","to speak",""],["anlamak","to understand",""],
- ["yemek","to eat / food",""],["içmek","to drink",""],["sevmek","to love / like",""],["yaşamak","to live",""],
- ["çalışmak","to work / study",""],["okumak","to read",""],["yazmak","to write",""],["başlamak","to start",""],
- ["bulmak","to find",""],["kalmak","to stay",""],["düşünmek","to think",""],["sormak","to ask",""],["beklemek","to wait",""],
- ["açmak","to open",""],["kapatmak","to close",""],["getirmek","to bring",""],["kullanmak","to use",""],
- // people & family
- ["adam","man",""],["kadın","woman",""],["çocuk","child",""],["insan","person",""],["arkadaş","friend",""],["aile","family",""],
- ["anne","mother",""],["baba","father",""],["kız","girl / daughter",""],["oğul","son",""],
- // everyday nouns
- ["ev","house","evde = in the house"],["su","water",""],["yer","place",""],["şey","thing",""],["iş","work / job",""],["para","money",""],
- ["zaman","time",""],["gün","day",""],["gece","night",""],["sabah","morning",""],["akşam","evening",""],
- ["yıl","year",""],["ay","month / moon",""],["hafta","week",""],["saat","hour / clock",""],
- ["şehir","city",""],["ülke","country",""],["yol","road / way",""],["araba","car",""],["kapı","door",""],
- ["isim","name",""],["dil","language",""],["söz","word",""],["el","hand",""],["göz","eye",""],["baş","head",""],
- ["çay","tea",""],["kahve","coffee",""],["ekmek","bread",""],["kitap","book",""],["okul","school",""],["ders","lesson",""],
- // adjectives
- ["iyi","good",""],["kötü","bad",""],["büyük","big",""],["küçük","small",""],["yeni","new",""],["eski","old",""],
- ["güzel","beautiful / nice",""],["kolay","easy",""],["zor","hard / difficult",""],["uzun","long / tall",""],["kısa","short",""],
- // numbers
- ["bir","one",""],["iki","two",""],["üç","three",""],["dört","four",""],["beş","five",""],["altı","six",""],
- ["yedi","seven",""],["sekiz","eight",""],["dokuz","nine",""],["on","ten",""],["yüz","hundred",""],["bin","thousand",""]
-].filter(w=>Array.isArray(w)&&w[0]&&w[1]);
-
-const GRAMMAR=[
- ["ev → “houses”","evler","Plural -ler/-lar by vowel harmony. Front vowel (e) → -ler."],
- ["kitap → “books”","kitaplar","Back vowel (a) → -lar."],
- ["ev → “in the house”","evde","Locative -de/-da. Front vowel → -de."],
- ["okul → “at school”","okulda","Back vowel (u) → -da."],
- ["kitap → “in the book”","kitapta","After voiceless p, d hardens to t: -ta."],
- ["gel- → “I am coming”","geliyorum","Present continuous -iyor + -um. gel+iyor+um."],
- ["git- → “I am going”","gidiyorum","t softens to d before a vowel: git→gid."],
- ["ev → “my house”","evim","Possessive 1sg -im. ev+im."],
- ["gel- → “I will come”","geleceğim","Future -ecek/-acak + -im. Front vowel → -ecek."],
- ["ben → “to me”","bana","Irregular dative. ben→bana, sen→sana."]
+/* =====================================================================
+   CURRICULUM — the book. Themes → chapters → items [type, tr, en, note].
+   Curated for correctness and communicative value.
+   ===================================================================== */
+const CURRICULUM=[
+ {id:"gr",title:"Selamlar",en:"Greetings",icon:"👋",chapters:[
+   {id:"gr1",title:"Hello & goodbye",items:[
+     ["phrase","Merhaba","Hello",""],["phrase","Günaydın","Good morning","lit. day-bright"],
+     ["phrase","İyi akşamlar","Good evening",""],["phrase","İyi geceler","Good night",""],
+     ["phrase","Görüşürüz","See you",""],["phrase","Hoşça kal","Goodbye","said to the one leaving"],
+     ["vocab","evet","yes",""],["vocab","hayır","no",""]]},
+   {id:"gr2",title:"How are you?",items:[
+     ["phrase","Nasılsın?","How are you?","informal (sen)"],["phrase","Nasılsınız?","How are you?","formal / plural (siz)"],
+     ["phrase","İyiyim","I'm fine",""],["phrase","Teşekkür ederim","Thank you",""],
+     ["phrase","Rica ederim","You're welcome",""],["phrase","Sen nasılsın?","And you?",""]]},
+   {id:"gr3",title:"Meeting people",items:[
+     ["phrase","Adın ne?","What's your name?","informal"],["phrase","Adınız ne?","What's your name?","formal"],
+     ["phrase","Benim adım…","My name is…",""],["phrase","Memnun oldum","Nice to meet you",""],
+     ["phrase","Affedersiniz","Excuse me",""],["phrase","Özür dilerim","I'm sorry",""]]}
+ ]},
+ {id:"pe",title:"İnsanlar",en:"People & family",icon:"👪",chapters:[
+   {id:"pe1",title:"Family",items:[
+     ["vocab","anne","mother",""],["vocab","baba","father",""],["vocab","çocuk","child",""],
+     ["vocab","kız","girl / daughter",""],["vocab","oğul","son",""],["vocab","aile","family",""],
+     ["vocab","arkadaş","friend",""]]},
+   {id:"pe2",title:"Pronouns & people",items:[
+     ["vocab","ben","I",""],["vocab","sen","you",""],["vocab","o","he / she / it",""],
+     ["vocab","biz","we",""],["vocab","siz","you (pl./formal)",""],["vocab","onlar","they",""],
+     ["vocab","adam","man",""],["vocab","kadın","woman",""],["vocab","insan","person",""]]}
+ ]},
+ {id:"fo",title:"Yemek",en:"Food & drink",icon:"☕",chapters:[
+   {id:"fo1",title:"At the café",items:[
+     ["vocab","çay","tea",""],["vocab","kahve","coffee",""],["vocab","su","water",""],["vocab","ekmek","bread",""],
+     ["phrase","Bir kahve, lütfen","A coffee, please",""],["phrase","Hesap, lütfen","The bill, please",""],
+     ["phrase","Afiyet olsun","Enjoy your meal",""]]},
+   {id:"fo2",title:"Ordering",items:[
+     ["vocab","yemek","food",""],["vocab","içmek","to drink",""],["vocab","istemek","to want",""],
+     ["phrase","Ne kadar?","How much?",""],["phrase","Lütfen","Please",""],["phrase","Teşekkürler","Thanks",""]]}
+ ]},
+ {id:"ci",title:"Şehir",en:"Around town",icon:"🏙️",chapters:[
+   {id:"ci1",title:"Places",items:[
+     ["vocab","ev","house","evde = in the house"],["vocab","okul","school",""],["vocab","şehir","city",""],
+     ["vocab","ülke","country",""],["vocab","yer","place",""],["vocab","yol","road / way",""],
+     ["vocab","araba","car",""],["vocab","kapı","door",""]]},
+   {id:"ci2",title:"Directions & help",items:[
+     ["vocab","nerede","where",""],["vocab","burada","here",""],["vocab","orada","there",""],
+     ["phrase","Tuvalet nerede?","Where is the toilet?",""],["phrase","Yardım eder misiniz?","Could you help?",""],
+     ["phrase","Anlamadım","I didn't understand",""],["phrase","Türkçe bilmiyorum","I don't speak Turkish",""]]}
+ ]},
+ {id:"nu",title:"Sayılar & Zaman",en:"Numbers & time",icon:"🕐",chapters:[
+   {id:"nu1",title:"Numbers 1–10",items:[
+     ["vocab","bir","one",""],["vocab","iki","two",""],["vocab","üç","three",""],["vocab","dört","four",""],
+     ["vocab","beş","five",""],["vocab","altı","six",""],["vocab","yedi","seven",""],["vocab","sekiz","eight",""],
+     ["vocab","dokuz","nine",""],["vocab","on","ten",""],["vocab","yüz","hundred",""],["vocab","bin","thousand",""]]},
+   {id:"nu2",title:"Time words",items:[
+     ["vocab","bugün","today",""],["vocab","yarın","tomorrow",""],["vocab","dün","yesterday",""],
+     ["vocab","şimdi","now",""],["vocab","sonra","after / later",""],["vocab","gün","day",""],
+     ["vocab","gece","night",""],["vocab","sabah","morning",""],["vocab","akşam","evening",""],
+     ["vocab","saat","hour / clock",""],["vocab","hafta","week",""],["vocab","yıl","year",""]]}
+ ]},
+ {id:"ad",title:"Sıfatlar",en:"Describing things",icon:"🎨",chapters:[
+   {id:"ad1",title:"Opposites",items:[
+     ["vocab","iyi","good",""],["vocab","kötü","bad",""],["vocab","büyük","big",""],["vocab","küçük","small",""],
+     ["vocab","yeni","new",""],["vocab","eski","old",""],["vocab","güzel","beautiful / nice",""],
+     ["vocab","uzun","long / tall",""],["vocab","kısa","short",""],["vocab","kolay","easy",""],["vocab","zor","hard",""]]},
+   {id:"ad2",title:"Quantity",items:[
+     ["vocab","çok","very / many",""],["vocab","az","little / few",""],["vocab","daha","more",""],
+     ["vocab","en","most",""],["vocab","var","there is",""],["vocab","yok","there isn't",""]]}
+ ]},
+ {id:"co",title:"Renkler",en:"Colours",icon:"🌈",chapters:[
+   {id:"co1",title:"Colours",items:[
+     ["vocab","kırmızı","red",""],["vocab","mavi","blue",""],["vocab","yeşil","green",""],
+     ["vocab","sarı","yellow",""],["vocab","siyah","black",""],["vocab","beyaz","white",""],
+     ["vocab","turuncu","orange",""],["vocab","mor","purple",""],["vocab","pembe","pink",""],
+     ["vocab","kahverengi","brown",""],["vocab","gri","grey",""]]}
+ ]},
+ {id:"ca",title:"Takvim",en:"Calendar",icon:"📅",chapters:[
+   {id:"ca1",title:"Days of the week",items:[
+     ["vocab","Pazartesi","Monday",""],["vocab","Salı","Tuesday",""],["vocab","Çarşamba","Wednesday",""],
+     ["vocab","Perşembe","Thursday",""],["vocab","Cuma","Friday",""],["vocab","Cumartesi","Saturday",""],
+     ["vocab","Pazar","Sunday","also means 'market'"]]},
+   {id:"ca2",title:"Seasons",items:[
+     ["vocab","ilkbahar","spring",""],["vocab","yaz","summer",""],["vocab","sonbahar","autumn",""],["vocab","kış","winter",""]]},
+   {id:"ca3",title:"Months",items:[
+     ["vocab","Ocak","January",""],["vocab","Şubat","February",""],["vocab","Mart","March",""],
+     ["vocab","Nisan","April",""],["vocab","Mayıs","May",""],["vocab","Haziran","June",""],
+     ["vocab","Temmuz","July",""],["vocab","Ağustos","August",""],["vocab","Eylül","September",""],
+     ["vocab","Ekim","October",""],["vocab","Kasım","November",""],["vocab","Aralık","December",""]]}
+ ]},
+ {id:"sh",title:"Alışveriş",en:"Shopping",icon:"🛍️",chapters:[
+   {id:"sh1",title:"Shops & prices",items:[
+     ["vocab","para","money",""],["vocab","mağaza","shop / store",""],["vocab","market","grocery store",""],
+     ["vocab","fiyat","price",""],["vocab","ucuz","cheap",""],["vocab","pahalı","expensive",""],
+     ["vocab","lira","lira",""],["vocab","nakit","cash",""],["vocab","kart","card",""]]},
+   {id:"sh2",title:"Buying",items:[
+     ["phrase","Bu ne kadar?","How much is this?",""],["phrase","Çok pahalı","Too expensive",""],
+     ["phrase","İndirim var mı?","Is there a discount?",""],["phrase","Alabilir miyim?","Can I have it?",""],
+     ["phrase","Sadece bakıyorum","I'm just looking",""],["phrase","Kartla ödeyebilir miyim?","Can I pay by card?",""]]}
+ ]},
+ {id:"tv",title:"Seyahat",en:"Travel & transport",icon:"🚌",chapters:[
+   {id:"tv1",title:"Getting around",items:[
+     ["vocab","otobüs","bus",""],["vocab","tren","train",""],["vocab","uçak","plane",""],["vocab","taksi","taxi",""],
+     ["vocab","metro","metro",""],["vocab","bilet","ticket",""],["vocab","durak","stop",""],
+     ["vocab","havaalanı","airport",""],["vocab","otel","hotel",""],["vocab","pasaport","passport",""]]},
+   {id:"tv2",title:"Directions",items:[
+     ["phrase","Bilet ne kadar?","How much is a ticket?",""],["phrase","Sağa dön","Turn right",""],
+     ["phrase","Sola dön","Turn left",""],["phrase","Düz git","Go straight",""],
+     ["phrase","Nereye gidiyorsunuz?","Where are you going?",""],["phrase","Bu otobüs nereye gidiyor?","Where does this bus go?",""]]}
+ ]},
+ {id:"he",title:"Sağlık & Vücut",en:"Health & body",icon:"🩺",chapters:[
+   {id:"he1",title:"The body",items:[
+     ["vocab","baş","head",""],["vocab","el","hand",""],["vocab","kol","arm",""],["vocab","ayak","foot",""],
+     ["vocab","bacak","leg",""],["vocab","göz","eye",""],["vocab","kulak","ear",""],["vocab","burun","nose",""],
+     ["vocab","ağız","mouth",""],["vocab","diş","tooth",""],["vocab","kalp","heart",""],["vocab","karın","stomach",""]]},
+   {id:"he2",title:"At the doctor",items:[
+     ["vocab","doktor","doctor",""],["vocab","hastane","hospital",""],["vocab","eczane","pharmacy",""],["vocab","ilaç","medicine",""],
+     ["phrase","Hastayım","I'm sick",""],["phrase","Başım ağrıyor","I have a headache",""],
+     ["phrase","Karnım ağrıyor","My stomach hurts",""],["phrase","Doktor lazım","I need a doctor",""],
+     ["phrase","Eczane nerede?","Where is the pharmacy?",""]]}
+ ]},
+ {id:"ho",title:"Ev",en:"Home & objects",icon:"🏠",chapters:[
+   {id:"ho1",title:"Rooms",items:[
+     ["vocab","oda","room",""],["vocab","mutfak","kitchen",""],["vocab","banyo","bathroom",""],
+     ["vocab","salon","living room",""],["vocab","yatak odası","bedroom",""],["vocab","bahçe","garden",""]]},
+   {id:"ho2",title:"Things at home",items:[
+     ["vocab","masa","table",""],["vocab","sandalye","chair",""],["vocab","yatak","bed",""],["vocab","pencere","window",""],
+     ["vocab","lamba","lamp",""],["vocab","telefon","phone",""],["vocab","bilgisayar","computer",""],
+     ["vocab","anahtar","key",""],["vocab","çanta","bag",""]]}
+ ]},
+ {id:"we",title:"Hava & Doğa",en:"Weather & nature",icon:"🌤️",chapters:[
+   {id:"we1",title:"Weather",items:[
+     ["vocab","hava","weather / air",""],["vocab","güneş","sun",""],["vocab","yağmur","rain",""],["vocab","kar","snow",""],
+     ["vocab","rüzgar","wind",""],["vocab","bulut","cloud",""],["vocab","sıcak","hot",""],["vocab","soğuk","cold",""],
+     ["phrase","Hava güzel","The weather is nice",""],["phrase","Yağmur yağıyor","It's raining",""]]},
+   {id:"we2",title:"Nature",items:[
+     ["vocab","deniz","sea",""],["vocab","dağ","mountain",""],["vocab","ağaç","tree",""],["vocab","çiçek","flower",""],
+     ["vocab","gökyüzü","sky",""],["vocab","nehir","river",""]]}
+ ]},
+ {id:"wo",title:"İş & Okul",en:"Work & study",icon:"💼",chapters:[
+   {id:"wo1",title:"Work & school",items:[
+     ["vocab","iş","work / job",""],["vocab","öğrenci","student",""],["vocab","öğretmen","teacher",""],
+     ["vocab","ofis","office",""],["vocab","toplantı","meeting",""],["vocab","kalem","pen",""],["vocab","kağıt","paper",""],
+     ["vocab","soru","question",""],["vocab","cevap","answer",""],
+     ["phrase","İşim var","I have work",""],["phrase","Meşgulüm","I'm busy",""]]}
+ ]},
+ {id:"fe",title:"Duygular",en:"Feelings",icon:"😊",chapters:[
+   {id:"fe1",title:"How you feel",items:[
+     ["vocab","mutlu","happy",""],["vocab","üzgün","sad",""],["vocab","yorgun","tired",""],["vocab","kızgın","angry",""],
+     ["vocab","aç","hungry",""],["vocab","tok","full (not hungry)",""],["vocab","hasta","sick",""],
+     ["phrase","Mutluyum","I'm happy",""],["phrase","Yorgunum","I'm tired",""],["phrase","Açım","I'm hungry",""],
+     ["phrase","Susadım","I'm thirsty",""]]}
+ ]},
+ {id:"fd",title:"Yemek II",en:"Food & meals",icon:"🍽️",chapters:[
+   {id:"fd1",title:"Meals",items:[
+     ["vocab","kahvaltı","breakfast",""],["vocab","öğle yemeği","lunch",""],["vocab","akşam yemeği","dinner",""],
+     ["vocab","et","meat",""],["vocab","tavuk","chicken",""],["vocab","balık","fish",""]]},
+   {id:"fd2",title:"At the market",items:[
+     ["vocab","sebze","vegetable",""],["vocab","meyve","fruit",""],["vocab","elma","apple",""],["vocab","muz","banana",""],
+     ["vocab","domates","tomato",""],["vocab","patates","potato",""],["vocab","peynir","cheese",""],["vocab","yumurta","egg",""],
+     ["vocab","süt","milk",""],["vocab","şeker","sugar",""],["vocab","tuz","salt",""],["vocab","pirinç","rice",""]]}
+ ]},
+ {id:"v2",title:"Fiiller II",en:"More verbs",icon:"🏃",chapters:[
+   {id:"v21",title:"Action verbs",items:[
+     ["vocab","yürümek","to walk",""],["vocab","koşmak","to run",""],["vocab","uyumak","to sleep",""],
+     ["vocab","kalkmak","to get up",""],["vocab","oturmak","to sit",""],["vocab","açmak","to open",""],
+     ["vocab","kapamak","to close",""],["vocab","başlamak","to start",""],["vocab","bitirmek","to finish",""]]},
+   {id:"v22",title:"Useful verbs",items:[
+     ["vocab","satın almak","to buy",""],["vocab","satmak","to sell",""],["vocab","ödemek","to pay",""],
+     ["vocab","yardım etmek","to help",""],["vocab","düşünmek","to think",""],["vocab","bulmak","to find",""],
+     ["vocab","kullanmak","to use",""],["vocab","kaybetmek","to lose",""],["vocab","sormak","to ask",""]]}
+ ]},
+ {id:"n2",title:"Sayılar II",en:"Bigger numbers",icon:"🔢",chapters:[
+   {id:"n21",title:"Tens & beyond",items:[
+     ["vocab","yirmi","twenty",""],["vocab","otuz","thirty",""],["vocab","kırk","forty",""],
+     ["vocab","elli","fifty",""],["vocab","altmış","sixty",""],["vocab","yetmiş","seventy",""],
+     ["vocab","seksen","eighty",""],["vocab","doksan","ninety",""],["vocab","milyon","million",""]]},
+   {id:"n22",title:"Building numbers",items:[
+     ["grammar","“21”","yirmi bir","Largest first, no 'and': yirmi + bir."],
+     ["grammar","“45”","kırk beş",""],["grammar","“100”","yüz","Just yüz — never 'bir yüz'."],
+     ["grammar","“256”","iki yüz elli altı",""],
+     ["grammar","“1999”","bin dokuz yüz doksan dokuz","bin alone for 1000, not 'bir bin'."]]},
+   {id:"n23",title:"Ordinals & telling time",items:[
+     ["vocab","birinci","first",""],["vocab","ikinci","second",""],["vocab","üçüncü","third",""],
+     ["phrase","Saat kaç?","What time is it?",""],["phrase","Saat üç","It's three o'clock",""],
+     ["vocab","buçuk","half past","üç buçuk = 3:30"],["vocab","çeyrek","quarter",""]]}
+ ]},
+ {id:"ak",title:"Akrabalar",en:"Relatives",icon:"👨‍👩‍👧",chapters:[
+   {id:"ak1",title:"Family members",items:[
+     ["vocab","kardeş","sibling",""],["vocab","abi","older brother","also ağabey"],["vocab","abla","older sister",""],
+     ["vocab","dede","grandfather",""],["vocab","büyükanne","grandmother",""],["vocab","torun","grandchild",""],
+     ["vocab","eş","spouse",""],["vocab","kuzen","cousin",""]]},
+   {id:"ak2",title:"Aunts & uncles",items:[
+     ["vocab","teyze","aunt (mother's sister)",""],["vocab","hala","aunt (father's sister)",""],
+     ["vocab","amca","uncle (father's brother)",""],["vocab","dayı","uncle (mother's brother)",""]]}
+ ]},
+ {id:"a2",title:"Sıfatlar II",en:"More adjectives",icon:"⚖️",chapters:[
+   {id:"a21",title:"Describing more",items:[
+     ["vocab","hızlı","fast",""],["vocab","yavaş","slow",""],["vocab","temiz","clean",""],["vocab","kirli","dirty",""],
+     ["vocab","dolu","full",""],["vocab","boş","empty",""],["vocab","açık","open / light",""],["vocab","kapalı","closed",""],
+     ["vocab","doğru","right / correct",""],["vocab","yanlış","wrong",""],["vocab","aynı","same",""],["vocab","farklı","different",""],
+     ["vocab","genç","young",""],["vocab","yaşlı","old (person)",""],["vocab","zengin","rich",""],["vocab","fakir","poor",""]]}
+ ]},
+ {id:"f3",title:"Yemek III",en:"Drinks & dining",icon:"🍷",chapters:[
+   {id:"f31",title:"Drinks",items:[
+     ["vocab","ayran","ayran (yogurt drink)",""],["vocab","meyve suyu","fruit juice",""],["vocab","bira","beer",""],
+     ["vocab","şarap","wine",""],["vocab","soda","soda / sparkling water",""]]},
+   {id:"f32",title:"At the restaurant",items:[
+     ["vocab","menü","menu",""],["vocab","garson","waiter",""],["vocab","tabak","plate",""],["vocab","bardak","glass",""],
+     ["vocab","çatal","fork",""],["vocab","kaşık","spoon",""],["vocab","bıçak","knife",""],
+     ["phrase","Menü, lütfen","The menu, please",""],["phrase","Hesabı alabilir miyim?","Can I have the bill?",""],
+     ["phrase","Su alabilir miyim?","Can I have some water?",""]]}
+ ]},
+ {id:"yy",title:"Yön & Yer",en:"Directions & places",icon:"🧭",chapters:[
+   {id:"yy1",title:"Left & right",items:[
+     ["vocab","sağ","right",""],["vocab","sol","left",""],["vocab","ileri","forward / ahead",""],["vocab","geri","back",""],
+     ["vocab","yakın","near",""],["vocab","uzak","far",""],["vocab","karşı","opposite",""],["vocab","köşe","corner",""]]},
+   {id:"yy2",title:"In the street",items:[
+     ["vocab","cadde","avenue",""],["vocab","sokak","street",""],["vocab","köprü","bridge",""],["vocab","meydan","square",""],
+     ["vocab","yan","side",""],["vocab","arka","back / behind",""],["vocab","ön","front",""]]}
+ ]},
+ {id:"zf",title:"Zarflar",en:"Adverbs & frequency",icon:"🔁",chapters:[
+   {id:"zf1",title:"How often",items:[
+     ["vocab","her zaman","always",""],["vocab","genellikle","usually",""],["vocab","sık sık","often",""],
+     ["vocab","bazen","sometimes",""],["vocab","nadiren","rarely",""],["vocab","asla","never",""]]},
+   {id:"zf2",title:"How & when",items:[
+     ["vocab","hemen","immediately",""],["vocab","tekrar","again",""],["vocab","birlikte","together",""],
+     ["vocab","yalnız","alone",""],["vocab","yavaşça","slowly",""],["vocab","birazdan","in a moment",""]]}
+ ]},
+ {id:"dg",title:"Dilbilgisi",en:"Grammar essentials",icon:"📐",chapters:[
+   {id:"dg1",title:"I am, you are",items:[
+     ["grammar","ben + öğretmen → “I am a teacher”","öğretmenim","Personal ending -im."],
+     ["grammar","sen + mutlu → “you are happy”","mutlusun","-sun."],
+     ["grammar","biz + hazır → “we are ready”","hazırız","-ız."],
+     ["grammar","o + doktor → “he/she is a doctor”","doktor","3rd person needs no ending."]]},
+   {id:"dg2",title:"Have: var / yok",items:[
+     ["grammar","“I have a car”","Benim bir arabam var","possessive -m (arabam) + var."],
+     ["grammar","“I don't have time”","Zamanım yok","zaman+ım, then yok."],
+     ["grammar","“do you have money?”","Paran var mı?","paran = your money; var + mı."]]},
+   {id:"dg3",title:"To, from, the (cases)",items:[
+     ["grammar","ev → “to the house”","eve","Dative -e (direction to)."],
+     ["grammar","ev → “from the house”","evden","Ablative -den (from)."],
+     ["grammar","kitap → “the book” (object)","kitabı","Accusative -ı; p softens to b."]]},
+   {id:"dg4",title:"Past & habit",items:[
+     ["grammar","gel- → “I came”","geldim","Past -di + -m."],
+     ["grammar","gel- → “I (usually) come”","gelirim","Aorist -ir (habitual)."],
+     ["grammar","git- → “I went”","gittim","git + ti + m."]]},
+   {id:"dg5",title:"Negative & questions",items:[
+     ["grammar","gel- → “I'm not coming”","gelmiyorum","-me before -iyor → -miyor."],
+     ["grammar","“are you coming?”","geliyor musun?","question particle mu, written separately."],
+     ["grammar","gel- → “I don't (usually) come”","gelmem","Aorist negative, 1st person."]]}
+ ]},
+ {id:"sp",title:"Konuşma Kalıpları",en:"Speaking patterns",icon:"💬",chapters:[
+   {id:"sp1",title:"Asking for things",items:[
+     ["phrase","Çay istiyorum","I want tea","… istiyorum = I want …"],
+     ["grammar","içmek → “I want to drink”","içmek istiyorum","verb-mek + istiyorum"],
+     ["phrase","Su var mı?","Is there water?","… var mı? = is there …?"],
+     ["phrase","Otel nerede?","Where is the hotel?","… nerede? = where is …?"],
+     ["phrase","Menü alabilir miyim?","May I have the menu?","… alabilir miyim? = may I have …?"],
+     ["phrase","Bana yardım lazım","I need help","Bana … lazım = I need …"],
+     ["phrase","Çay sever misin?","Do you like tea?","… sever misin? = do you like …?"]]},
+   {id:"sp2",title:"Reacting",items:[
+     ["phrase","Tamam","OK",""],["phrase","Peki","Alright then",""],["phrase","Tabii","Of course",""],
+     ["phrase","Elbette","Certainly",""],["phrase","Buyurun","Here you are / go ahead",""],
+     ["phrase","Bilmiyorum","I don't know",""],["phrase","Emin değilim","I'm not sure",""],
+     ["phrase","Bence…","In my opinion…",""],["phrase","Haklısın","You're right",""]]}
+ ]},
+ {id:"st",title:"Sohbet",en:"Small talk",icon:"🗣️",chapters:[
+   {id:"st1",title:"Getting to know you",items:[
+     ["phrase","Nerelisin?","Where are you from?",""],["phrase","Kaç yaşındasın?","How old are you?",""],
+     ["phrase","Ne iş yapıyorsun?","What do you do?",""],["phrase","Nerede oturuyorsun?","Where do you live?",""],
+     ["phrase","Türkçe öğreniyorum","I'm learning Turkish",""],["phrase","Ne yapıyorsun?","What are you doing?",""],
+     ["phrase","Seni anlıyorum","I understand you",""]]},
+   {id:"st2",title:"Making plans",items:[
+     ["phrase","Müsait misin?","Are you free?",""],["phrase","Buluşalım!","Let's meet!",""],
+     ["phrase","Nerede buluşalım?","Where shall we meet?",""],["phrase","Saat kaçta?","At what time?",""],
+     ["phrase","Ne zaman?","When?",""],["phrase","Yarın görüşelim","See you tomorrow",""]]}
+ ]},
+ {id:"cj",title:"Fiil Çekimi",en:"Conjugation",icon:"🔧",chapters:[
+   {id:"cj1",title:"Present tense: to come",items:[
+     ["grammar","ben → “I am coming”","geliyorum",""],["grammar","sen → “you are coming”","geliyorsun",""],
+     ["grammar","o → “he/she is coming”","geliyor",""],["grammar","biz → “we are coming”","geliyoruz",""],
+     ["grammar","siz → “you (pl) are coming”","geliyorsunuz",""],["grammar","onlar → “they are coming”","geliyorlar",""]]},
+   {id:"cj2",title:"Want & can",items:[
+     ["grammar","gitmek → “I want to go”","gitmek istiyorum",""],
+     ["grammar","gitmek → “I don't want to go”","gitmek istemiyorum",""],
+     ["grammar","git- → “I can go”","gidebilirim","ability -ebil; t→d"],
+     ["grammar","git- → “can I go?”","gidebilir miyim?",""]]},
+   {id:"cj3",title:"Requests",items:[
+     ["grammar","git- → “let's go”","gidelim","suggestion -elim"],
+     ["phrase","Gel!","Come! (informal)",""],["phrase","Lütfen bekleyin","Please wait (formal)",""],
+     ["phrase","Lütfen oturun","Please sit (formal)",""],["phrase","Dikkat et!","Be careful!",""]]}
+ ]},
+ {id:"bg",title:"Bağlaçlar",en:"Connectors",icon:"🔗",chapters:[
+   {id:"bg1",title:"Joining ideas",items:[
+     ["vocab","ya da","or",""],["vocab","yani","that is / so",""],["vocab","mesela","for example",""],
+     ["vocab","ayrıca","besides / also",""],["vocab","ondan sonra","after that",""],
+     ["grammar","“both tea and coffee”","hem çay hem kahve","hem … hem = both … and"],
+     ["grammar","“neither tea nor coffee”","ne çay ne kahve","ne … ne = neither … nor"]]}
+ ]},
+ {id:"ve",title:"Fiiller & Cümleler",en:"Verbs & sentences",icon:"🧩",chapters:[
+   {id:"ve1",title:"Everyday verbs",items:[
+     ["vocab","olmak","to be / become",""],["vocab","yapmak","to do / make",""],["vocab","gitmek","to go",""],
+     ["vocab","gelmek","to come",""],["vocab","görmek","to see",""],["vocab","bilmek","to know",""],
+     ["vocab","vermek","to give",""],["vocab","almak","to take / buy",""],["vocab","konuşmak","to speak",""],
+     ["vocab","anlamak","to understand",""],["vocab","sevmek","to love / like",""],["vocab","çalışmak","to work / study",""],
+     ["vocab","okumak","to read",""],["vocab","yazmak","to write",""],["vocab","beklemek","to wait",""]]},
+   {id:"ve2",title:"Suffixes: plural & place",items:[
+     ["grammar","ev → “houses”","evler","Plural -ler/-lar by vowel harmony. Front vowel (e) → -ler."],
+     ["grammar","kitap → “books”","kitaplar","Back vowel (a) → -lar."],
+     ["grammar","ev → “in the house”","evde","Locative -de/-da. Front vowel → -de."],
+     ["grammar","okul → “at school”","okulda","Back vowel (u) → -da."],
+     ["grammar","kitap → “in the book”","kitapta","After voiceless p, d hardens to t: -ta."]]},
+   {id:"ve3",title:"Suffixes: I am / my / will",items:[
+     ["grammar","gel- → “I am coming”","geliyorum","Present continuous -iyor + -um."],
+     ["grammar","git- → “I am going”","gidiyorum","t softens to d before a vowel: git→gid."],
+     ["grammar","ev → “my house”","evim","Possessive 1sg -im."],
+     ["grammar","gel- → “I will come”","geleceğim","Future -ecek + -im (front vowel)."],
+     ["grammar","ben → “to me”","bana","Irregular dative: ben→bana, sen→sana."]]}
+ ]}
 ];
-const PHRASES=[
- ["Merhaba","Hello",""],["Günaydın","Good morning","lit. day-bright"],["İyi akşamlar","Good evening",""],
- ["Görüşürüz","See you",""],["Lütfen","Please",""],["Teşekkür ederim","Thank you",""],["Rica ederim","You're welcome",""],
- ["Affedersiniz","Excuse me",""],["Özür dilerim","I'm sorry",""],["Nasılsınız?","How are you?","formal"],
- ["Adınız ne?","What's your name?",""],["Benim adım Hisham","My name is Hisham","swap in your name"],
- ["Ne kadar?","How much?",""],["Anlamadım","I didn't understand",""],["Türkçe bilmiyorum","I don't speak Turkish",""],
- ["Yardım eder misiniz?","Could you help?",""],["Tuvalet nerede?","Where is the toilet?",""],
- ["Hesap, lütfen","The bill, please",""],["Bir kahve, lütfen","A coffee, please",""],["Afiyet olsun","Enjoy your meal",""]
-];
+const MINE="mine"; // synthetic theme id for user-added + scanned
 
-/* ---------- build initial deck ---------- */
+/* ---------- deck build & storage ---------- */
 function buildSeed(){
   const cards=[];
-  WORDS.forEach((w,i)=>cards.push(mk("vocab",w[0],w[1],w[2],i+1)));
-  GRAMMAR.forEach(g=>cards.push(mk("grammar",g[0],g[1],g[2],0)));
-  PHRASES.forEach(p=>cards.push(mk("phrase",p[0],p[1],p[2],0)));
-  return {cards, stats:{streak:0,last:null}, goal:{words:1500,days:90,start:todayKey()}, newPerDay:17};
+  CURRICULUM.forEach(t=>t.chapters.forEach(ch=>ch.items.forEach((it,i)=>{
+    cards.push(mk(it[0],it[1],it[2],it[3],t.id,ch.id,t.id+"_"+ch.id+"_"+i));
+  })));
+  return {cards,stats:{streak:0,last:null},goal:{words:1500,days:90,start:todayKey()},newPerChapter:100};
 }
-function mk(type,front,back,note,rank){
-  return {id:"c"+now().toString(36)+Math.random().toString(36).slice(2,6),
-    type,front,back,note:note||"",rank,ease:2.5,interval:0,reps:0,due:now(),intro:false};
+function mk(type,front,back,note,theme,chapter,id){
+  return {id:id||("c"+now().toString(36)+Math.random().toString(36).slice(2,6)),
+    type,front,back,note:note||"",theme:theme||MINE,chapter:chapter||"mine",
+    ease:2.5,interval:0,reps:0,due:now(),intro:false,source:theme?null:"mine"};
 }
-
 let deck=load();
+reconcile();
+function reconcile(){
+  const have=new Set(deck.cards.map(c=>c.id));let added=0;
+  CURRICULUM.forEach(t=>t.chapters.forEach(ch=>ch.items.forEach((it,i)=>{
+    const id=t.id+"_"+ch.id+"_"+i;
+    if(!have.has(id)){deck.cards.push(mk(it[0],it[1],it[2],it[3],t.id,ch.id,id));added++;}
+  })));
+  if(added)save();
+}
 function load(){
   try{const raw=localStorage.getItem(KEY);if(raw){const d=JSON.parse(raw);if(d&&d.cards)return d;}}catch(e){}
   return buildSeed();
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(deck));}catch(e){}}
 
-/* ---------- text to speech (Turkish) ---------- */
+/* ---------- speech ---------- */
 let trVoice=null;
-function pickVoice(){
-  const vs=speechSynthesis.getVoices();
-  trVoice=vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith("tr"))||null;
-}
+function pickVoice(){const vs=speechSynthesis.getVoices();trVoice=vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith("tr"))||null;}
 if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
-function speak(text){
-  if(!("speechSynthesis" in window))return;
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang="tr-TR"; if(trVoice)u.voice=trVoice; u.rate=.9;
-  speechSynthesis.speak(u);
-}
+function speak(t){if(!("speechSynthesis" in window))return;speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t);u.lang="tr-TR";if(trVoice)u.voice=trVoice;u.rate=.9;speechSynthesis.speak(u);}
 
-/* ---------- scheduling (SM-2 lite) ---------- */
+/* ---------- SRS ---------- */
 function grade(card,q){
   if(q===0){card.reps=0;card.interval=0;card.ease=Math.max(1.3,card.ease-0.2);card.due=now();card._again=true;return;}
-  card._again=false;
+  card._again=false;card.intro=true;
   if(q===1){card.ease=Math.max(1.3,card.ease-0.15);card.interval=Math.max(1,card.interval*1.2);}
   else if(q===2){card.interval=card.reps===0?1:card.reps===1?3:card.interval*card.ease;}
   else{card.ease+=0.15;card.interval=card.reps===0?2:card.interval*card.ease*1.3;}
   card.reps++;card.interval=Math.round(card.interval);card.due=now()+card.interval*DAY;
 }
-function ivLabel(c,q){const t=Object.assign({},c);grade(t,q);return t.interval<1?"1d":t.interval+"d";}
-
-/* ---------- session ---------- */
-let queue=[],current=null;
-function buildQueue(){
-  const t=now();
-  const due=deck.cards.filter(c=>c.intro&&c.due<=t);
-  const fresh=deck.cards.filter(c=>!c.intro)
-    .sort((a,b)=>(a.rank||9999)-(b.rank||9999)).slice(0,deck.newPerDay);
-  fresh.forEach(c=>c.intro=true);
-  queue=shuffle(due).concat(fresh);save();
-}
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
-function nextCard(){answeredFlag=false;exState=null;current=queue.shift()||null;
-  mode=current?pickExercise(current):null;renderStudy();}
 
 /* ---------- metrics ---------- */
 const knownWords=()=>deck.cards.filter(c=>c.type==="vocab"&&c.reps>=2).length;
+const startedCount=()=>deck.cards.filter(c=>c.intro).length;
 function coverage(n){return Math.min(98,Math.round(100*(1-Math.exp(-n/650))));}
-function cefr(n){
-  if(n<100)return["A0","Beginner"];
-  if(n<600)return["A1","Elementary"];
-  if(n<1500)return["A2","Everyday basics"];
-  if(n<3000)return["B1","Conversational"];
-  return["B2","Confident"];
-}
+function cefr(n){if(n<100)return["A0","Beginner"];if(n<600)return["A1","Elementary"];
+  if(n<1500)return["A2","Everyday basics"];if(n<3000)return["B1","Conversational"];return["B2","Confident"];}
+function chapterCards(themeId,chId){return deck.cards.filter(c=>c.theme===themeId&&c.chapter===chId);}
+function chapProgress(themeId,chId){const cs=chapterCards(themeId,chId);
+  if(!cs.length)return 0;return Math.round(cs.filter(c=>c.reps>=2).length/cs.length*100);}
+function themeProgress(t){let tot=0,kn=0;t.chapters.forEach(ch=>{const cs=chapterCards(t.id,ch.id);
+  tot+=cs.length;kn+=cs.filter(c=>c.reps>=2).length;});return tot?Math.round(kn/tot*100):0;}
 
-/* ---------- render: study ---------- */
+/* ---------- helpers ---------- */
 const $=s=>document.querySelector(s);
-function refreshStats(){
-  const t=now();
-  $("#s-due").textContent=deck.cards.filter(c=>c.intro&&c.due<=t).length;
-  $("#s-new").textContent=deck.cards.filter(c=>!c.intro).length;
-  $("#s-known").textContent=knownWords();
-  $("#s-streak").textContent=deck.stats.streak;
-}
+function esc(s){return(s+"").replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));}
+function escAttr(s){return esc(s).replace(/"/g,"&quot;");}
+function notefmt(s){return esc(s).replace(/=/g,'<b>=</b>');}
+function norm(s){return(s+"").replace(/İ/g,"i").replace(/I/g,"ı").replace(/Ş/g,"ş").replace(/Ğ/g,"ğ")
+  .replace(/Ü/g,"ü").replace(/Ö/g,"ö").replace(/Ç/g,"ç").toLowerCase()
+  .replace(/[.,!?;:"'’`]/g,"").replace(/\s+/g," ").trim();}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+function ring(pct,size){const r=size/2-3,c=2*Math.PI*r,off=c*(1-pct/100);
+  return `<svg class="ring" viewBox="0 0 ${size} ${size}"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#E7DFCE" stroke-width="4"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#12868B" stroke-width="4" stroke-linecap="round"
+    stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 ${size/2} ${size/2})"/>
+    <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle" font-size="${size*0.3}" font-family="Inter" font-weight="700" fill="#17242E">${pct}</text></svg>`;}
 const SPK=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 8a5 5 0 010 8" fill="none" stroke="currentColor" stroke-width="2"/></svg>`;
-let mode=null, exState=null, answeredFlag=false;
-const KIND={vocab:"Vocabulary",grammar:"Grammar",phrase:"Phrase"};
 
-function norm(s){
-  return (s+"").replace(/İ/g,"i").replace(/I/g,"ı").replace(/Ş/g,"ş").replace(/Ğ/g,"ğ")
-    .replace(/Ü/g,"ü").replace(/Ö/g,"ö").replace(/Ç/g,"ç").toLowerCase()
-    .replace(/[.,!?;:"'’`]/g,"").replace(/\s+/g," ").trim();
+/* ---------- user-added themes (My cards) ---------- */
+function mineChapters(){
+  const cards=deck.cards.filter(c=>c.theme===MINE);
+  if(!cards.length)return null;
+  const scan=cards.filter(c=>c.source==="scan"),own=cards.filter(c=>c.source!=="scan");
+  const chs=[];
+  if(scan.length)chs.push({id:"scan",title:"Scanned",items:scan});
+  if(own.length)chs.push({id:"added",title:"Added by me",items:own});
+  return {id:MINE,title:"Benim kartlarım",en:"My cards",icon:"🌷",chapters:chs};
+}
+
+/* =====================================================================
+   VIEW: LEARN (book)
+   ===================================================================== */
+let openChapter=null; // {themeId, chId}
+const PHASES=[
+ {title:"Month 1 · Survival",days:"Days 1–30",milestone:"Introduce yourself and order food without switching languages.",
+  themes:["gr","pe","ak","nu","n2","ca","fo","fd","sh","tv","ci","yy","he","sp","st"]},
+ {title:"Month 2 · Daily life",days:"Days 31–60",milestone:"Handle appointments and shopping, and hold a 5-minute chat.",
+  themes:["ho","wo","we","fe","co","ad","a2","f3","zf","dg","cj"]},
+ {title:"Month 3 · Putting it together",days:"Days 61–90",milestone:"Discuss work and plans; hold a 10-minute conversation.",
+  themes:["v2","bg","ve"]}
+];
+function themeById(id){return CURRICULUM.find(t=>t.id===id);}
+function phaseProgress(ph){let tot=0,kn=0;ph.themes.forEach(id=>{const t=themeById(id);if(!t)return;
+  t.chapters.forEach(ch=>{const cs=chapterCards(t.id,ch.id);tot+=cs.length;kn+=cs.filter(c=>c.reps>=2).length;});});
+  return tot?Math.round(kn/tot*100):0;}
+function themeCardHTML(t,label){
+  const isMine=t.id===MINE,tp=isMine?0:themeProgress(t);
+  return `<div class="theme" data-theme="${t.id}">
+    <div class="theme-head" data-toggle="${t.id}">
+      <div class="theme-ic">${t.icon}</div>
+      <div class="theme-t"><div class="theme-n">${label}</div>
+        <div class="theme-title">${esc(t.title)}</div><div class="theme-en">${esc(t.en)}</div></div>
+      ${isMine?"":ring(tp,40)}
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+    </div>
+    <div class="chapters">${t.chapters.map(ch=>{
+      const p=isMine?0:chapProgress(t.id,ch.id),cls=p>=100?"done":p>0?"part":"";
+      const count=(isMine?ch.items.length:chapterCards(t.id,ch.id).length);
+      return `<div class="chap" data-open="${t.id}|${ch.id}"><span class="chap-dot ${cls}"></span>
+        <span class="chap-t">${esc(ch.title)}</span>
+        <span class="chap-c">${isMine?count+" cards":p+"%"}</span></div>`;}).join("")}</div>
+  </div>`;
+}
+function renderLearn(){
+  const v=$("#view-learn");
+  if(openChapter)return renderChapterPage(v);
+  let ci=0;
+  let html=todayHTML()+`<h2 class="sec">Your 90-day pathway</h2>`;
+  PHASES.forEach(ph=>{
+    const pp=phaseProgress(ph);
+    html+=`<div class="phase">
+      <div class="phase-head"><div><div class="phase-days">${ph.days}</div>
+        <div class="phase-title">${esc(ph.title)}</div></div><div class="phase-pct">${pp}%</div></div>
+      <div class="bar" style="margin:8px 0 6px"><i style="width:${pp}%"></i></div>
+      <div class="phase-goal">🎯 ${esc(ph.milestone)}</div></div>`;
+    ph.themes.forEach(id=>{const t=themeById(id);if(t){ci++;html+=themeCardHTML(t,"Chapter "+ci);}});
+  });
+  const mine=mineChapters();
+  if(mine){html+=`<h2 class="sec" style="margin-top:20px">Your cards</h2>`+themeCardHTML(mine,"Yours");}
+  v.innerHTML=html;
+  wireToday(v);
+  v.querySelectorAll("[data-toggle]").forEach(h=>h.onclick=()=>h.closest(".theme").classList.toggle("open"));
+  v.querySelectorAll("[data-open]").forEach(c=>c.onclick=()=>{
+    const[t,ch]=c.dataset.open.split("|");openChapter={themeId:t,chId:ch};renderLearn();window.scrollTo(0,0);});
+}
+/* ---- Today's path ---- */
+const DAILY_NEW=15;
+function getDaily(){
+  if(!deck.daily||deck.daily.date!==todayKey()){
+    const di=DIALOGUES[(new Date().getDate())%DIALOGUES.length];
+    deck.daily={date:todayKey(),learnDone:false,reviewDone:false,talkDone:false,dialogueId:di.id};save();
+  }
+  return deck.daily;
+}
+function markDaily(k){const d=getDaily();if(!d[k]){d[k]=true;save();if(!$("#view-learn").classList.contains("hidden"))renderLearn();}}
+function todaysNew(n){return deck.cards.filter(c=>c.theme!==MINE&&!c.intro).slice(0,n);}
+function todayHTML(){
+  const d=getDaily();
+  const newN=todaysNew(DAILY_NEW).length;
+  const due=deck.cards.filter(c=>c.intro&&c.due<=now()).length;
+  const dlg=DIALOGUES.find(x=>x.id===d.dialogueId)||DIALOGUES[0];
+  const tasks=[
+    {k:"learnDone",act:"tlearn",ic:"📖",t:"Learn new words",s:d.learnDone?"Done":(newN?newN+" new items":"All learned — nice!")},
+    {k:"reviewDone",act:"treview",ic:"🔁",t:"Review",s:d.reviewDone?"Done":(due?due+" cards due":"Nothing due")},
+    {k:"talkDone",act:"ttalk",ic:"💬",t:"Practise a conversation",s:d.talkDone?"Done":dlg.en}
+  ];
+  const doneN=tasks.filter(x=>d[x.k]).length;
+  return `<div class="panel today">
+    <div class="today-head">
+      <div style="flex:1"><div class="theme-n" style="color:var(--gold)">Bugün · ${new Date().toLocaleDateString(undefined,{weekday:'long'})}</div>
+        <h3>Today's path</h3></div>
+      ${ring(Math.round(doneN/3*100),46)}
+    </div>
+    <div class="tlist">${tasks.map(x=>`<div class="task ${d[x.k]?'tdone':''}" data-act="${x.act}">
+      <span class="task-ic">${d[x.k]?'✓':x.ic}</span>
+      <span class="task-t"><b>${x.t}</b><small>${esc(x.s)}</small></span>
+      ${d[x.k]?'':'<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>'}
+    </div>`).join("")}</div>
+  </div>`;
+}
+function wireToday(v){
+  v.querySelectorAll("[data-act]").forEach(el=>el.onclick=()=>{
+    const act=el.dataset.act,d=getDaily();
+    if(act==="tlearn"){const cards=todaysNew(DAILY_NEW);
+      if(cards.length)startSession(cards,"learn","learnDone");else{markDaily("learnDone");}}
+    else if(act==="treview"){const due=deck.cards.filter(c=>c.intro&&c.due<=now());
+      if(due.length)startSession(due,"learn","reviewDone");else{markDaily("reviewDone");}}
+    else if(act==="ttalk"){aiOpen=null;openDlg=d.dialogueId;dprac=true;dpi=0;dbuild=null;show("talk");}
+  });
+}
+function findChapter(themeId,chId){
+  const mine=mineChapters();
+  const t=(themeId===MINE?mine:CURRICULUM.find(x=>x.id===themeId));
+  if(!t)return null;const ch=t.chapters.find(x=>x.id===chId);return ch?{t,ch}:null;
+}
+function renderChapterPage(v){
+  const fc=findChapter(openChapter.themeId,openChapter.chId);
+  if(!fc){openChapter=null;return renderLearn();}
+  const {t,ch}=fc;
+  const cards=t.id===MINE?ch.items:chapterCards(t.id,ch.id);
+  v.innerHTML=`
+    <button class="back-btn" id="backContents">‹ Contents</button>
+    <h2 class="page-title">${esc(ch.title)}</h2>
+    <p class="page-sub">${esc(t.title)} · ${esc(t.en)}</p>
+    ${cards.map(c=>`<div class="entry">
+      <div class="entry-t">
+        <div class="entry-tr">${esc(c.front)}${c.type!=="vocab"?`<span class="pill ${c.type}">${c.type}</span>`:""}</div>
+        <div class="entry-en">${esc(c.back)}</div>
+        ${c.note?`<div class="entry-note">${notefmt(c.note)}</div>`:""}
+      </div>
+      <button class="spk" data-say="${escAttr(c.front)}" aria-label="Pronounce">${SPK}</button>
+    </div>`).join("")}
+    <button class="btn reveal sticky-cta" id="practiceChap">Practice this chapter</button>`;
+  $("#backContents").onclick=()=>{openChapter=null;renderLearn();};
+  v.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+  $("#practiceChap").onclick=()=>startSession(cards);
+}
+
+/* =====================================================================
+   STUDY SESSION (used by chapter practice AND review)
+   ===================================================================== */
+let queue=[],current=null,mode=null,exState=null,answeredFlag=false,sessionReturn="learn",sessionDaily=null;
+const KIND={vocab:"Vocabulary",grammar:"Grammar",phrase:"Phrase"};
+function startSession(cards,ret,daily){
+  sessionReturn=ret||"learn";sessionDaily=daily||null;
+  const news=cards.filter(c=>!c.intro), seen=cards.filter(c=>c.intro);
+  queue=news.concat(shuffle(seen));
+  document.body.dataset.session="1";
+  showSession();nextCard();
+}
+function showSession(){
+  ["learn","talk","review","listen","scan","profile"].forEach(x=>$("#view-"+x).classList.add("hidden"));
+  let s=$("#view-session");
+  if(!s){s=document.createElement("section");s.id="view-session";$(".wrap").appendChild(s);}
+  s.classList.remove("hidden");$("#addFab").classList.add("hidden");
+}
+function endSession(){
+  const s=$("#view-session");if(s)s.remove();
+  document.body.dataset.session="";
+  show(sessionReturn);
 }
 function pickExercise(c){
   if(c.reps===0)return "teach";
-  const words=c.front.trim().split(/\s+/);
-  if(c.type==="phrase")return (words.length>=2&&words.length<=8)?(Math.random()<.7?"build":"mc"):"mc";
+  const w=c.front.trim().split(/\s+/);
+  if(c.type==="phrase")return(w.length>=2&&w.length<=8)?(Math.random()<.7?"build":"mc"):"mc";
   if(c.type==="grammar")return Math.random()<.5?"type":"mc";
   const r=Math.random();return r<.45?"mc":r<.72?"mcRev":"type";
 }
 function distractors(c,field,n){
   const same=[...new Set(deck.cards.filter(x=>x.type===c.type&&x.id!==c.id&&x[field]).map(x=>x[field]))].filter(v=>v!==c[field]);
   shuffle(same);let out=same.slice(0,n);
-  if(out.length<n){
-    const any=[...new Set(deck.cards.filter(x=>x.id!==c.id&&x[field]).map(x=>x[field]))].filter(v=>v!==c[field]&&!out.includes(v));
-    shuffle(any);out=out.concat(any.slice(0,n-out.length));
-  }
+  if(out.length<n){const any=[...new Set(deck.cards.filter(x=>x.id!==c.id&&x[field]).map(x=>x[field]))].filter(v=>v!==c[field]&&!out.includes(v));
+    shuffle(any);out=out.concat(any.slice(0,n-out.length));}
   return out;
 }
 function sayBtn(text,label){return `<button class="say" data-say="${escAttr(text)}">${SPK} ${label||"Say it"}</button>`;}
 function bindSay(m){m.querySelectorAll("[data-say]").forEach(b=>b.onclick=e=>{e.stopPropagation();speak(b.dataset.say);});}
-
-function renderStudy(){
-  refreshStats();
-  const m=$("#study");
-  if(!current){m.innerHTML=`<div class="empty"><h2>Bitti! 🌷</h2><p>Nothing due right now. Come back tomorrow, or add cards.</p></div>`;return;}
-  if(mode==="teach")return renderTeach(m,current);
-  if(mode==="build")return renderBuild(m,current);
-  if(mode==="type")return renderType(m,current);
-  return renderMC(m,current,mode==="mcRev");
+function nextCard(){answeredFlag=false;exState=null;current=queue.shift()||null;
+  mode=current?pickExercise(current):null;renderSession();}
+function renderSession(){
+  const m=$("#view-session");
+  const done=deck.cards.filter(c=>c.reps>=2).length;
+  if(!current){
+    if(sessionDaily){markDaily(sessionDaily);sessionDaily=null;}
+    m.innerHTML=`<div class="empty"><h3>Bitti! 🌷</h3><p>Session complete.</p>
+      <button class="btn reveal" id="doneBtn" style="margin-top:16px">Back</button></div>`;
+    $("#doneBtn").onclick=endSession;return;
+  }
+  m.innerHTML=`<button class="back-btn" id="quitBtn">‹ Leave</button><div id="stage"></div>`;
+  $("#quitBtn").onclick=endSession;
+  const stage=$("#stage");
+  if(mode==="teach")renderTeach(stage,current);
+  else if(mode==="build")renderBuild(stage,current);
+  else if(mode==="type")renderType(stage,current);
+  else renderMC(stage,current,mode==="mcRev");
 }
-
 function renderTeach(m,c){
-  m.innerHTML=`<div class="qbox">
-    <div class="kind ${c.type}">${KIND[c.type]} · new</div>${c.rank?`<div class="rank">#${c.rank}</div>`:''}
-    <div class="qprompt">${esc(c.front)}</div>
-    <div class="qsub">${esc(c.back)}</div>
-    ${sayBtn(c.front)}
-    ${c.note?`<div class="note" style="margin-top:14px">${notefmt(c.note)}</div>`:''}
-  </div>
-  <button class="btn reveal" id="gotIt" style="margin-top:14px">Got it</button>`;
+  m.innerHTML=`<div class="qbox"><div class="kind ${c.type}">${KIND[c.type]} · new</div>
+    <div class="qprompt">${esc(c.front)}</div><div class="qsub">${esc(c.back)}</div>${sayBtn(c.front)}
+    ${c.note?`<div class="note" style="margin-top:14px">${notefmt(c.note)}</div>`:""}</div>
+    <button class="btn reveal" id="gotIt" style="margin-top:14px">Got it</button>`;
   bindSay(m);speak(c.front);
   $("#gotIt").onclick=()=>{grade(c,2);save();bumpStreak();nextCard();};
 }
-
 function renderMC(m,c,rev){
-  const promptText=rev?c.back:c.front, correct=rev?c.front:c.back, field=rev?"front":"back";
+  const promptText=rev?c.back:c.front,correct=rev?c.front:c.back,field=rev?"front":"back";
   const opts=shuffle([correct,...distractors(c,field,3)]);
-  m.innerHTML=`<div class="qbox">
-    <div class="kind ${c.type}">${KIND[c.type]}</div>
+  m.innerHTML=`<div class="qbox"><div class="kind ${c.type}">${KIND[c.type]}</div>
     <div class="qsub">${rev?"Choose the Turkish":"Choose the meaning"}</div>
-    <div class="qprompt">${esc(promptText)}</div>
-    ${sayBtn(c.front)}
-  </div>
-  <div class="opts">${opts.map(o=>`<button class="opt" data-o="${escAttr(o)}">${esc(o)}</button>`).join("")}</div>`;
+    <div class="qprompt">${esc(promptText)}</div>${sayBtn(c.front)}</div>
+    <div class="opts">${opts.map(o=>`<button class="opt" data-o="${escAttr(o)}">${esc(o)}</button>`).join("")}</div>`;
   bindSay(m);
-  m.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
-    if(answeredFlag)return;
+  m.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(answeredFlag)return;
     const ok=b.dataset.o===correct;
     m.querySelectorAll(".opt").forEach(x=>{x.disabled=true;
-      if(x.dataset.o===correct)x.classList.add("correct");
-      else if(x===b)x.classList.add("wrong");});
-    finish(m,c,ok);
-  });
+      if(x.dataset.o===correct)x.classList.add("correct");else if(x===b)x.classList.add("wrong");});
+    finish(m,c,ok);});
 }
-
 function renderType(m,c){
-  const isG=c.type==="grammar";
-  const promptText=isG?c.front:c.back, target=isG?c.back:c.front;
-  m.innerHTML=`<div class="qbox">
-    <div class="kind ${c.type}">${KIND[c.type]}</div>
-    <div class="qsub">Type it in Turkish</div>
-    <div class="qprompt">${esc(promptText)}</div>
-    <input class="typein" id="typeIn" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="…">
-  </div>
-  <button class="btn reveal" id="checkBtn" style="margin-top:14px">Check</button>`;
+  const isG=c.type==="grammar",promptText=isG?c.front:c.back,target=isG?c.back:c.front;
+  m.innerHTML=`<div class="qbox"><div class="kind ${c.type}">${KIND[c.type]}</div>
+    <div class="qsub">Type it in Turkish</div><div class="qprompt">${esc(promptText)}</div>
+    <input class="typein" id="typeIn" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="…"></div>
+    <button class="btn reveal" id="checkBtn" style="margin-top:14px">Check</button>`;
   const inp=$("#typeIn");inp.focus();
-  const go=()=>{if(answeredFlag)return;const ok=norm(inp.value)===norm(target);
-    inp.disabled=true;finish(m,c,ok,ok?null:target);};
-  $("#checkBtn").onclick=go;
-  inp.addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+  const go=()=>{if(answeredFlag)return;const ok=norm(inp.value)===norm(target);inp.disabled=true;finish(m,c,ok,ok?null:target);};
+  $("#checkBtn").onclick=go;inp.addEventListener("keydown",e=>{if(e.key==="Enter")go();});
 }
-
 function renderBuild(m,c){
-  const target=c.front, tokens=target.trim().split(/\s+/);
+  const target=c.front,tokens=target.trim().split(/\s+/);
   if(!exState)exState={pool:shuffle(tokens.map((t,i)=>({t,i}))),picked:[]};
   const poolHtml=exState.pool.map((tk,idx)=>`<button class="chip" data-pool="${idx}">${esc(tk.t)}</button>`).join("");
   const pickHtml=exState.picked.map((tk,idx)=>`<button class="chip" data-pick="${idx}">${esc(tk.t)}</button>`).join("")||'<span class="qsub">tap the words in order</span>';
-  m.innerHTML=`<div class="qbox">
-    <div class="kind ${c.type}">${KIND[c.type]}</div>
-    <div class="qsub">Build the Turkish for:</div>
-    <div class="qprompt">${esc(c.back)}</div>
-    <div class="ansrow">${pickHtml}</div>
-    <div class="tokens">${poolHtml}</div>
-  </div>
-  <button class="btn reveal" id="checkBtn" style="margin-top:14px" ${exState.pool.length?"disabled":""}>Check</button>`;
-  m.querySelectorAll("[data-pool]").forEach(b=>b.onclick=()=>{
-    if(answeredFlag)return;exState.picked.push(exState.pool.splice(+b.dataset.pool,1)[0]);renderBuild(m,c);});
-  m.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{
-    if(answeredFlag)return;exState.pool.push(exState.picked.splice(+b.dataset.pick,1)[0]);renderBuild(m,c);});
+  m.innerHTML=`<div class="qbox"><div class="kind ${c.type}">${KIND[c.type]}</div>
+    <div class="qsub">Build the Turkish for:</div><div class="qprompt">${esc(c.back)}</div>
+    <div class="ansrow">${pickHtml}</div><div class="tokens">${poolHtml}</div></div>
+    <button class="btn reveal" id="checkBtn" style="margin-top:14px" ${exState.pool.length?"disabled":""}>Check</button>`;
+  m.querySelectorAll("[data-pool]").forEach(b=>b.onclick=()=>{if(answeredFlag)return;
+    exState.picked.push(exState.pool.splice(+b.dataset.pool,1)[0]);renderBuild(m,c);});
+  m.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{if(answeredFlag)return;
+    exState.pool.push(exState.picked.splice(+b.dataset.pick,1)[0]);renderBuild(m,c);});
   $("#checkBtn").onclick=()=>{if(answeredFlag)return;
-    const ok=norm(exState.picked.map(x=>x.t).join(" "))===norm(target);
-    finish(m,c,ok,ok?null:target);};
+    const ok=norm(exState.picked.map(x=>x.t).join(" "))===norm(target);finish(m,c,ok,ok?null:target);};
 }
-
 function finish(m,c,ok,showText){
-  answeredFlag=true;
-  grade(c,ok?2:0);
-  if(c._again)queue.push(c);
-  save();bumpStreak();refreshStats();speak(c.front);
-  const fb=document.createElement("div");
-  fb.className="feedback "+(ok?"good":"bad");
+  answeredFlag=true;grade(c,ok?2:0);if(c._again)queue.push(c);
+  save();bumpStreak();speak(c.front);
+  const fb=document.createElement("div");fb.className="feedback "+(ok?"good":"bad");
   fb.innerHTML=(ok?"✓ Doğru!":"✗ "+esc(showText||c.back))+(c.note?`<span class="fn">${notefmt(c.note)}</span>`:"");
   m.appendChild(fb);
-  const cont=document.createElement("button");
-  cont.className="btn reveal";cont.style.marginTop="10px";cont.textContent="Continue";
-  cont.onclick=()=>nextCard();
-  m.appendChild(cont);cont.focus();
+  const cont=document.createElement("button");cont.className="btn reveal";cont.style.marginTop="10px";
+  cont.textContent="Continue";cont.onclick=()=>nextCard();m.appendChild(cont);cont.focus();
 }
 
-/* ---------- render: profile ---------- */
+/* =====================================================================
+   VIEW: REVIEW (spaced repetition across everything started)
+   ===================================================================== */
+function renderReview(){
+  const t=now();
+  $("#s-due").textContent=deck.cards.filter(c=>c.intro&&c.due<=t).length;
+  $("#s-known").textContent=knownWords();
+  $("#s-started").textContent=startedCount();
+  $("#s-streak").textContent=deck.stats.streak;
+  const due=deck.cards.filter(c=>c.intro&&c.due<=t);
+  const r=$("#review");
+  if(!due.length){r.innerHTML=`<div class="empty"><h3>All caught up 🌷</h3>
+    <p>No reviews due. Open the book and start a new chapter.</p></div>`;return;}
+  r.innerHTML=`<div class="qbox"><div class="qprompt" style="font-size:26px">${due.length} card${due.length>1?"s":""} due</div>
+    <div class="qsub">Words and phrases you've started, ready for review.</div></div>
+    <button class="btn reveal" id="startReview" style="margin-top:14px">Start review</button>`;
+  $("#startReview").onclick=()=>startSession(due,"review");
+}
+
+/* =====================================================================
+   VIEW: PROFILE
+   ===================================================================== */
 function renderProfile(){
-  const n=knownWords(), cv=coverage(n), [band,desc]=cefr(n);
-  $("#cov").innerHTML=cv+'<small>%</small>';
-  $("#cefr").textContent=band+" · "+desc;
-  // plan
-  const g=deck.goal, start=new Date(g.start+"T00:00:00");
+  const n=knownWords(),cv=coverage(n),[band,desc]=cefr(n);
+  $("#cov").innerHTML=cv+'<small>%</small>';$("#cefr").textContent=band+" · "+desc;
+  const g=deck.goal,start=new Date(g.start+"T00:00:00");
   const elapsed=Math.max(0,Math.floor((Date.now()-start)/DAY));
-  const dayNum=Math.min(g.days,elapsed+1);
-  $("#dayX").textContent="Day "+dayNum;
-  const target=Math.round(g.words*Math.min(1,(elapsed)/g.days));
-  const pct=Math.min(100,Math.round(n/g.words*100));
-  $("#planBar").style.width=pct+"%";
-  $("#knownLbl").textContent=n+" words";
-  $("#goalLbl").textContent="goal "+g.words;
+  $("#dayX").textContent="Day "+Math.min(g.days,elapsed+1);
+  const target=Math.round(g.words*Math.min(1,elapsed/g.days));
+  $("#planBar").style.width=Math.min(100,Math.round(n/g.words*100))+"%";
+  $("#knownLbl").textContent=n+" words";$("#goalLbl").textContent="goal "+g.words;
   const tr=$("#track");
   if(n>=target){tr.className="ontrack ok";tr.textContent="on track";}
   else{tr.className="ontrack behind";tr.textContent=(target-n)+" behind";}
-  $("#planLead").textContent=`~${deck.newPerDay} new words/day reaches ${g.words} in ${g.days} days.`;
+  $("#planLead").textContent=`Target ${g.words} known words in ${g.days} days for conversational Turkish.`;
   $("#goalField").value=g.words;
-  // tiers
-  const tiers=[["Core 100",100],["First 500",500],["First 1,000",1000],["Goal 1,500",1500]];
-  $("#tiers").innerHTML=tiers.map(([lbl,cap])=>{
-    const inTier=deck.cards.filter(c=>c.type==="vocab"&&c.rank&&c.rank<=cap&&c.reps>=2).length;
-    const p=Math.round(inTier/cap*100);
-    return `<div class="tier"><span class="tl">${lbl}</span>
-      <span class="tb"><i style="width:${p}%"></i></span>
-      <span class="tn">${inTier}/${cap}</span></div>`;
-  }).join("");
+  updateKeyState();
 }
 
-/* ---------- helpers ---------- */
-function esc(s){return(s+"").replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));}
-function escAttr(s){return esc(s).replace(/"/g,"&quot;");}
-function notefmt(s){return esc(s).replace(/=/g,'<b>=</b>');}
-function bumpStreak(){
-  const t=todayKey(),s=deck.stats;if(s.last===t)return;
+/* ---------- streak ---------- */
+function bumpStreak(){const t=todayKey(),s=deck.stats;if(s.last===t)return;
   const y=new Date(Date.now()-DAY).toISOString().slice(0,10);
-  s.streak=(s.last===y)?s.streak+1:1;s.last=t;save();
-}
+  s.streak=(s.last===y)?s.streak+1:1;s.last=t;save();}
 
 /* ---------- tabs ---------- */
 function show(tab){
-  $("#view-study").classList.toggle("hidden",tab!=="study");
-  $("#view-scan").classList.toggle("hidden",tab!=="scan");
-  $("#view-profile").classList.toggle("hidden",tab!=="profile");
-  $("#tabStudy").setAttribute("aria-current",tab==="study");
-  $("#tabScan").setAttribute("aria-current",tab==="scan");
-  $("#tabProfile").setAttribute("aria-current",tab==="profile");
-  $("#addFab").classList.toggle("hidden",tab!=="study");
+  if(document.body.dataset.session==="1"){const s=$("#view-session");if(s)s.remove();document.body.dataset.session="";}
+  ["learn","talk","review","listen","scan","profile"].forEach(x=>$("#view-"+x).classList.toggle("hidden",x!==tab));
+  [["Learn","learn"],["Talk","talk"],["Review","review"],["Listen","listen"],["Scan","scan"],["Profile","profile"]].forEach(([_,id])=>
+    $("#tab"+id[0].toUpperCase()+id.slice(1)).setAttribute("aria-current",id===tab));
+  $("#addFab").classList.toggle("hidden",tab!=="learn");
+  if(tab!=="listen")stopListen();
+  if(tab!=="talk")stopTalkAudio();
+  if(tab==="learn")renderLearn();
+  if(tab==="talk")renderTalk();
+  if(tab==="review")renderReview();
+  if(tab==="listen")renderListen();
   if(tab==="profile")renderProfile();
-  if(tab==="scan")renderScanList();
 }
-$("#tabStudy").onclick=()=>show("study");
+$("#tabLearn").onclick=()=>show("learn");
+$("#tabTalk").onclick=()=>show("talk");
+$("#tabReview").onclick=()=>show("review");
+$("#tabListen").onclick=()=>show("listen");
 $("#tabScan").onclick=()=>show("scan");
 $("#tabProfile").onclick=()=>show("profile");
 
 /* ---------- goal ---------- */
-$("#goalSet").onclick=()=>{
-  const v=Math.max(100,parseInt($("#goalField").value)||1500);
-  deck.goal.words=v;deck.newPerDay=Math.max(5,Math.ceil(v/deck.goal.days));
-  save();renderProfile();
-};
+$("#goalSet").onclick=()=>{const v=Math.max(100,parseInt($("#goalField").value)||1500);
+  deck.goal.words=v;save();renderProfile();};
 
 /* ---------- add card ---------- */
 let newType="vocab";const dlg=$("#addDlg");
@@ -617,95 +1018,437 @@ $("#typeSeg").onclick=e=>{const b=e.target.closest("button");if(!b)return;newTyp
   if(newType==="grammar"){lf.textContent="Prompt";lb.textContent="Answer";ff.placeholder="ev → “houses”";fb.placeholder="evler";}
   else if(newType==="phrase"){lf.textContent="Turkish";lb.textContent="English";ff.placeholder="Merhaba";fb.placeholder="Hello";}
   else{lf.textContent="Turkish";lb.textContent="English";ff.placeholder="ev";fb.placeholder="house";}};
-$("#saveBtn").onclick=()=>{
-  const f=$("#fFront").value.trim(),b=$("#fBack").value.trim();if(!f||!b)return;
-  const card=mk(newType,f,b,$("#fNote").value.trim(),0);card.intro=true;card.due=now();
+$("#saveBtn").onclick=()=>{const f=$("#fFront").value.trim(),b=$("#fBack").value.trim();if(!f||!b)return;
+  const card=mk(newType,f,b,$("#fNote").value.trim(),MINE,"added");card.source="added";card.intro=false;
   deck.cards.push(card);save();
-  $("#fFront").value=$("#fBack").value=$("#fNote").value="";dlg.close();
-  if(!current){queue.push(card);nextCard();}else refreshStats();};
+  $("#fFront").value=$("#fBack").value=$("#fNote").value="";dlg.close();renderLearn();};
 
-/* ---------- import / export / reset ---------- */
-$("#exportBtn").onclick=()=>{
-  const blob=new Blob([JSON.stringify(deck,null,2)],{type:"application/json"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
-  a.download="lale-deck-"+todayKey()+".json";a.click();};
-$("#importBtn").onclick=()=>$("#importFile").click();
-$("#importFile").onchange=e=>{const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);
-    if(d.cards){deck=d;save();buildQueue();nextCard();renderProfile();}}
-    catch(err){alert("Couldn't read that file — expected an exported Lale deck.");}};
-  r.readAsText(file);};
-$("#resetBtn").onclick=()=>{if(confirm("Reset all progress and restore the starter deck?")){
-  localStorage.removeItem(KEY);deck=buildSeed();save();buildQueue();nextCard();renderProfile();}};
-
-/* ---------- scan: OCR + translate ---------- */
+/* ---------- scan ---------- */
 let ocrReady=null;
-function loadOCR(){
-  if(ocrReady)return ocrReady;
-  ocrReady=new Promise((res,rej)=>{
-    if(window.Tesseract)return res(window.Tesseract);
-    const s=document.createElement("script");
-    s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
-    s.onload=()=>res(window.Tesseract);
-    s.onerror=()=>rej(new Error("ocr-load"));
-    document.head.appendChild(s);
-  });
-  return ocrReady;
-}
+function loadOCR(){if(ocrReady)return ocrReady;
+  ocrReady=new Promise((res,rej)=>{if(window.Tesseract)return res(window.Tesseract);
+    const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+    s.onload=()=>res(window.Tesseract);s.onerror=()=>rej(new Error("ocr"));document.head.appendChild(s);});
+  return ocrReady;}
 $("#scanBtn").onclick=()=>$("#scanFile").click();
+function setScanStatus(msg){const b=$("#scanBusy");b.classList.remove("hidden");
+  b.innerHTML=msg+' <span id="scanPct"></span>';}
+function decodeToJpeg(blob){return new Promise((res,rej)=>{
+  const url=URL.createObjectURL(blob),img=new Image();
+  img.onload=()=>{let w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;
+    if(!w||!h){rej(new Error("empty image"));return;}
+    const max=1600,scale=Math.min(1,max/Math.max(w,h));
+    const c=document.createElement("canvas");c.width=Math.round(w*scale);c.height=Math.round(h*scale);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    URL.revokeObjectURL(url);
+    try{res(c.toDataURL("image/jpeg",0.9));}catch(err){rej(err);}};
+  img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error("decode-failed"));};
+  img.src=url;});}
+let heicReady=null;
+function loadHeic(){if(heicReady)return heicReady;
+  heicReady=new Promise((res,rej)=>{if(window.heic2any)return res(window.heic2any);
+    const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+    s.onload=()=>res(window.heic2any);s.onerror=()=>rej(new Error("heic-load"));document.head.appendChild(s);});
+  return heicReady;}
+async function fileToJpeg(file){
+  try{return await decodeToJpeg(file);}catch(err){
+    try{setScanStatus("Converting the iPhone photo…");
+      const H=await loadHeic();let out=await H({blob:file,toType:"image/jpeg",quality:0.9});
+      if(Array.isArray(out))out=out[0];
+      return await decodeToJpeg(out);}
+    catch(e2){throw new Error("this photo couldn't be opened — set Camera → Formats → Most Compatible, or use a screenshot");}
+  }
+}
 $("#scanFile").onchange=async e=>{
-  const file=e.target.files[0];if(!file)return;
-  const prev=$("#scanPrev");prev.src=URL.createObjectURL(file);prev.style.display="block";
+  const file=e.target.files&&e.target.files[0];
+  if(!file){setScanStatus("No photo received — try again.");return;}
+  const prev=$("#scanPrev");
+  setScanStatus("Preparing the image…");
   $("#scanReview").classList.add("hidden");
-  const busy=$("#scanBusy");busy.classList.remove("hidden");$("#scanPct").textContent="";
+  let jpeg;
+  try{jpeg=await fileToJpeg(file);prev.src=jpeg;prev.style.display="block";}
+  catch(err){setScanStatus("Couldn't open that photo — "+err.message+".");e.target.value="";return;}
   let T;
-  try{T=await loadOCR();}
-  catch(err){busy.classList.add("hidden");alert("Couldn't load the text reader. Check your connection and that you're on your live site (not the preview).");return;}
-  try{
-    const {data}=await T.recognize(file,"tur",{logger:m=>{
-      if(m.status==="recognizing text")$("#scanPct").textContent=Math.round(m.progress*100)+"%";
-    }});
-    busy.classList.add("hidden");
+  try{setScanStatus("Loading the text reader… (first time can take ~20s)");T=await loadOCR();}
+  catch(err){setScanStatus("Couldn't load the text reader — check your connection and that you're on the live site (https).");e.target.value="";return;}
+  try{setScanStatus("Reading the Turkish…");
+    const {data}=await T.recognize(jpeg,"tur",{logger:m=>{if(m.status==="recognizing text"){const p=$("#scanPct");if(p)p.textContent=Math.round(m.progress*100)+"%";}}});
+    $("#scanBusy").classList.add("hidden");
     const text=(data.text||"").replace(/\s+\n/g,"\n").trim();
+    if(!text){setScanStatus("No text found — try a closer, sharper, well-lit shot.");e.target.value="";return;}
     $("#scanTr").value=text;$("#scanEn").value="";
-    $("#scanReview").classList.remove("hidden");
-    $("#scanTr").scrollIntoView({behavior:"smooth",block:"center"});
-  }catch(err){busy.classList.add("hidden");alert("Couldn't read that image. Try a clearer, closer shot.");}
-  e.target.value="";
-};
-$("#scanTranslate").onclick=async ()=>{
-  const q=$("#scanTr").value.trim();if(!q)return;
+    $("#scanReview").classList.remove("hidden");$("#scanTr").scrollIntoView({behavior:"smooth",block:"center"});}
+  catch(err){setScanStatus("Couldn't read that image — "+(err&&err.message?err.message:"try a clearer shot")+".");}
+  e.target.value="";};
+$("#scanTranslate").onclick=async()=>{const q=$("#scanTr").value.trim();if(!q)return;
   const btn=$("#scanTranslate");btn.textContent="…";
-  try{
-    const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(q)+"&langpair=tr|en");
-    const j=await r.json();
-    const t=j&&j.responseData&&j.responseData.translatedText;
-    if(t)$("#scanEn").value=t;
-  }catch(err){/* offline or blocked — user types it */}
-  btn.textContent="Suggest";
-};
+  try{const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(q)+"&langpair=tr|en");
+    const j=await r.json();const t=j&&j.responseData&&j.responseData.translatedText;if(t)$("#scanEn").value=t;}catch(err){}
+  btn.textContent="Suggest";};
 $("#scanDiscard").onclick=()=>{$("#scanReview").classList.add("hidden");$("#scanPrev").style.display="none";};
-$("#scanSave").onclick=()=>{
-  const f=$("#scanTr").value.trim(),b=$("#scanEn").value.trim();
-  if(!f){return;}
-  const card=mk("phrase",f,b||"(add meaning)","scanned",0);
-  card.source="scan";card.intro=true;card.due=now();
+$("#scanSave").onclick=()=>{const f=$("#scanTr").value.trim(),b=$("#scanEn").value.trim();if(!f)return;
+  const card=mk("phrase",f,b||"(add meaning)","scanned",MINE,"scan");card.source="scan";card.intro=false;
   deck.cards.push(card);save();
   $("#scanReview").classList.add("hidden");$("#scanPrev").style.display="none";
-  if(!current){queue.push(card);nextCard();}
-  renderScanList();
-};
-function renderScanList(){
-  const scans=deck.cards.filter(c=>c.source==="scan").slice(-12).reverse();
-  const el=$("#scanList");
-  if(!scans.length){el.innerHTML='<p class="lead">Nothing scanned yet.</p>';return;}
-  el.innerHTML=scans.map(c=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)">
-    <div style="font-family:Fraunces,serif;font-weight:600">${esc(c.front)}</div>
-    <div style="font-size:13px;color:var(--muted)">${esc(c.back)}</div></div>`).join("");
+  alert("Saved to your book → My cards → Scanned.");};
+
+/* ---------- import / export / reset ---------- */
+$("#exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify(deck,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="lale-book-"+todayKey()+".json";a.click();};
+$("#importBtn").onclick=()=>$("#importFile").click();
+$("#importFile").onchange=e=>{const file=e.target.files[0];if(!file)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(d.cards){deck=d;save();show("learn");}}
+    catch(err){alert("Couldn't read that file — expected an exported Lale book.");}};r.readAsText(file);};
+$("#resetBtn").onclick=()=>{if(confirm("Reset all progress and rebuild the starter book?")){
+  localStorage.removeItem(KEY);deck=buildSeed();save();show("learn");}};
+
+/* ---------- listen (hands-free / gym mode) ---------- */
+let LST={playing:false,idx:0,items:[],endTime:0,count:0,dir:"tr-en",wake:null,timer:null},LGEN=0;
+function listenSource(key){const t=now();
+  if(key==="due")return deck.cards.filter(c=>c.intro&&c.due<=t);
+  if(key==="started")return deck.cards.filter(c=>c.intro);
+  if(key==="all")return deck.cards.slice();
+  return deck.cards.filter(c=>c.theme===key);}
+function renderListen(){
+  const v=$("#view-listen");
+  const themeOpts=CURRICULUM.map(t=>`<option value="${t.id}">${esc(t.title)} — ${esc(t.en)}</option>`).join("");
+  v.innerHTML=`
+    <div class="panel">
+      <h3>Hands-free listening</h3>
+      <p class="lead">Eyes-free practice for the gym or a walk. It reads Turkish then English on a loop for the time you pick.</p>
+      <label>Content</label>
+      <select id="lsSource">
+        <option value="started">Everything I've started</option>
+        <option value="due">Cards due for review</option>
+        <option value="all">Whole book</option>
+        ${themeOpts}
+      </select>
+      <label>Minutes</label>
+      <div class="seg" id="lsMin">
+        <button data-m="10" aria-pressed="false">10</button><button data-m="20" aria-pressed="true">20</button>
+        <button data-m="30" aria-pressed="false">30</button><button data-m="45" aria-pressed="false">45</button>
+      </div>
+      <label>Order</label>
+      <div class="seg" id="lsDir">
+        <button data-d="tr-en" aria-pressed="true">TR → EN</button><button data-d="en-tr" aria-pressed="false">EN → TR</button>
+        <button data-d="tr" aria-pressed="false">TR only</button>
+      </div>
+      <button class="btn reveal" id="lsPlay" style="margin-top:16px">▶ Start</button>
+    </div>
+    <div class="panel hidden" id="lsNow">
+      <div class="qsub" id="lsMeta">—</div>
+      <div class="qprompt" id="lsTr" style="font-size:30px">—</div>
+      <div class="qsub" id="lsEn" style="font-size:16px">&nbsp;</div>
+      <div class="row">
+        <button class="btn ghost" id="lsPause">Pause</button>
+        <button class="btn ghost" id="lsSkip">Skip</button>
+        <button class="btn ghost" id="lsStop" style="color:var(--coral)">Stop</button>
+      </div>
+    </div>
+    <p class="lead" style="text-align:center">Keep the screen on — iPhone may pause speech when the screen locks.</p>`;
+  let mins=20,dir="tr-en";
+  $("#lsMin").onclick=e=>{const b=e.target.closest("button");if(!b)return;mins=+b.dataset.m;
+    [...$("#lsMin").children].forEach(x=>x.setAttribute("aria-pressed",x===b));};
+  $("#lsDir").onclick=e=>{const b=e.target.closest("button");if(!b)return;dir=b.dataset.d;
+    [...$("#lsDir").children].forEach(x=>x.setAttribute("aria-pressed",x===b));};
+  $("#lsPlay").onclick=()=>startListen(listenSource($("#lsSource").value),mins,dir);
+  $("#lsPause").onclick=()=>{if(!LST.playing)return;
+    if(speechSynthesis.paused){speechSynthesis.resume();$("#lsPause").textContent="Pause";}
+    else{speechSynthesis.pause();$("#lsPause").textContent="Resume";}};
+  $("#lsSkip").onclick=()=>{if(!LST.playing)return;try{speechSynthesis.cancel();}catch(e){}
+    if(LST.timer)clearTimeout(LST.timer);playNext();};
+  $("#lsStop").onclick=()=>{stopListen();renderListen();};
+}
+async function startListen(items,mins,dir){
+  if(!items.length){alert("Nothing to play yet for that choice — open a chapter and start it first.");return;}
+  LST={playing:true,idx:0,items:shuffle(items),endTime:now()+mins*60000,count:0,dir,wake:null,timer:null};
+  $("#lsNow").classList.remove("hidden");$("#lsPause").textContent="Pause";
+  try{if("wakeLock" in navigator)LST.wake=await navigator.wakeLock.request("screen");}catch(e){}
+  playNext();
+}
+function stopListen(){
+  LGEN++;if(!LST.playing&&!LST.wake)return;LST.playing=false;
+  try{speechSynthesis.cancel();}catch(e){}
+  if(LST.timer)clearTimeout(LST.timer);
+  if(LST.wake){try{LST.wake.release();}catch(e){}LST.wake=null;}
+  const n=$("#lsNow");if(n)n.classList.add("hidden");
+}
+function utter(text,lang){return new Promise(res=>{const u=new SpeechSynthesisUtterance(text);u.lang=lang;
+  if(lang.indexOf("tr")===0&&trVoice)u.voice=trVoice;u.rate=.9;u.onend=res;u.onerror=res;speechSynthesis.speak(u);});}
+function fmtTime(ms){const s=Math.max(0,Math.round(ms/1000));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+async function playNext(){
+  if(!LST.playing)return;
+  if(now()>=LST.endTime)return finishListen();
+  if(LST.idx>=LST.items.length){LST.items=shuffle(LST.items);LST.idx=0;}
+  const gen=++LGEN,c=LST.items[LST.idx++];
+  $("#lsTr").textContent=c.front;$("#lsEn").textContent=c.back;
+  $("#lsMeta").textContent=fmtTime(LST.endTime-now())+" left · "+LST.count+" spoken";
+  const seq=LST.dir==="en-tr"?[[c.back,"en-US"],[c.front,"tr-TR"]]
+    :LST.dir==="tr"?[[c.front,"tr-TR"],[c.front,"tr-TR"]]
+    :[[c.front,"tr-TR"],[c.back,"en-US"]];
+  for(const s of seq){if(!LST.playing||gen!==LGEN)return;await utter(s[0],s[1]);
+    if(!LST.playing||gen!==LGEN)return;await new Promise(r=>{LST.timer=setTimeout(r,350);});}
+  if(!LST.playing||gen!==LGEN)return;
+  LST.count++;LST.timer=setTimeout(()=>{if(gen===LGEN)playNext();},500);
+}
+function finishListen(){const done=LST.count;stopListen();
+  const v=$("#view-listen"),box=document.createElement("div");box.className="panel";
+  box.innerHTML=`<h3>Session done 🌷</h3><p class="lead">You heard ${done} items. İyi çalışma!</p>`;
+  v.prepend(box);}
+
+/* ---------- Talk: dialogue course ---------- */
+const DIALOGUES=[
+ {id:"dg_meet",icon:"🤝",level:"A1",en:"Meeting someone",tr:"İlk tanışma",turns:[
+   ["A","Merhaba!","Hello!"],["B","Merhaba, nasılsın?","Hello, how are you?"],
+   ["A","İyiyim, teşekkürler. Sen nasılsın?","I'm fine, thanks. And you?"],
+   ["B","Ben de iyiyim. Adın ne?","I'm fine too. What's your name?"],
+   ["A","Adım Deniz. Sen?","My name is Deniz. You?"],
+   ["B","Ben Hisham. Memnun oldum.","I'm Hisham. Nice to meet you."],
+   ["A","Ben de memnun oldum. Nerelisin?","Nice to meet you too. Where are you from?"],
+   ["B","İngiltere'denim.","I'm from England."]]},
+ {id:"dg_cafe",icon:"☕",level:"A1",en:"At the café",tr:"Kafede",turns:[
+   ["A","Merhaba, hoş geldiniz!","Hello, welcome!"],["B","Hoş bulduk. Bir çay istiyorum.","Thank you. I'd like a tea."],
+   ["A","Tabii. Başka bir şey?","Of course. Anything else?"],["B","Bir su, lütfen. Ne kadar?","A water, please. How much?"],
+   ["A","Yirmi lira.","Twenty lira."],["B","Buyurun. Teşekkürler.","Here you are. Thanks."],
+   ["A","Afiyet olsun!","Enjoy!"]]},
+ {id:"dg_dir",icon:"🧭",level:"A2",en:"Asking directions",tr:"Yol sormak",turns:[
+   ["B","Affedersiniz, otel nerede?","Excuse me, where is the hotel?"],["A","Düz git, sonra sağa dön.","Go straight, then turn right."],
+   ["B","Uzak mı?","Is it far?"],["A","Hayır, çok yakın.","No, very near."],
+   ["B","Çok teşekkürler.","Thank you very much."],["A","Rica ederim.","You're welcome."]]},
+ {id:"dg_taxi",icon:"🚕",level:"A2",en:"In a taxi",tr:"Takside",turns:[
+   ["B","Merhaba, havaalanına lütfen.","Hello, to the airport please."],["A","Tabii. Acele var mı?","Sure. Are you in a hurry?"],
+   ["B","Evet, biraz.","Yes, a little."],["A","Tamam, on dakika.","OK, ten minutes."],
+   ["B","Ne kadar?","How much?"],["A","Yüz lira.","One hundred lira."],
+   ["B","Burada durabilir misiniz?","Can you stop here?"],["A","Tabii, buyurun.","Sure, here you go."]]},
+ {id:"dg_shop",icon:"🛍️",level:"A2",en:"Shopping",tr:"Alışveriş",turns:[
+   ["B","Bu ne kadar?","How much is this?"],["A","Elli lira.","Fifty lira."],
+   ["B","Çok pahalı! İndirim var mı?","Too expensive! Is there a discount?"],["A","Sizin için kırk lira.","For you, forty lira."],
+   ["B","Tamam, alıyorum.","OK, I'll take it."],["A","Nakit mi, kart mı?","Cash or card?"],
+   ["B","Kartla ödeyebilir miyim?","Can I pay by card?"],["A","Elbette.","Certainly."]]},
+ {id:"dg_rest",icon:"🍽️",level:"A2",en:"At the restaurant",tr:"Restoranda",turns:[
+   ["A","Buyurun, menü.","Here you are, the menu."],["B","Teşekkürler. Ne önerirsiniz?","Thanks. What do you recommend?"],
+   ["A","Balık çok güzel.","The fish is very good."],["B","Tamam, balık istiyorum.","OK, I'd like the fish."],
+   ["A","İçecek?","A drink?"],["B","Bir ayran, lütfen.","An ayran, please."],
+   ["A","Afiyet olsun.","Enjoy your meal."],["B","Hesabı alabilir miyim?","Can I have the bill?"]]},
+ {id:"dg_doc",icon:"🩺",level:"A2",en:"At the doctor",tr:"Doktorda",turns:[
+   ["A","Geçmiş olsun. Neyiniz var?","Get well. What's wrong?"],["B","Başım ağrıyor ve hastayım.","I have a headache and I'm sick."],
+   ["A","Ateşiniz var mı?","Do you have a fever?"],["B","Evet, biraz.","Yes, a little."],
+   ["A","Bu ilacı alın.","Take this medicine."],["B","Teşekkür ederim.","Thank you."],
+   ["A","Geçmiş olsun.","Get well soon."]]},
+ {id:"dg_hotel",icon:"🏨",level:"A2",en:"At the hotel",tr:"Otelde",turns:[
+   ["A","Merhaba, hoş geldiniz.","Hello, welcome."],["B","Merhaba, bir oda istiyorum.","Hello, I'd like a room."],
+   ["A","Kaç gece?","How many nights?"],["B","İki gece.","Two nights."],
+   ["A","İsminiz?","Your name?"],["B","Adım Hisham.","My name is Hisham."],
+   ["A","Kahvaltı saat sekizde.","Breakfast is at eight."],["B","Teşekkürler.","Thank you."]]},
+ {id:"dg_plan",icon:"📞",level:"A2",en:"Making plans",tr:"Plan yapmak",turns:[
+   ["A","Alo?","Hello?"],["B","Merhaba! Bu akşam müsait misin?","Hi! Are you free this evening?"],
+   ["A","Evet, müsaitim. Ne yapalım?","Yes, I'm free. What shall we do?"],["B","Buluşalım. Bir şey içelim.","Let's meet. Let's have a drink."],
+   ["A","Tamam! Saat kaçta?","OK! At what time?"],["B","Saat yedide.","At seven."],
+   ["A","Nerede buluşalım?","Where shall we meet?"],["B","Meydanda.","At the square."],
+   ["A","Görüşürüz!","See you!"]]},
+ {id:"dg_talk",icon:"🗣️",level:"A2",en:"Getting to know you",tr:"Tanışma sohbeti",turns:[
+   ["A","Ne iş yapıyorsun?","What do you do?"],["B","Öğretmenim. Sen?","I'm a teacher. You?"],
+   ["A","Ben doktorum. Nerede oturuyorsun?","I'm a doctor. Where do you live?"],["B","Ankara'da oturuyorum.","I live in Ankara."],
+   ["A","Türkçen çok güzel.","Your Turkish is very good."],["B","Teşekkürler! Türkçe öğreniyorum.","Thanks! I'm learning Turkish."]]},
+ {id:"dg_market",icon:"🍎",level:"A2",en:"At the market",tr:"Markette",turns:[
+   ["B","Merhaba, elma ne kadar?","Hello, how much are the apples?"],["A","Kilosu on lira.","Ten lira a kilo."],
+   ["B","İki kilo, lütfen.","Two kilos, please."],["A","Başka?","Anything else?"],
+   ["B","Bir kilo domates.","A kilo of tomatoes."],["A","Toplam kırk lira.","Forty lira in total."]]}
+];
+function dlgDone(){return deck.dialoguesDone||(deck.dialoguesDone=[]);}
+let openDlg=null,dprac=false,dpi=0,dbuild=null,dtoken=0;
+function stopTalkAudio(){dtoken++;try{speechSynthesis.cancel();}catch(e){}}
+function renderTalk(){
+  stopTalkAudio();
+  const v=$("#view-talk");
+  if(aiOpen)return renderAIChat(v);
+  if(openDlg)return renderDialogue(v);
+  const done=dlgDone();
+  v.innerHTML=`<h2 class="sec">Talk with an AI partner</h2>
+    <p class="lead" style="margin:-6px 0 12px">Free conversation — the partner replies in Turkish and gives feedback at the end.</p>
+    <div id="aiList">${SCENARIOS.map(s=>`<div class="theme dlist" data-ai="${s.id}"><div class="theme-head">
+      <div class="theme-ic">${s.icon}</div>
+      <div class="theme-t"><div class="theme-n">AI · ${s.level}</div>
+        <div class="theme-title">${esc(s.en)}</div><div class="theme-en">${esc(s.tr)}</div></div>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+    </div></div>`).join("")}</div>
+    <h2 class="sec" style="margin-top:22px">Guided conversations</h2>
+    <p class="lead" style="margin:-6px 0 12px">Scripted dialogues — read, hear, then build your lines.</p>`+
+    DIALOGUES.map((d,i)=>`<div class="theme dlist" data-d="${d.id}"><div class="theme-head">
+      <div class="theme-ic">${d.icon}</div>
+      <div class="theme-t"><div class="theme-n">Dialogue ${i+1} · ${d.level}</div>
+        <div class="theme-title">${esc(d.en)}</div><div class="theme-en">${esc(d.tr)}</div></div>
+      ${done.indexOf(d.id)>=0?'<span style="color:var(--turq);font-size:20px;flex:none">✓</span>':''}
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+    </div></div>`).join("");
+  v.querySelectorAll("[data-ai]").forEach(el=>el.onclick=()=>{aiOpen=el.dataset.ai;aiMsgs=[];renderTalk();window.scrollTo(0,0);});
+  v.querySelectorAll("[data-d]").forEach(el=>el.onclick=()=>{openDlg=el.dataset.d;dprac=false;renderTalk();window.scrollTo(0,0);});
+}
+function curDlg(){return DIALOGUES.find(d=>d.id===openDlg);}
+function renderDialogue(v){
+  const d=curDlg();if(!d){openDlg=null;return renderTalk();}
+  if(dprac)return renderPractice(v,d);
+  v.innerHTML=`<button class="back-btn" id="dBack">‹ Conversations</button>
+    <h2 class="page-title">${esc(d.en)}</h2><p class="page-sub">${esc(d.tr)} · ${d.level}</p>
+    <div id="chat">${d.turns.map(t=>`<div class="bubble ${t[0]==="A"?"bA":"bB"}">
+      <div class="btr">${esc(t[1])}</div><div class="ben">${esc(t[2])}</div>
+      <button class="say" data-say="${escAttr(t[1])}" style="margin-top:8px;padding:5px 11px">${SPK} Hear</button></div>`).join("")}</div>
+    <div class="row"><button class="btn ghost" id="dPlay">▶ Play conversation</button>
+      <button class="btn reveal" id="dPractice">Practise speaking</button></div>`;
+  $("#dBack").onclick=()=>{stopTalkAudio();openDlg=null;renderTalk();};
+  v.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+  $("#dPractice").onclick=()=>{dprac=true;dpi=0;dbuild=null;renderTalk();};
+  $("#dPlay").onclick=()=>{const b=$("#dPlay");
+    if(b.textContent.indexOf("Stop")>=0){stopTalkAudio();b.textContent="▶ Play conversation";}
+    else playConversation(d);};
+}
+async function playConversation(d){
+  const tok=++dtoken,b=$("#dPlay");if(b)b.textContent="■ Stop";
+  for(const t of d.turns){if(tok!==dtoken)return;await utter(t[1],"tr-TR");
+    if(tok!==dtoken)return;await new Promise(r=>setTimeout(r,250));}
+  if(tok===dtoken&&b)b.textContent="▶ Play conversation";
+}
+function renderPractice(v,d){
+  const total=d.turns.length;
+  if(dpi>=total){const done=dlgDone();if(done.indexOf(d.id)<0){done.push(d.id);save();}
+    markDaily("talkDone");
+    v.innerHTML=`<div class="empty"><h3>Tebrikler! 🌷</h3><p>You worked through “${esc(d.en)}”.</p>
+      <button class="btn reveal" id="dDone" style="margin-top:16px">More conversations</button></div>`;
+    $("#dDone").onclick=()=>{dprac=false;openDlg=null;renderTalk();};return;}
+  const t=d.turns[dpi],learner=t[0]==="B";
+  v.innerHTML=`<button class="back-btn" id="dQuit">‹ Leave</button>
+    <div class="dprog"><i style="width:${Math.round(dpi/total*100)}%"></i></div><div id="pstage"></div>`;
+  $("#dQuit").onclick=()=>{stopTalkAudio();dprac=false;renderTalk();};
+  const st=$("#pstage");
+  if(!learner){
+    st.innerHTML=`<div class="qbox"><div class="turnbadge">They say</div>
+      <div class="qprompt" style="font-size:25px">${esc(t[1])}</div><div class="qsub">${esc(t[2])}</div>
+      ${sayBtn(t[1],"Hear it")}</div><button class="btn reveal" id="pNext" style="margin-top:14px">Continue</button>`;
+    bindSay(st);speak(t[1]);
+    $("#pNext").onclick=()=>{dpi++;renderPractice(v,d);};
+  }else{
+    const target=t[1],tokens=target.trim().split(/\s+/);
+    if(!dbuild||dbuild.turn!==dpi)dbuild={turn:dpi,pool:shuffle(tokens.map((w,i)=>({t:w,i}))),picked:[]};
+    renderPBuild(st,v,d,t,target);
+  }
+}
+function renderPBuild(st,v,d,t,target){
+  const poolHtml=dbuild.pool.map((tk,idx)=>`<button class="chip" data-pool="${idx}">${esc(tk.t)}</button>`).join("");
+  const pickHtml=dbuild.picked.map((tk,idx)=>`<button class="chip" data-pick="${idx}">${esc(tk.t)}</button>`).join("")||'<span class="qsub">tap the words in order</span>';
+  st.innerHTML=`<div class="qbox"><div class="turnbadge" style="color:var(--cobalt)">Your turn — say:</div>
+    <div class="qprompt" style="font-size:23px">${esc(t[2])}</div>
+    <div class="ansrow">${pickHtml}</div><div class="tokens">${poolHtml}</div></div>
+    <div class="row"><button class="btn ghost" id="pShow">Show answer</button>
+      <button class="btn reveal" id="pCheck" ${dbuild.pool.length?"disabled":""}>Check</button></div>`;
+  st.querySelectorAll("[data-pool]").forEach(b=>b.onclick=()=>{dbuild.picked.push(dbuild.pool.splice(+b.dataset.pool,1)[0]);renderPBuild(st,v,d,t,target);});
+  st.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{dbuild.pool.push(dbuild.picked.splice(+b.dataset.pick,1)[0]);renderPBuild(st,v,d,t,target);});
+  $("#pShow").onclick=()=>dpFeedback(st,v,d,t,false);
+  $("#pCheck").onclick=()=>dpFeedback(st,v,d,t,norm(dbuild.picked.map(x=>x.t).join(" "))===norm(target));
+}
+function dpFeedback(st,v,d,t,ok){
+  speak(t[1]);
+  const fb=document.createElement("div");fb.className="feedback "+(ok?"good":"bad");
+  fb.innerHTML=(ok?"✓ ":"")+esc(t[1])+`<span class="fn">${esc(t[2])}</span>`;st.appendChild(fb);
+  const c=document.createElement("button");c.className="btn reveal";c.style.marginTop="10px";c.textContent="Continue";
+  c.onclick=()=>{dbuild=null;dpi++;renderPractice(v,d);};st.appendChild(c);c.focus();
 }
 
+/* ---------- AI conversation partner (bring-your-own Anthropic key) ---------- */
+const SCENARIOS=[
+ {id:"ai_cafe",icon:"☕",level:"A2",en:"Café — order a drink",tr:"Kafede sipariş",role:"a friendly café waiter",scene:"The learner has come into your café to order something to drink or eat."},
+ {id:"ai_taxi",icon:"🚕",level:"A2",en:"Taxi — get somewhere",tr:"Takside",role:"a taxi driver",scene:"The learner gets in your taxi and needs to go somewhere in the city."},
+ {id:"ai_shop",icon:"🛍️",level:"A2",en:"Shop — buy something",tr:"Alışveriş",role:"a shopkeeper",scene:"The learner is in your shop and wants to buy something and ask the price."},
+ {id:"ai_land",icon:"🏠",level:"B1",en:"Landlord — rent a flat",tr:"Ev sahibiyle",role:"a landlord",scene:"The learner is asking about renting your apartment: price, rooms, and bills."},
+ {id:"ai_doc",icon:"🩺",level:"B1",en:"Doctor — your symptoms",tr:"Doktorda",role:"a doctor",scene:"The learner is your patient describing how they feel."},
+ {id:"ai_friend",icon:"🙂",level:"A2",en:"Friend — small talk",tr:"Arkadaşla sohbet",role:"a friendly Turkish person making small talk",scene:"You just met the learner and are chatting about name, where they're from, work, and hobbies."}
+];
+let aiOpen=null,aiMsgs=[],aiBusy=false;
+function curScen(){return SCENARIOS.find(s=>s.id===aiOpen);}
+function getKey(){return localStorage.getItem("lale.aikey")||"";}
+function sysPrompt(s){return `You are ${s.role} in Türkiye, talking with someone learning Turkish at about A2/B1 level. Situation: ${s.scene} Rules: reply ONLY in simple, natural Turkish — 1 to 2 short sentences, never English. Stay in character. Keep the conversation going with an easy question. Do not correct the learner mid-conversation; just respond naturally. Begin by greeting them.`;}
+async function callClaude(system,messages,maxTokens){
+  const key=getKey();if(!key)throw new Error("nokey");
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
+    headers:{"content-type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:maxTokens||400,system,messages})});
+  if(!r.ok)throw new Error("HTTP "+r.status+": "+(await r.text()).slice(0,180));
+  const j=await r.json();return (j.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("").trim();
+}
+function renderAIChat(v){
+  const s=curScen();if(!s){aiOpen=null;return renderTalk();}
+  if(!getKey()){
+    v.innerHTML=`<button class="back-btn" id="aiBack">‹ Talk</button>
+      <div class="panel"><h3>Add your API key first</h3>
+      <p class="lead">The AI partner needs your Anthropic API key. Add it in Profile → AI conversation, then come back.</p>
+      <button class="btn reveal" id="aiToProfile">Go to Profile</button></div>`;
+    $("#aiBack").onclick=()=>{aiOpen=null;renderTalk();};$("#aiToProfile").onclick=()=>show("profile");return;
+  }
+  v.innerHTML=`<button class="back-btn" id="aiBack">‹ Talk</button>
+    <h2 class="page-title">${esc(s.en)}</h2><p class="page-sub">${esc(s.tr)} · AI partner</p>
+    <div id="aiChat"></div>
+    <div class="row" style="align-items:center">
+      <input id="aiInput" placeholder="Type in Turkish…" autocomplete="off" autocapitalize="off" style="flex:1">
+      <button class="btn ghost" id="aiMic" style="width:auto;padding:12px 13px" title="Speak">🎤</button>
+      <button class="btn reveal" id="aiSend" style="width:auto;padding:12px 16px">Send</button>
+    </div>
+    <button class="btn ghost" id="aiFeedback" style="margin-top:10px">End &amp; get feedback</button>`;
+  $("#aiBack").onclick=()=>{aiOpen=null;renderTalk();};
+  $("#aiSend").onclick=aiSendTurn;
+  $("#aiInput").addEventListener("keydown",e=>{if(e.key==="Enter")aiSendTurn();});
+  $("#aiFeedback").onclick=aiGetFeedback;
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR){$("#aiMic").onclick=()=>{try{const rec=new SR();rec.lang="tr-TR";
+    rec.onresult=e=>{$("#aiInput").value=e.results[0][0].transcript;};rec.start();}catch(e){}};}
+  else $("#aiMic").style.display="none";
+  renderAIMsgs();
+  if(!aiMsgs.length)aiKickoff();
+}
+function renderAIMsgs(){
+  const c=$("#aiChat");if(!c)return;
+  c.innerHTML=aiMsgs.map(m=>m.role==="assistant"
+    ?`<div class="bubble bA"><div class="btr">${esc(m.content)}</div>
+       <button class="say" data-say="${escAttr(m.content)}" style="margin-top:8px;padding:5px 11px">${SPK} Hear</button></div>`
+    :`<div class="bubble bB"><div class="btr">${esc(m.content)}</div></div>`).join("")
+    +(aiBusy?'<div class="bubble bA"><div class="btr" style="opacity:.55">…</div></div>':"");
+  c.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+}
+async function aiKickoff(){
+  aiBusy=true;renderAIMsgs();
+  try{const reply=await callClaude(sysPrompt(curScen()),[{role:"user",content:"[Merhaba]"}],200);
+    aiMsgs.push({role:"assistant",content:reply});aiBusy=false;renderAIMsgs();speak(reply);}
+  catch(e){aiBusy=false;aiErr(e);}
+}
+async function aiSendTurn(){
+  if(aiBusy)return;const inp=$("#aiInput");const text=inp.value.trim();if(!text)return;
+  aiMsgs.push({role:"user",content:text});inp.value="";aiBusy=true;renderAIMsgs();
+  try{const reply=await callClaude(sysPrompt(curScen()),aiMsgs.map(m=>({role:m.role,content:m.content})),250);
+    aiMsgs.push({role:"assistant",content:reply});aiBusy=false;renderAIMsgs();speak(reply);}
+  catch(e){aiBusy=false;aiErr(e);}
+}
+async function aiGetFeedback(){
+  const mine=aiMsgs.filter(m=>m.role==="user").map(m=>m.content).join("\n");
+  if(!mine){alert("Say a few things first, then ask for feedback.");return;}
+  aiBusy=true;renderAIMsgs();
+  const sys="You are a kind, encouraging Turkish tutor. The learner is about A2 level. Review ONLY their Turkish sentences below. In English, give brief feedback: up to 4 specific corrections as 'you wrote X → better: Y (short why)'. Praise what they got right. Keep it short and warm.";
+  try{const fb=await callClaude(sys,[{role:"user",content:"Learner's sentences:\n"+mine}],500);
+    aiBusy=false;renderAIMsgs();
+    const box=document.createElement("div");box.className="panel";box.style.marginTop="12px";
+    box.innerHTML=`<h3>Feedback</h3><p class="lead" style="white-space:pre-wrap;color:var(--ink)">${esc(fb)}</p>`;
+    const c=$("#aiChat");if(c)c.after(box);box.scrollIntoView({behavior:"smooth",block:"center"});}
+  catch(e){aiBusy=false;aiErr(e);}
+}
+function aiErr(e){
+  const msg=(""+e.message).indexOf("nokey")>=0?"Add your API key in Profile first.":"Couldn't reach the AI. "+e.message;
+  const c=$("#aiChat");if(c){const d=document.createElement("div");d.className="feedback bad";d.textContent=msg;c.appendChild(d);}else alert(msg);
+}
+function updateKeyState(){const el=$("#aiKeyState");if(!el)return;
+  const has=!!getKey();el.textContent=has?"✓ Key saved in this browser.":"No key saved yet.";
+  el.style.color=has?"var(--turq)":"var(--muted)";}
+
 /* ---------- go ---------- */
-buildQueue();nextCard();
+$("#aiKeySave").onclick=()=>{const v=$("#aiKey").value.trim();
+  if(v){localStorage.setItem("lale.aikey",v);$("#aiKey").value="";}updateKeyState();};
+show("learn");
 </script>
 </body>
 </html>
