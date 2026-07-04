@@ -108,6 +108,23 @@
   :focus-visible{outline:3px solid var(--turq);outline-offset:2px}
   .hidden{display:none}
   @media (prefers-reduced-motion:reduce){.flip{transition:none}}
+  /* exercises */
+  .qbox{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:30px 24px;text-align:center;position:relative}
+  .qprompt{font-family:Fraunces,serif;font-size:34px;font-weight:600;letter-spacing:-.02em;word-break:break-word}
+  .qsub{color:var(--muted);font-size:14px;margin-top:8px}
+  .opts{display:grid;gap:9px;margin-top:14px}
+  .opt{padding:15px;border-radius:14px;border:1px solid var(--line);background:var(--card);font:inherit;font-weight:600;cursor:pointer;text-align:center;color:var(--ink)}
+  .opt.correct{background:#DCEBE4;border-color:#0F7A52;color:#0F7A52}
+  .opt.wrong{background:#F6E1D9;border-color:#B5431F;color:#B5431F}
+  .opt:disabled{cursor:default}
+  .tokens{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+  .chip{padding:11px 15px;border-radius:12px;border:1px solid var(--line);background:var(--card);font:inherit;font-weight:600;cursor:pointer}
+  .ansrow{min-height:54px;border:1px dashed var(--line);border-radius:14px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-top:14px;background:var(--paper)}
+  .typein{width:100%;font:inherit;font-size:20px;text-align:center;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);margin-top:14px}
+  .feedback{margin-top:12px;padding:12px;border-radius:12px;text-align:center;font-weight:600;font-family:Fraunces,serif}
+  .feedback.good{background:#DCEBE4;color:#0F7A52}
+  .feedback.bad{background:#F6E1D9;color:#B5431F}
+  .feedback .fn{display:block;font-family:Inter,sans-serif;font-weight:400;font-size:13px;color:var(--ink);margin-top:6px}
 </style>
 </head>
 <body>
@@ -367,7 +384,7 @@ function grade(card,q){
 function ivLabel(c,q){const t=Object.assign({},c);grade(t,q);return t.interval<1?"1d":t.interval+"d";}
 
 /* ---------- session ---------- */
-let queue=[],current=null,revealed=false;
+let queue=[],current=null;
 function buildQueue(){
   const t=now();
   const due=deck.cards.filter(c=>c.intro&&c.due<=t);
@@ -377,7 +394,8 @@ function buildQueue(){
   queue=shuffle(due).concat(fresh);save();
 }
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
-function nextCard(){revealed=false;current=queue.shift()||null;renderStudy();}
+function nextCard(){answeredFlag=false;exState=null;current=queue.shift()||null;
+  mode=current?pickExercise(current):null;renderStudy();}
 
 /* ---------- metrics ---------- */
 const knownWords=()=>deck.cards.filter(c=>c.type==="vocab"&&c.reps>=2).length;
@@ -400,43 +418,129 @@ function refreshStats(){
   $("#s-streak").textContent=deck.stats.streak;
 }
 const SPK=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 8a5 5 0 010 8" fill="none" stroke="currentColor" stroke-width="2"/></svg>`;
+let mode=null, exState=null, answeredFlag=false;
+const KIND={vocab:"Vocabulary",grammar:"Grammar",phrase:"Phrase"};
+
+function norm(s){
+  return (s+"").replace(/İ/g,"i").replace(/I/g,"ı").replace(/Ş/g,"ş").replace(/Ğ/g,"ğ")
+    .replace(/Ü/g,"ü").replace(/Ö/g,"ö").replace(/Ç/g,"ç").toLowerCase()
+    .replace(/[.,!?;:"'’`]/g,"").replace(/\s+/g," ").trim();
+}
+function pickExercise(c){
+  if(c.reps===0)return "teach";
+  const words=c.front.trim().split(/\s+/);
+  if(c.type==="phrase")return (words.length>=2&&words.length<=8)?(Math.random()<.7?"build":"mc"):"mc";
+  if(c.type==="grammar")return Math.random()<.5?"type":"mc";
+  const r=Math.random();return r<.45?"mc":r<.72?"mcRev":"type";
+}
+function distractors(c,field,n){
+  const same=[...new Set(deck.cards.filter(x=>x.type===c.type&&x.id!==c.id&&x[field]).map(x=>x[field]))].filter(v=>v!==c[field]);
+  shuffle(same);let out=same.slice(0,n);
+  if(out.length<n){
+    const any=[...new Set(deck.cards.filter(x=>x.id!==c.id&&x[field]).map(x=>x[field]))].filter(v=>v!==c[field]&&!out.includes(v));
+    shuffle(any);out=out.concat(any.slice(0,n-out.length));
+  }
+  return out;
+}
+function sayBtn(text,label){return `<button class="say" data-say="${escAttr(text)}">${SPK} ${label||"Say it"}</button>`;}
+function bindSay(m){m.querySelectorAll("[data-say]").forEach(b=>b.onclick=e=>{e.stopPropagation();speak(b.dataset.say);});}
+
 function renderStudy(){
   refreshStats();
   const m=$("#study");
-  if(!current){
-    m.innerHTML=`<div class="empty"><h2>Bitti! 🌷</h2><p>Nothing due right now. Come back tomorrow, or add cards.</p></div>`;return;
-  }
-  const c=current,kL={vocab:"Vocabulary",grammar:"Grammar",phrase:"Phrase"}[c.type];
-  m.innerHTML=`
-    <div class="stage"><div class="flip ${revealed?'rev':''}">
-      <div class="face front">
-        <div class="kind ${c.type}">${kL}</div>${c.rank?`<div class="rank">#${c.rank}</div>`:''}
-        <div class="prompt">${esc(c.front)}</div>
-        <button class="say" data-say="${escAttr(c.front)}" aria-label="Pronounce">${SPK} Say it</button>
-        ${c.type!=='vocab'?'<div class="sub">tap reveal</div>':''}
-      </div>
-      <div class="face back">
-        <div class="kind ${c.type}">${kL}</div>
-        <div class="answer">${esc(c.back)}</div>
-        <button class="say" data-say="${escAttr(c.front)}" aria-label="Pronounce">${SPK} ${esc(c.front)}</button>
-        ${c.note?`<div class="note">${notefmt(c.note)}</div>`:''}
-      </div>
-    </div></div>
-    ${revealed?gradeBar():`<button class="btn reveal" id="revBtn">Reveal</button>`}`;
-  m.querySelectorAll("[data-say]").forEach(b=>b.onclick=e=>{e.stopPropagation();speak(b.dataset.say);});
-  if(revealed){
-    m.querySelectorAll(".g").forEach(b=>b.onclick=()=>{grade(current,+b.dataset.q);
-      if(current._again)queue.push(current);save();bumpStreak();nextCard();});
-  }else{
-    $("#revBtn").onclick=()=>{revealed=true;renderStudy();if(current.type==="vocab")speak(current.front);};
-  }
+  if(!current){m.innerHTML=`<div class="empty"><h2>Bitti! 🌷</h2><p>Nothing due right now. Come back tomorrow, or add cards.</p></div>`;return;}
+  if(mode==="teach")return renderTeach(m,current);
+  if(mode==="build")return renderBuild(m,current);
+  if(mode==="type")return renderType(m,current);
+  return renderMC(m,current,mode==="mcRev");
 }
-function gradeBar(){
-  return `<div class="grades">
-    <button class="g again" data-q="0">Again<small>&lt;1m</small></button>
-    <button class="g hard" data-q="1">Hard<small>${ivLabel(current,1)}</small></button>
-    <button class="g good" data-q="2">Good<small>${ivLabel(current,2)}</small></button>
-    <button class="g easy" data-q="3">Easy<small>${ivLabel(current,3)}</small></button></div>`;
+
+function renderTeach(m,c){
+  m.innerHTML=`<div class="qbox">
+    <div class="kind ${c.type}">${KIND[c.type]} · new</div>${c.rank?`<div class="rank">#${c.rank}</div>`:''}
+    <div class="qprompt">${esc(c.front)}</div>
+    <div class="qsub">${esc(c.back)}</div>
+    ${sayBtn(c.front)}
+    ${c.note?`<div class="note" style="margin-top:14px">${notefmt(c.note)}</div>`:''}
+  </div>
+  <button class="btn reveal" id="gotIt" style="margin-top:14px">Got it</button>`;
+  bindSay(m);speak(c.front);
+  $("#gotIt").onclick=()=>{grade(c,2);save();bumpStreak();nextCard();};
+}
+
+function renderMC(m,c,rev){
+  const promptText=rev?c.back:c.front, correct=rev?c.front:c.back, field=rev?"front":"back";
+  const opts=shuffle([correct,...distractors(c,field,3)]);
+  m.innerHTML=`<div class="qbox">
+    <div class="kind ${c.type}">${KIND[c.type]}</div>
+    <div class="qsub">${rev?"Choose the Turkish":"Choose the meaning"}</div>
+    <div class="qprompt">${esc(promptText)}</div>
+    ${sayBtn(c.front)}
+  </div>
+  <div class="opts">${opts.map(o=>`<button class="opt" data-o="${escAttr(o)}">${esc(o)}</button>`).join("")}</div>`;
+  bindSay(m);
+  m.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    if(answeredFlag)return;
+    const ok=b.dataset.o===correct;
+    m.querySelectorAll(".opt").forEach(x=>{x.disabled=true;
+      if(x.dataset.o===correct)x.classList.add("correct");
+      else if(x===b)x.classList.add("wrong");});
+    finish(m,c,ok);
+  });
+}
+
+function renderType(m,c){
+  const isG=c.type==="grammar";
+  const promptText=isG?c.front:c.back, target=isG?c.back:c.front;
+  m.innerHTML=`<div class="qbox">
+    <div class="kind ${c.type}">${KIND[c.type]}</div>
+    <div class="qsub">Type it in Turkish</div>
+    <div class="qprompt">${esc(promptText)}</div>
+    <input class="typein" id="typeIn" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="…">
+  </div>
+  <button class="btn reveal" id="checkBtn" style="margin-top:14px">Check</button>`;
+  const inp=$("#typeIn");inp.focus();
+  const go=()=>{if(answeredFlag)return;const ok=norm(inp.value)===norm(target);
+    inp.disabled=true;finish(m,c,ok,ok?null:target);};
+  $("#checkBtn").onclick=go;
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+}
+
+function renderBuild(m,c){
+  const target=c.front, tokens=target.trim().split(/\s+/);
+  if(!exState)exState={pool:shuffle(tokens.map((t,i)=>({t,i}))),picked:[]};
+  const poolHtml=exState.pool.map((tk,idx)=>`<button class="chip" data-pool="${idx}">${esc(tk.t)}</button>`).join("");
+  const pickHtml=exState.picked.map((tk,idx)=>`<button class="chip" data-pick="${idx}">${esc(tk.t)}</button>`).join("")||'<span class="qsub">tap the words in order</span>';
+  m.innerHTML=`<div class="qbox">
+    <div class="kind ${c.type}">${KIND[c.type]}</div>
+    <div class="qsub">Build the Turkish for:</div>
+    <div class="qprompt">${esc(c.back)}</div>
+    <div class="ansrow">${pickHtml}</div>
+    <div class="tokens">${poolHtml}</div>
+  </div>
+  <button class="btn reveal" id="checkBtn" style="margin-top:14px" ${exState.pool.length?"disabled":""}>Check</button>`;
+  m.querySelectorAll("[data-pool]").forEach(b=>b.onclick=()=>{
+    if(answeredFlag)return;exState.picked.push(exState.pool.splice(+b.dataset.pool,1)[0]);renderBuild(m,c);});
+  m.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{
+    if(answeredFlag)return;exState.pool.push(exState.picked.splice(+b.dataset.pick,1)[0]);renderBuild(m,c);});
+  $("#checkBtn").onclick=()=>{if(answeredFlag)return;
+    const ok=norm(exState.picked.map(x=>x.t).join(" "))===norm(target);
+    finish(m,c,ok,ok?null:target);};
+}
+
+function finish(m,c,ok,showText){
+  answeredFlag=true;
+  grade(c,ok?2:0);
+  if(c._again)queue.push(c);
+  save();bumpStreak();refreshStats();speak(c.front);
+  const fb=document.createElement("div");
+  fb.className="feedback "+(ok?"good":"bad");
+  fb.innerHTML=(ok?"✓ Doğru!":"✗ "+esc(showText||c.back))+(c.note?`<span class="fn">${notefmt(c.note)}</span>`:"");
+  m.appendChild(fb);
+  const cont=document.createElement("button");
+  cont.className="btn reveal";cont.style.marginTop="10px";cont.textContent="Continue";
+  cont.onclick=()=>nextCard();
+  m.appendChild(cont);cont.focus();
 }
 
 /* ---------- render: profile ---------- */
