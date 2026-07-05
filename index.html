@@ -64,6 +64,14 @@
   .reveal{background:var(--ink);color:var(--paper);font-size:16px}
   .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:500;font-size:14px}
   .sticky-cta{position:sticky;bottom:96px;margin-top:18px}
+  .card2{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:2px 16px}
+  .card2 .entry:last-child{border-bottom:none}
+  .lesson-p{font-size:15.5px;line-height:1.6;margin:12px 0;color:var(--ink)}
+  .build-line{min-height:52px;display:flex;flex-wrap:wrap;gap:8px;padding:12px;border:1px dashed var(--line);border-radius:14px;margin-top:14px}
+  .build-pool{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .tok{font:inherit;font-weight:600;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+  .tok.pool{background:#EFE7D6}
+  .qprogress{text-align:center;color:var(--muted);font-size:13px;margin-top:16px}
   /* ---- stats ---- */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 8px;text-align:center}
@@ -167,6 +175,7 @@
   <p class="tag" id="tagline">Turkish, chapter by chapter.</p>
 
   <section id="view-learn"></section>
+  <section id="view-grammar" class="hidden"></section>
   <section id="view-talk" class="hidden"></section>
   <section id="view-review" class="hidden">
     <div class="stats">
@@ -265,6 +274,8 @@ kitap, book"></textarea>
 <nav>
   <button id="tabLearn" aria-current="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 012-2h6v18H6a2 2 0 01-2-2zM20 5a2 2 0 00-2-2h-6v18h6a2 2 0 002-2z"/></svg>Learn</button>
+  <button id="tabGrammar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M9 7h7M9 11h5"/></svg>Grammar</button>
   <button id="tabTalk">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Talk</button>
   <button id="tabReview">
@@ -300,6 +311,7 @@ kitap, book"></textarea>
 </dialog>
 
 <script src="freq.js"></script>
+<script src="grammar.js"></script>
 <script>
 "use strict";
 const KEY="lale.v3", DAY=864e5, now=()=>Date.now();
@@ -946,6 +958,137 @@ function renderChapterPage(v){
 }
 
 /* =====================================================================
+   GRAMMAR COURSE
+   ===================================================================== */
+let openLesson=null;
+function grammarProgress(){deck.grammarDone=deck.grammarDone||{};return deck.grammarDone;}
+function renderGrammar(){
+  const v=$("#view-grammar");
+  const G=(window.LALE_GRAMMAR||[]);
+  if(openLesson){return renderLessonPage(v,openLesson);}
+  const done=grammarProgress();
+  const total=G.length,doneN=G.filter(l=>done[l.id]).length;
+  const byLevel={};G.forEach(l=>{(byLevel[l.level]=byLevel[l.level]||[]).push(l);});
+  let html=`<h2 class="page-title">Grammar</h2>
+    <p class="page-sub">The backbone — ${total} lessons, A1 to B1. ${doneN} done.</p>`;
+  ["A1","A2","B1"].forEach(lvl=>{
+    if(!byLevel[lvl])return;
+    const labels={A1:"A1 · Foundations",A2:"A2 · Building sentences",B1:"B1 · Putting it together"};
+    html+=`<h2 class="sec" style="margin-top:18px">${labels[lvl]}</h2><div class="card2">`;
+    byLevel[lvl].forEach(l=>{
+      const isDone=done[l.id];
+      html+=`<div class="chap" data-lesson="${l.id}">
+        <span class="chap-dot ${isDone?"done":""}"></span>
+        <div class="chap-t">${esc(l.title)}<div class="chap-c">${esc(l.sub)}</div></div>
+        <span class="chap-c">${isDone?"✓":"›"}</span></div>`;
+    });
+    html+=`</div>`;
+  });
+  v.innerHTML=html;
+  v.querySelectorAll("[data-lesson]").forEach(b=>b.onclick=()=>{
+    openLesson=(window.LALE_GRAMMAR||[]).find(l=>l.id===b.dataset.lesson);renderGrammar();});
+}
+function renderLessonPage(v,l){
+  v.innerHTML=`<button class="back-btn" id="backG">‹ Grammar</button>
+    <h2 class="page-title">${esc(l.title)}</h2>
+    <p class="page-sub"><span class="pill grammar">${l.level}</span> ${esc(l.sub)}</p>
+    ${l.sections.map(s=>`<p class="lesson-p">${esc(s)}</p>`).join("")}
+    <h2 class="sec" style="margin-top:20px">Examples</h2>
+    <div class="card2">${l.examples.map(([tr,en])=>`<div class="entry">
+      <div class="entry-t"><div class="entry-tr">${esc(tr)}</div><div class="entry-en">${esc(en)}</div></div>
+      <button class="spk" data-say="${escAttr(tr)}" aria-label="Pronounce">${SPK}</button></div>`).join("")}</div>
+    <button class="btn reveal sticky-cta" id="startGx">Practice (${l.ex.length})</button>`;
+  $("#backG").onclick=()=>{openLesson=null;renderGrammar();};
+  v.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+  $("#startGx").onclick=()=>startGrammarQuiz(l);
+}
+/* Grammar quiz — self-contained runner over l.ex */
+let gQuiz=null;
+function startGrammarQuiz(l){
+  gQuiz={l,i:0,correct:0};
+  document.body.dataset.session="1";
+  ["learn","grammar","talk","review","listen","scan","profile"].forEach(x=>$("#view-"+x).classList.add("hidden"));
+  let s=$("#view-session");
+  if(!s){s=document.createElement("section");s.id="view-session";$(".wrap").appendChild(s);}
+  s.classList.remove("hidden");$("#addFab").classList.add("hidden");
+  renderGx();
+}
+function renderGx(){
+  const m=$("#view-session"),{l,i}=gQuiz;
+  if(i>=l.ex.length){
+    grammarProgress()[l.id]=true;save();
+    m.innerHTML=`<div class="empty"><h3>Bitti! 🌷</h3>
+      <p>${gQuiz.correct}/${l.ex.length} correct. Lesson complete.</p>
+      <button class="btn reveal" id="gDone" style="margin-top:16px">Back to grammar</button></div>`;
+    $("#gDone").onclick=()=>{const s=$("#view-session");if(s)s.remove();document.body.dataset.session="";openLesson=null;show("grammar");};
+    return;
+  }
+  const ex=l.ex[i];
+  m.innerHTML=`<button class="back-btn" id="gQuit">‹ Leave</button><div id="stage"></div>
+    <div class="qprogress">${i+1} / ${l.ex.length}</div>`;
+  $("#gQuit").onclick=()=>{const s=$("#view-session");if(s)s.remove();document.body.dataset.session="";show("grammar");};
+  const stage=$("#stage");
+  if(ex.t==="choose")gxChoose(stage,ex);
+  else if(ex.t==="fill")gxFill(stage,ex);
+  else gxBuild(stage,ex);
+}
+function gxNext(){gQuiz.i++;renderGx();}
+function gxFeedback(m,ok,why){
+  const fb=document.createElement("div");
+  fb.className="note";fb.style.marginTop="14px";
+  fb.innerHTML=`<b>${ok?"✓ Correct":"Not quite"}.</b> ${esc(why||"")}`;
+  m.appendChild(fb);
+  const nx=document.createElement("button");
+  nx.className="btn reveal";nx.style.marginTop="14px";nx.textContent="Continue";
+  nx.onclick=gxNext;m.appendChild(nx);
+  if(ok)gQuiz.correct++;
+}
+function gxChoose(m,ex){
+  m.innerHTML=`<div class="qbox"><div class="kind grammar">Grammar</div>
+    <div class="qprompt" style="font-size:20px">${esc(ex.q)}</div></div>
+    <div class="opts">${ex.opts.map((o,j)=>`<button class="opt" data-j="${j}">${esc(o)}</button>`).join("")}</div>`;
+  let answered=false;
+  m.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(answered)return;answered=true;
+    const j=+b.dataset.j,ok=j===ex.a;
+    m.querySelectorAll(".opt").forEach((x,k)=>{x.disabled=true;
+      if(k===ex.a)x.classList.add("correct");else if(x===b)x.classList.add("wrong");});
+    gxFeedback(m,ok,ex.why);});
+}
+function gxFill(m,ex){
+  m.innerHTML=`<div class="qbox"><div class="kind grammar">Grammar</div>
+    <div class="qprompt" style="font-size:20px">${esc(ex.q)}</div></div>
+    <input id="gxIn" class="typein" autocomplete="off" autocapitalize="off" placeholder="Type your answer">
+    <button class="btn reveal" id="gxCheck" style="margin-top:12px">Check</button>`;
+  const go=()=>{const val=norm($("#gxIn").value);
+    const ok=ex.a.some(a=>norm(a)===val);
+    $("#gxIn").disabled=true;$("#gxCheck").remove();
+    gxFeedback(m,ok,(ok?"":"Answer: "+ex.a[0]+". ")+(ex.why||""));};
+  $("#gxCheck").onclick=go;
+  $("#gxIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+  setTimeout(()=>$("#gxIn").focus(),50);
+}
+function gxBuild(m,ex){
+  const pool=shuffle(ex.tokens.slice());let picked=[];
+  m.innerHTML=`<div class="qbox"><div class="kind grammar">Grammar</div>
+    <div class="qprompt" style="font-size:19px">${esc(ex.q)}</div></div>
+    <div id="gxLine" class="build-line"></div>
+    <div id="gxPool" class="build-pool"></div>
+    <button class="btn reveal" id="gxDone" style="margin-top:12px" disabled>Check</button>`;
+  const line=$("#gxLine"),poolEl=$("#gxPool"),done=$("#gxDone");
+  function draw(){
+    line.innerHTML=picked.map((w,i)=>`<button class="tok" data-p="${i}">${esc(w)}</button>`).join("")||`<span class="chap-c">Tap words in order…</span>`;
+    poolEl.innerHTML=pool.map((w,i)=>w==null?"":`<button class="tok pool" data-i="${i}">${esc(w)}</button>`).join("");
+    done.disabled=picked.length!==ex.tokens.length;
+    line.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{const i=+b.dataset.p;
+      const w=picked.splice(i,1)[0];const slot=pool.indexOf(null);pool[slot<0?pool.length:slot]=w;draw();});
+    poolEl.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;picked.push(pool[i]);pool[i]=null;draw();});
+  }
+  draw();
+  done.onclick=()=>{const ok=picked.join(" ")===ex.a.join(" ");
+    done.remove();gxFeedback(m,ok,(ok?"":"Answer: "+ex.a.join(" ")+". ")+(ex.why||""));};
+}
+
+/* =====================================================================
    STUDY SESSION (used by chapter practice AND review)
    ===================================================================== */
 let queue=[],current=null,mode=null,exState=null,answeredFlag=false,sessionReturn="learn",sessionDaily=null;
@@ -1108,19 +1251,21 @@ function bumpStreak(){const t=todayKey(),s=deck.stats;if(s.last===t)return;
 /* ---------- tabs ---------- */
 function show(tab){
   if(document.body.dataset.session==="1"){const s=$("#view-session");if(s)s.remove();document.body.dataset.session="";}
-  ["learn","talk","review","listen","scan","profile"].forEach(x=>$("#view-"+x).classList.toggle("hidden",x!==tab));
-  [["Learn","learn"],["Talk","talk"],["Review","review"],["Listen","listen"],["Scan","scan"],["Profile","profile"]].forEach(([_,id])=>
+  ["learn","grammar","talk","review","listen","scan","profile"].forEach(x=>$("#view-"+x).classList.toggle("hidden",x!==tab));
+  [["Learn","learn"],["Grammar","grammar"],["Talk","talk"],["Review","review"],["Listen","listen"],["Scan","scan"],["Profile","profile"]].forEach(([_,id])=>
     $("#tab"+id[0].toUpperCase()+id.slice(1)).setAttribute("aria-current",id===tab));
   $("#addFab").classList.toggle("hidden",tab!=="learn");
   if(tab!=="listen")stopListen();
   if(tab!=="talk")stopTalkAudio();
   if(tab==="learn")renderLearn();
+  if(tab==="grammar")renderGrammar();
   if(tab==="talk")renderTalk();
   if(tab==="review")renderReview();
   if(tab==="listen")renderListen();
   if(tab==="profile")renderProfile();
 }
 $("#tabLearn").onclick=()=>show("learn");
+$("#tabGrammar").onclick=()=>show("grammar");
 $("#tabTalk").onclick=()=>show("talk");
 $("#tabReview").onclick=()=>show("review");
 $("#tabListen").onclick=()=>show("listen");
