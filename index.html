@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#1D4E89">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Lale">
+<link rel="manifest" href='data:application/manifest+json,{"name":"Lale","short_name":"Lale","start_url":"./","scope":"./","display":"standalone","background_color":"%23F4EEE1","theme_color":"%231D4E89","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]}'>
+<link rel="apple-touch-icon" href="icon.svg">
 <title>Lale — learn Turkish</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -229,6 +234,19 @@
         <button class="btn reveal" id="aiKeySave" style="width:auto;padding:10px 16px">Save</button>
       </div>
       <div id="aiKeyState" class="lead" style="margin-top:8px"></div>
+    </div>
+    <div class="panel">
+      <h3>Bulk vocabulary</h3>
+      <p class="lead">Paste or upload a word list to add hundreds or thousands at once. One per line: <b>turkish, english</b>. They join your daily path, reviews, listening, and the Vocabulary bank in Learn.</p>
+      <textarea id="bulkText" rows="4" placeholder="ev, house
+su, water
+kitap, book"></textarea>
+      <div class="row">
+        <button class="btn ghost" id="bulkFileBtn">Upload .csv/.txt</button>
+        <button class="btn reveal" id="bulkAdd">Add to bank</button>
+      </div>
+      <input type="file" id="bulkFile" accept=".csv,.txt,text/plain,text/csv" hidden>
+      <div id="bulkState" class="lead" style="margin-top:8px"></div>
     </div>
     <div class="panel">
       <h3>Your book</h3>
@@ -585,6 +603,70 @@ const CURRICULUM=[
      ["grammar","“both tea and coffee”","hem çay hem kahve","hem … hem = both … and"],
      ["grammar","“neither tea nor coffee”","ne çay ne kahve","ne … ne = neither … nor"]]}
  ]},
+ {id:"t2",title:"Seyahat II",en:"Airport & booking",icon:"✈️",chapters:[
+   {id:"t21",title:"At the airport",items:[
+     ["vocab","uçuş","flight",""],["vocab","kalkış","departure",""],["vocab","varış","arrival",""],
+     ["vocab","gecikme","delay",""],["vocab","bagaj","luggage",""],["vocab","rezervasyon","reservation",""],
+     ["phrase","Uçuş kaçta?","What time is the flight?",""],["phrase","Rezervasyonum var","I have a reservation",""]]}
+ ]},
+ {id:"w2",title:"İş II",en:"Work & meetings",icon:"💼",chapters:[
+   {id:"w21",title:"At work",items:[
+     ["vocab","proje","project",""],["vocab","rapor","report",""],["vocab","e-posta","email",""],
+     ["vocab","patron","boss",""],["vocab","maaş","salary",""],["vocab","mesai","working hours",""],
+     ["vocab","izin","leave / permission",""],
+     ["phrase","Toplantı ne zaman?","When is the meeting?",""],["phrase","Bir sorum var","I have a question",""]]}
+ ]},
+ {id:"v3",title:"Fiiller III",en:"Even more verbs",icon:"🏃",chapters:[
+   {id:"v31",title:"Communication verbs",items:[
+     ["vocab","duymak","to hear",""],["vocab","dinlemek","to listen",""],["vocab","söylemek","to say / tell",""],
+     ["vocab","göstermek","to show",""],["vocab","cevap vermek","to answer",""],["vocab","aramak","to call / search",""],
+     ["vocab","göndermek","to send",""],["vocab","inanmak","to believe",""]]},
+   {id:"v32",title:"Everyday verbs",items:[
+     ["vocab","öğrenmek","to learn",""],["vocab","öğretmek","to teach",""],["vocab","unutmak","to forget",""],
+     ["vocab","hatırlamak","to remember",""],["vocab","denemek","to try",""],["vocab","seçmek","to choose",""],
+     ["vocab","taşımak","to carry",""],["vocab","buluşmak","to meet",""],["vocab","tanımak","to know (a person)",""]]}
+ ]},
+ {id:"wa",title:"Mesajlaşma",en:"Texting (WhatsApp)",icon:"📱",chapters:[
+   {id:"wa1",title:"Informal chat",items:[
+     ["phrase","Naber?","What's up? (informal)",""],["phrase","İyidir","All good",""],["phrase","Tamamdır","OK / done",""],
+     ["phrase","Neredesin?","Where are you?",""],["phrase","Yoldayım","I'm on my way",""],
+     ["phrase","Birazdan gelirim","I'll be there soon",""],["phrase","Hadi","Come on / let's go",""],
+     ["vocab","kanka","buddy (slang)",""],["vocab","canım","dear",""],["phrase","Öptüm","Kisses (sign-off)",""]]}
+ ]},
+ {id:"op",title:"Fikirler",en:"Opinions",icon:"💭",chapters:[
+   {id:"op1",title:"Say what you think",items:[
+     ["vocab","bana göre","in my view",""],["vocab","sanırım","I think / I guess",""],["vocab","galiba","probably",""],
+     ["vocab","kesinlikle","definitely",""],["phrase","Tabii ki","Of course",""],["phrase","Katılıyorum","I agree",""],
+     ["phrase","Katılmıyorum","I disagree",""],["phrase","Sence?","What do you think?",""]]}
+ ]},
+ {id:"pr",title:"Sorunlar",en:"Problems & complaints",icon:"⚠️",chapters:[
+   {id:"pr1",title:"When something's wrong",items:[
+     ["vocab","sorun","problem",""],["vocab","bozuk","broken / out of order",""],["vocab","şikayet","complaint",""],
+     ["phrase","Bir sorun var","There's a problem",""],["phrase","Bu çalışmıyor","This doesn't work",""],
+     ["phrase","Geç kaldım","I'm late",""],["phrase","Anahtarımı kaybettim","I lost my key",""],
+     ["phrase","Yardım lazım","I need help",""]]}
+ ]},
+ {id:"bk",title:"Banka",en:"Bank & money",icon:"🏦",chapters:[
+   {id:"bk1",title:"At the bank",items:[
+     ["vocab","banka","bank",""],["vocab","hesap","account",""],["vocab","kredi kartı","credit card",""],
+     ["vocab","döviz","foreign currency",""],["vocab","imza","signature",""],
+     ["vocab","para çekmek","to withdraw money",""],["vocab","para yatırmak","to deposit money",""],
+     ["phrase","Hesap açmak istiyorum","I want to open an account",""],["phrase","Param bitti","I'm out of money",""]]}
+ ]},
+ {id:"bu",title:"Resmi İşler",en:"Bureaucracy",icon:"🏛️",chapters:[
+   {id:"bu1",title:"Residence & documents",items:[
+     ["vocab","ikamet izni","residence permit",""],["vocab","kimlik","ID card",""],["vocab","randevu","appointment",""],
+     ["vocab","belge","document",""],["vocab","form","form",""],
+     ["phrase","Randevum var","I have an appointment",""],["phrase","Bu formu doldurun","Fill in this form",""],
+     ["phrase","Belgeleriniz, lütfen","Your documents, please",""]]}
+ ]},
+ {id:"em",title:"Emlak",en:"Renting a flat",icon:"🔑",chapters:[
+   {id:"em1",title:"With the estate agent",items:[
+     ["vocab","kira","rent",""],["vocab","depozito","deposit",""],["vocab","kontrat","contract",""],
+     ["vocab","emlakçı","estate agent",""],["vocab","daire","flat / apartment",""],["vocab","eşyalı","furnished",""],
+     ["phrase","Kirası ne kadar?","How much is the rent?",""],["phrase","Kaç oda?","How many rooms?",""],
+     ["phrase","Eşyalı mı?","Is it furnished?",""]]}
+ ]},
  {id:"ve",title:"Fiiller & Cümleler",en:"Verbs & sentences",icon:"🧩",chapters:[
    {id:"ve1",title:"Everyday verbs",items:[
      ["vocab","olmak","to be / become",""],["vocab","yapmak","to do / make",""],["vocab","gitmek","to go",""],
@@ -692,6 +774,31 @@ function mineChapters(){
   if(own.length)chs.push({id:"added",title:"Added by me",items:own});
   return {id:MINE,title:"Benim kartlarım",en:"My cards",icon:"🌷",chapters:chs};
 }
+function bankChapters(){
+  const cards=deck.cards.filter(c=>c.theme==="bank").sort((a,b)=>(a.bi||0)-(b.bi||0));
+  if(!cards.length)return null;
+  const chapters=[],size=25;
+  for(let i=0;i<cards.length;i+=size){const chunk=cards.slice(i,i+size);
+    chapters.push({id:"bank_"+(i/size+1),title:"Words "+(i+1)+"–"+(i+chunk.length),items:chunk});}
+  return {id:"bank",title:"Kelime Bankası",en:"Vocabulary bank",icon:"📚",chapters};
+}
+function importWordList(text){
+  const existing=deck.cards.filter(c=>c.theme==="bank");
+  const have=new Set(existing.map(c=>norm(c.front)));
+  let idx=existing.length,added=0;
+  (text||"").split(/\r?\n/).forEach(line=>{
+    line=line.trim();if(!line)return;
+    const parts=line.split(/\t|,|;| - | – | = /).map(s=>s.trim()).filter(Boolean);
+    if(parts.length<2)return;
+    const tr=parts[0],en=parts.slice(1).join(", ");
+    if(!tr||!en||/^(turkish|t[üu]rk[çc]e|word|kelime|english|ingilizce)$/i.test(tr))return;
+    if(have.has(norm(tr)))return;have.add(norm(tr));
+    const chunk=Math.floor(idx/25)+1;
+    const card=mk("vocab",tr,en,"","bank","bank_"+chunk,"bank_"+idx);
+    card.bi=idx;card.source="import";deck.cards.push(card);idx++;added++;
+  });
+  if(added)save();return added;
+}
 
 /* =====================================================================
    VIEW: LEARN (book)
@@ -701,9 +808,9 @@ const PHASES=[
  {title:"Month 1 · Survival",days:"Days 1–30",milestone:"Introduce yourself and order food without switching languages.",
   themes:["gr","pe","ak","nu","n2","ca","fo","fd","sh","tv","ci","yy","he","sp","st"]},
  {title:"Month 2 · Daily life",days:"Days 31–60",milestone:"Handle appointments and shopping, and hold a 5-minute chat.",
-  themes:["ho","wo","we","fe","co","ad","a2","f3","zf","dg","cj"]},
+  themes:["ho","wo","we","fe","co","ad","a2","f3","zf","dg","cj","t2","w2","v3","wa"]},
  {title:"Month 3 · Putting it together",days:"Days 61–90",milestone:"Discuss work and plans; hold a 10-minute conversation.",
-  themes:["v2","bg","ve"]}
+  themes:["op","pr","bk","bu","em","v2","bg","ve"]}
 ];
 function themeById(id){return CURRICULUM.find(t=>t.id===id);}
 function phaseProgress(ph){let tot=0,kn=0;ph.themes.forEach(id=>{const t=themeById(id);if(!t)return;
@@ -743,6 +850,8 @@ function renderLearn(){
   });
   const mine=mineChapters();
   if(mine){html+=`<h2 class="sec" style="margin-top:20px">Your cards</h2>`+themeCardHTML(mine,"Yours");}
+  const bank=bankChapters();
+  if(bank){html+=`<h2 class="sec" style="margin-top:20px">Vocabulary bank · ${bank.chapters.reduce((n,c)=>n+c.items.length,0)} words</h2>`+themeCardHTML(bank,"Bank");}
   v.innerHTML=html;
   wireToday(v);
   v.querySelectorAll("[data-toggle]").forEach(h=>h.onclick=()=>h.closest(".theme").classList.toggle("open"));
@@ -795,8 +904,7 @@ function wireToday(v){
   });
 }
 function findChapter(themeId,chId){
-  const mine=mineChapters();
-  const t=(themeId===MINE?mine:CURRICULUM.find(x=>x.id===themeId));
+  const t=(themeId===MINE?mineChapters():themeId==="bank"?bankChapters():CURRICULUM.find(x=>x.id===themeId));
   if(!t)return null;const ch=t.chapters.find(x=>x.id===chId);return ch?{t,ch}:null;
 }
 function renderChapterPage(v){
@@ -1445,7 +1553,19 @@ function updateKeyState(){const el=$("#aiKeyState");if(!el)return;
   const has=!!getKey();el.textContent=has?"✓ Key saved in this browser.":"No key saved yet.";
   el.style.color=has?"var(--turq)":"var(--muted)";}
 
+/* ---------- offline / PWA ---------- */
+if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
+
 /* ---------- go ---------- */
+$("#bulkAdd").onclick=()=>{const n=importWordList($("#bulkText").value);$("#bulkText").value="";
+  $("#bulkState").textContent=n?("Added "+n+" words to your bank."):"No new words found — use one per line: turkish, english";
+  $("#bulkState").style.color=n?"var(--turq)":"var(--muted)";};
+$("#bulkFileBtn").onclick=()=>$("#bulkFile").click();
+$("#bulkFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{const n=importWordList(r.result);
+    $("#bulkState").textContent=n?("Added "+n+" words to your bank."):"No new words found — check the format.";
+    $("#bulkState").style.color=n?"var(--turq)":"var(--muted)";};
+  r.readAsText(f);e.target.value="";};
 $("#aiKeySave").onclick=()=>{const v=$("#aiKey").value.trim();
   if(v){localStorage.setItem("lale.aikey",v);$("#aiKey").value="";}updateKeyState();};
 show("learn");
