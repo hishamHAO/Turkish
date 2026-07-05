@@ -1,6 +1,6 @@
 /* Lale service worker — offline support */
-const CACHE = "lale-v16";
-const SHELL = ["./", "./index.html", "./icon.svg"];
+const CACHE = "lale-v17";
+const SHELL = ["./", "./index.html", "./freq.js", "./icon.svg"];
 
 self.addEventListener("install", e => {
   self.skipWaiting();

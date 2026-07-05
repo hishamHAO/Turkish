@@ -299,6 +299,7 @@ kitap, book"></textarea>
   </div>
 </dialog>
 
+<script src="freq.js"></script>
 <script>
 "use strict";
 const KEY="lale.v3", DAY=864e5, now=()=>Date.now();
@@ -705,6 +706,7 @@ function mk(type,front,back,note,theme,chapter,id){
 }
 let deck=load();
 reconcile();
+loadFrequencyBank();
 function reconcile(){
   const have=new Set(deck.cards.map(c=>c.id));let added=0;
   CURRICULUM.forEach(t=>t.chapters.forEach(ch=>ch.items.forEach((it,i)=>{
@@ -712,6 +714,19 @@ function reconcile(){
     if(!have.has(id)){deck.cards.push(mk(it[0],it[1],it[2],it[3],t.id,ch.id,id));added++;}
   })));
   if(added)save();
+}
+function loadFrequencyBank(){
+  // Bundled 5,000-word frequency list → Vocabulary bank, imported once.
+  if(deck.freqLoaded||typeof window.LALE_FREQ==="undefined")return;
+  const have=new Set(deck.cards.filter(c=>c.theme==="bank").map(c=>norm(c.front)));
+  let idx=deck.cards.filter(c=>c.theme==="bank").length,added=0;
+  window.LALE_FREQ.forEach(([tr,en])=>{
+    if(!tr||!en||have.has(norm(tr)))return;have.add(norm(tr));
+    const chunk=Math.floor(idx/25)+1;
+    const card=mk("vocab",tr,en,"","bank","bank_"+chunk,"bank_"+idx);
+    card.bi=idx;card.source="freq";deck.cards.push(card);idx++;added++;
+  });
+  deck.freqLoaded=true;save();
 }
 function load(){
   try{const raw=localStorage.getItem(KEY);if(raw){const d=JSON.parse(raw);if(d&&d.cards)return d;}}catch(e){}
@@ -1555,7 +1570,6 @@ function updateKeyState(){const el=$("#aiKeyState");if(!el)return;
 
 /* ---------- offline / PWA ---------- */
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
-
 /* ---------- go ---------- */
 $("#bulkAdd").onclick=()=>{const n=importWordList($("#bulkText").value);$("#bulkText").value="";
   $("#bulkState").textContent=n?("Added "+n+" words to your bank."):"No new words found — use one per line: turkish, english";
