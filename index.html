@@ -832,7 +832,7 @@ function load(){
 function save(){try{localStorage.setItem(KEY,JSON.stringify(deck));}catch(e){}}
 
 /* ---------- speech ---------- */
-let trVoice=null, allVoices=[];
+let trVoice=null, allVoices=[], arVoice=null;
 function trVoices(){return allVoices.filter(v=>v.lang&&v.lang.toLowerCase().startsWith("tr"));}
 function scoreVoice(v){const n=(v.name||"").toLowerCase();let s=0;
   if(/enhanced|premium|neural|gelişmiş|siri/.test(n))s+=10;
@@ -846,6 +846,8 @@ function pickVoice(){
   const saved=(typeof deck!=="undefined"&&deck)?deck.voiceURI:null;
   trVoice=(saved&&trs.find(v=>v.voiceURI===saved))
         || trs.slice().sort((a,b)=>scoreVoice(b)-scoreVoice(a))[0] || null;
+  const ars=allVoices.filter(v=>v.lang&&v.lang.toLowerCase().startsWith("ar"));
+  arVoice=ars.slice().sort((a,b)=>scoreVoice(b)-scoreVoice(a))[0] || null;
 }
 if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
 function speak(t,opts){if(!("speechSynthesis" in window))return null;speechSynthesis.cancel();
@@ -1609,7 +1611,7 @@ function renderListen(){
   v.innerHTML=`
     <div class="panel">
       <h3>Hands-free listening</h3>
-      <p class="lead">Eyes-free practice for the gym or a walk. It reads Turkish then English on a loop for the time you pick.</p>
+      <p class="lead">Eyes-free practice for the gym or a walk. It reads the items aloud on a loop for the time you pick — pick the order below, including Turkish → Arabic.</p>
       <label>Content</label>
       <select id="lsSource">
         <option value="started">Everything I've started</option>
@@ -1623,16 +1625,22 @@ function renderListen(){
         <button data-m="30" aria-pressed="false">30</button><button data-m="45" aria-pressed="false">45</button>
       </div>
       <label>Order</label>
-      <div class="seg" id="lsDir">
-        <button data-d="tr-en" aria-pressed="true">TR → EN</button><button data-d="en-tr" aria-pressed="false">EN → TR</button>
-        <button data-d="tr" aria-pressed="false">TR only</button>
-      </div>
+      <select id="lsDir">
+        <option value="tr-en">Turkish → English</option>
+        <option value="en-tr">English → Turkish</option>
+        <option value="tr">Turkish only</option>
+        <option value="tr-ar">Turkish → Arabic</option>
+        <option value="ar-tr">Arabic → Turkish</option>
+        <option value="tr-en-ar">Turkish → English → Arabic</option>
+      </select>
+      <p class="lead" id="lsArNote" style="margin-top:6px;display:none">Arabic orders play only the items that have an Arabic meaning (from your book &amp; word themes).</p>
       <button class="btn reveal" id="lsPlay" style="margin-top:16px">▶ Start</button>
     </div>
     <div class="panel hidden" id="lsNow">
       <div class="qsub" id="lsMeta">—</div>
       <div class="qprompt" id="lsTr" style="font-size:30px">—</div>
       <div class="qsub" id="lsEn" style="font-size:16px">&nbsp;</div>
+      <div class="qsub" id="lsAr" dir="rtl" style="font-size:19px;color:var(--ink)">&nbsp;</div>
       <div class="row">
         <button class="btn ghost" id="lsPause">Pause</button>
         <button class="btn ghost" id="lsSkip">Skip</button>
@@ -1643,8 +1651,8 @@ function renderListen(){
   let mins=20,dir="tr-en";
   $("#lsMin").onclick=e=>{const b=e.target.closest("button");if(!b)return;mins=+b.dataset.m;
     [...$("#lsMin").children].forEach(x=>x.setAttribute("aria-pressed",x===b));};
-  $("#lsDir").onclick=e=>{const b=e.target.closest("button");if(!b)return;dir=b.dataset.d;
-    [...$("#lsDir").children].forEach(x=>x.setAttribute("aria-pressed",x===b));};
+  $("#lsDir").onchange=e=>{dir=e.target.value;
+    $("#lsArNote").style.display=dir.indexOf("ar")>=0?"block":"none";};
   $("#lsPlay").onclick=()=>startListen(listenSource($("#lsSource").value),mins,dir);
   $("#lsPause").onclick=()=>{if(!LST.playing)return;
     if(speechSynthesis.paused){speechSynthesis.resume();$("#lsPause").textContent="Pause";}
@@ -1654,7 +1662,10 @@ function renderListen(){
   $("#lsStop").onclick=()=>{stopListen();renderListen();};
 }
 async function startListen(items,mins,dir){
-  if(!items.length){alert("Nothing to play yet for that choice — open a chapter and start it first.");return;}
+  if(dir.indexOf("ar")>=0)items=items.filter(c=>c.note&&/[\u0600-\u06FF]/.test(c.note));
+  if(!items.length){alert(dir.indexOf("ar")>=0
+    ?"No Arabic items in that selection yet — try 'Whole book', or a Word themes / book chapter (those have Arabic)."
+    :"Nothing to play yet for that choice — open a chapter and start it first.");return;}
   LST={playing:true,idx:0,items:shuffle(items),endTime:now()+mins*60000,count:0,dir,wake:null,timer:null};
   $("#lsNow").classList.remove("hidden");$("#lsPause").textContent="Pause";
   try{if("wakeLock" in navigator)LST.wake=await navigator.wakeLock.request("screen");}catch(e){}
@@ -1752,18 +1763,32 @@ function startReadCheck(tr){
   try{rRec.start();}catch(e){finish(null);}
 }
 function utter(text,lang){return new Promise(res=>{const u=new SpeechSynthesisUtterance(text);u.lang=lang;
-  if(lang.indexOf("tr")===0&&trVoice)u.voice=trVoice;u.rate=.9;u.onend=res;u.onerror=res;speechSynthesis.speak(u);});}
+  if(lang.indexOf("tr")===0&&trVoice)u.voice=trVoice;
+  else if(lang.indexOf("ar")===0&&arVoice)u.voice=arVoice;
+  u.rate=.9;u.onend=res;u.onerror=res;speechSynthesis.speak(u);});}
 function fmtTime(ms){const s=Math.max(0,Math.round(ms/1000));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function listenSeq(c){
+  const tr=[c.front,"tr-TR"],en=[c.back,"en-US"],ar=c.note?[c.note,"ar-SA"]:null;
+  let seq;
+  switch(LST.dir){
+    case "en-tr":seq=[en,tr];break;
+    case "tr":seq=[tr,tr];break;
+    case "tr-ar":seq=[tr,ar];break;
+    case "ar-tr":seq=[ar,tr];break;
+    case "tr-en-ar":seq=[tr,en,ar];break;
+    default:seq=[tr,en];
+  }
+  return seq.filter(s=>s&&s[0]);
+}
 async function playNext(){
   if(!LST.playing)return;
   if(now()>=LST.endTime)return finishListen();
   if(LST.idx>=LST.items.length){LST.items=shuffle(LST.items);LST.idx=0;}
   const gen=++LGEN,c=LST.items[LST.idx++];
   $("#lsTr").textContent=c.front;$("#lsEn").textContent=c.back;
+  const arEl=$("#lsAr");if(arEl)arEl.textContent=(LST.dir.indexOf("ar")>=0&&c.note)?c.note:"\u00a0";
   $("#lsMeta").textContent=fmtTime(LST.endTime-now())+" left · "+LST.count+" spoken";
-  const seq=LST.dir==="en-tr"?[[c.back,"en-US"],[c.front,"tr-TR"]]
-    :LST.dir==="tr"?[[c.front,"tr-TR"],[c.front,"tr-TR"]]
-    :[[c.front,"tr-TR"],[c.back,"en-US"]];
+  const seq=listenSeq(c);
   for(const s of seq){if(!LST.playing||gen!==LGEN)return;await utter(s[0],s[1]);
     if(!LST.playing||gen!==LGEN)return;await new Promise(r=>{LST.timer=setTimeout(r,350);});}
   if(!LST.playing||gen!==LGEN)return;
