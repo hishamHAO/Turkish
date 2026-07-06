@@ -55,6 +55,7 @@
   .entry-tr{font-family:Fraunces,serif;font-weight:600;font-size:22px;line-height:1.15;word-break:break-word}
   .entry-en{font-size:14px;color:var(--muted)}
   .entry-note{font-size:12.5px;color:var(--turq);margin-top:3px}
+  .entry-note.ar{font-size:17px;color:var(--ink);direction:rtl;text-align:right;font-weight:500;margin-top:5px}
   .spk{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--cobalt);flex:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .spk svg{width:18px;height:18px}
   .pill{display:inline-block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle}
@@ -72,6 +73,43 @@
   .tok{font:inherit;font-weight:600;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
   .tok.pool{background:#EFE7D6}
   .qprogress{text-align:center;color:var(--muted);font-size:13px;margin-top:16px}
+  .glang{display:flex;gap:8px;margin-bottom:14px}
+  .gl{flex:1;font:inherit;font-weight:600;padding:9px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+  .gl.on{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
+  .rtl{direction:rtl}
+  .rtl .page-title,.rtl .page-sub,.rtl .sec,.rtl .lesson-p,.rtl .chap-t,.rtl .qprompt,.rtl .empty{text-align:right}
+  .rtl .entry-tr{text-align:right}
+  .rtl .lesson-p{line-height:1.85;font-size:16px}
+  /* interactive lesson player */
+  .lesson-top{display:flex;align-items:center;gap:12px;margin:2px 0 22px}
+  .icon-x{width:34px;height:34px;flex:none;border:none;background:var(--card);border:1px solid var(--line);border-radius:50%;color:var(--muted);font-size:15px;cursor:pointer;line-height:1}
+  .lesson-bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:0}
+  .lesson-bar>i{display:block;height:100%;background:var(--turq);border-radius:99px;transition:width .35s ease}
+  .stage{animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .lesson-hero{text-align:center;padding:26px 8px 10px}
+  .hero-ic{font-size:52px}
+  .hero-title{font-family:Fraunces,serif;font-size:30px;margin:12px 0 8px}
+  .hero-sub{color:var(--muted);font-size:15px}
+  .hero-count{color:var(--turq);font-weight:600;margin-top:14px;font-size:13px}
+  .step-kind{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--turq);margin-bottom:10px}
+  .concept-card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--cobalt);border-radius:16px;padding:20px}
+  .rtl .concept-card{border-left:none;border-right:4px solid var(--cobalt)}
+  .concept-p{font-size:19px;line-height:1.7;margin:0}
+  .rtl .concept-p{font-size:18px;line-height:1.9}
+  .ex-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 20px;text-align:center}
+  .ex-tr{font-family:Fraunces,serif;font-size:30px;font-weight:600;line-height:1.2}
+  .spk.big{width:52px;height:52px;margin:16px auto 0;font-size:20px}
+  .reveal-btn{display:block;margin:18px auto 0;font:inherit;font-weight:600;color:var(--cobalt);background:none;border:1px dashed var(--cobalt);border-radius:12px;padding:10px 18px;cursor:pointer}
+  .ex-tx{margin-top:16px;font-size:20px;color:var(--ink)}
+  .ex-tx.ar{font-size:23px;font-weight:500}
+  .fb{margin-top:16px;padding:14px 16px;border-radius:14px;font-size:14.5px;line-height:1.5}
+  .fb.ok{background:#DCEBE4;color:#0F7A52}
+  .fb.no{background:#F6E1D9;color:#B5431F}
+  .lesson-done{text-align:center;padding:36px 12px}
+  .done-badge{font-size:56px}
+  .qprompt{font-size:20px}
+  .rtl .qprompt{font-size:19px;line-height:1.6}
   /* ---- stats ---- */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 8px;text-align:center}
@@ -312,6 +350,8 @@ kitap, book"></textarea>
 
 <script src="freq.js"></script>
 <script src="grammar.js"></script>
+<script src="grammar-ar.js"></script>
+<script src="book.js"></script>
 <script>
 "use strict";
 const KEY="lale.v3", DAY=864e5, now=()=>Date.now();
@@ -702,6 +742,13 @@ const CURRICULUM=[
  ]}
 ];
 const MINE="mine"; // synthetic theme id for user-added + scanned
+/* Content adapted from the Arabic "Simplified Turkish" book — themed TR/EN/AR */
+const BOOK_IDS=(window.LALE_BOOK||[]).map(t=>t.id);
+(window.LALE_BOOK||[]).forEach(t=>{
+  if(CURRICULUM.some(x=>x.id===t.id))return;
+  CURRICULUM.push({...t, chapters:t.chapters.map(ch=>({...ch,
+    items:ch.items.map(it=>[/[.?!]/.test(it[0])?"phrase":"vocab", it[0], it[1], it[2]])}))});
+});
 
 /* ---------- deck build & storage ---------- */
 function buildSeed(){
@@ -877,6 +924,11 @@ function renderLearn(){
   });
   const mine=mineChapters();
   if(mine){html+=`<h2 class="sec" style="margin-top:20px">Your cards</h2>`+themeCardHTML(mine,"Yours");}
+  if(BOOK_IDS.length){
+    const bookN=BOOK_IDS.reduce((n,id)=>{const t=themeById(id);return n+(t?t.chapters.reduce((m,c)=>m+c.items.length,0):0);},0);
+    html+=`<h2 class="sec" style="margin-top:20px">From your book · ${bookN} items <span style="font-weight:400;color:var(--muted)">· Türkçe + العربية</span></h2>`;
+    let bi=0;BOOK_IDS.forEach(id=>{const t=themeById(id);if(t){bi++;html+=themeCardHTML(t,"Bölüm "+bi);}});
+  }
   const bank=bankChapters();
   if(bank){html+=`<h2 class="sec" style="margin-top:20px">Vocabulary bank · ${bank.chapters.reduce((n,c)=>n+c.items.length,0)} words</h2>`+themeCardHTML(bank,"Bank");}
   v.innerHTML=html;
@@ -947,7 +999,7 @@ function renderChapterPage(v){
       <div class="entry-t">
         <div class="entry-tr">${esc(c.front)}${c.type!=="vocab"?`<span class="pill ${c.type}">${c.type}</span>`:""}</div>
         <div class="entry-en">${esc(c.back)}</div>
-        ${c.note?`<div class="entry-note">${notefmt(c.note)}</div>`:""}
+        ${c.note?`<div class="entry-note${/[\u0600-\u06FF]/.test(c.note)?" ar":""}">${notefmt(c.note)}</div>`:""}
       </div>
       <button class="spk" data-say="${escAttr(c.front)}" aria-label="Pronounce">${SPK}</button>
     </div>`).join("")}
@@ -962,91 +1014,143 @@ function renderChapterPage(v){
    ===================================================================== */
 let openLesson=null;
 function grammarProgress(){deck.grammarDone=deck.grammarDone||{};return deck.grammarDone;}
+let GLANG=(deck&&deck.grammarLang)||"en";
+function curGrammar(){return GLANG==="ar"?(window.LALE_GRAMMAR_AR||[]):(window.LALE_GRAMMAR||[]);}
+function setGLang(l){GLANG=l;deck.grammarLang=l;save();openLesson=null;renderGrammar();}
+const GT={
+  en:{title:"Grammar",sub:(t,d)=>`The backbone — ${t} lessons, A1 to B1. ${d} done.`,
+      lvls:{A1:"A1 · Foundations",A2:"A2 · Building sentences",B1:"B1 · Putting it together"},
+      examples:"Examples",practice:"Practice",back:"‹ Grammar",cont:"Continue",correct:"✓ Correct",
+      wrong:"Not quite",leave:"‹ Leave",kind:"Grammar",done:"Back to grammar",finished:"Done! 🌷",
+      complete:c=>`${c} correct. Lesson complete.`,answer:"Answer",check:"Check",type:"Type your answer",tap:"Tap words in order…",
+      concepts:"concepts",exercises:"exercises",start:"Start lesson",concept:"Concept",example:"Example",reveal:"Tap to reveal meaning"},
+  ar:{title:"قواعد اللغة",sub:(t,d)=>`العمود الفقري — ${t} درسا من A1 إلى B1. أنجزتَ ${d}.`,
+      lvls:{A1:"A1 · الأساسيات",A2:"A2 · بناء الجمل",B1:"B1 · الربط والإتقان"},
+      examples:"أمثلة",practice:"تدرّب",back:"القواعد ›",cont:"متابعة",correct:"✓ صحيح",
+      wrong:"ليس تماما",leave:"خروج ›",kind:"قواعد",done:"العودة إلى القواعد",finished:"أحسنت! 🌷",
+      complete:c=>`${c} إجابات صحيحة. اكتمل الدرس.`,answer:"الإجابة",check:"تحقّق",type:"اكتب إجابتك",tap:"انقر الكلمات بالترتيب…",
+      concepts:"مفاهيم",exercises:"تمارين",start:"ابدأ الدرس",concept:"مفهوم",example:"مثال",reveal:"انقر لإظهار المعنى"}
+};
+function gt(){return GT[GLANG];}
 function renderGrammar(){
-  const v=$("#view-grammar");
-  const G=(window.LALE_GRAMMAR||[]);
-  if(openLesson){return renderLessonPage(v,openLesson);}
+  const v=$("#view-grammar"),G=curGrammar(),T=gt();
+  v.classList.toggle("rtl",GLANG==="ar");
   const done=grammarProgress();
   const total=G.length,doneN=G.filter(l=>done[l.id]).length;
   const byLevel={};G.forEach(l=>{(byLevel[l.level]=byLevel[l.level]||[]).push(l);});
-  let html=`<h2 class="page-title">Grammar</h2>
-    <p class="page-sub">The backbone — ${total} lessons, A1 to B1. ${doneN} done.</p>`;
+  let html=`<div class="glang">
+      <button class="gl ${GLANG==='en'?'on':''}" data-gl="en">English</button>
+      <button class="gl ${GLANG==='ar'?'on':''}" data-gl="ar">العربية</button></div>
+    <h2 class="page-title">${T.title}</h2>
+    <p class="page-sub">${T.sub(total,doneN)}</p>`;
   ["A1","A2","B1"].forEach(lvl=>{
     if(!byLevel[lvl])return;
-    const labels={A1:"A1 · Foundations",A2:"A2 · Building sentences",B1:"B1 · Putting it together"};
-    html+=`<h2 class="sec" style="margin-top:18px">${labels[lvl]}</h2><div class="card2">`;
-    byLevel[lvl].forEach(l=>{
-      const isDone=done[l.id];
+    html+=`<h2 class="sec" style="margin-top:18px">${T.lvls[lvl]}</h2><div class="card2">`;
+    byLevel[lvl].forEach(l=>{const isDone=done[l.id];
       html+=`<div class="chap" data-lesson="${l.id}">
         <span class="chap-dot ${isDone?"done":""}"></span>
         <div class="chap-t">${esc(l.title)}<div class="chap-c">${esc(l.sub)}</div></div>
-        <span class="chap-c">${isDone?"✓":"›"}</span></div>`;
-    });
+        <span class="chap-c">${isDone?"✓":"›"}</span></div>`;});
     html+=`</div>`;
   });
   v.innerHTML=html;
-  v.querySelectorAll("[data-lesson]").forEach(b=>b.onclick=()=>{
-    openLesson=(window.LALE_GRAMMAR||[]).find(l=>l.id===b.dataset.lesson);renderGrammar();});
+  v.querySelectorAll("[data-gl]").forEach(b=>b.onclick=()=>setGLang(b.dataset.gl));
+  v.querySelectorAll("[data-lesson]").forEach(b=>b.onclick=()=>startLesson(curGrammar().find(l=>l.id===b.dataset.lesson)));
 }
-function renderLessonPage(v,l){
-  v.innerHTML=`<button class="back-btn" id="backG">‹ Grammar</button>
-    <h2 class="page-title">${esc(l.title)}</h2>
-    <p class="page-sub"><span class="pill grammar">${l.level}</span> ${esc(l.sub)}</p>
-    ${l.sections.map(s=>`<p class="lesson-p">${esc(s)}</p>`).join("")}
-    <h2 class="sec" style="margin-top:20px">Examples</h2>
-    <div class="card2">${l.examples.map(([tr,en])=>`<div class="entry">
-      <div class="entry-t"><div class="entry-tr">${esc(tr)}</div><div class="entry-en">${esc(en)}</div></div>
-      <button class="spk" data-say="${escAttr(tr)}" aria-label="Pronounce">${SPK}</button></div>`).join("")}</div>
-    <button class="btn reveal sticky-cta" id="startGx">Practice (${l.ex.length})</button>`;
-  $("#backG").onclick=()=>{openLesson=null;renderGrammar();};
-  v.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
-  $("#startGx").onclick=()=>startGrammarQuiz(l);
-}
-/* Grammar quiz — self-contained runner over l.ex */
-let gQuiz=null;
-function startGrammarQuiz(l){
-  gQuiz={l,i:0,correct:0};
+/* ---- Interactive lesson player: concepts, reveal-examples, and practice in one flow ---- */
+let lesson=null;
+function startLesson(l){
+  if(!l)return;
+  const steps=[{k:"intro"}];
+  l.sections.forEach((s,idx)=>steps.push({k:"concept",text:s,idx}));
+  l.examples.forEach(([tr,tx])=>steps.push({k:"example",tr,tx}));
+  l.ex.forEach(ex=>steps.push({k:"ex",ex}));
+  lesson={l,steps,i:0,correct:0,exTotal:l.ex.length};
   document.body.dataset.session="1";
   ["learn","grammar","talk","review","listen","scan","profile"].forEach(x=>$("#view-"+x).classList.add("hidden"));
   let s=$("#view-session");
   if(!s){s=document.createElement("section");s.id="view-session";$(".wrap").appendChild(s);}
-  s.classList.remove("hidden");$("#addFab").classList.add("hidden");
-  renderGx();
+  s.classList.remove("hidden");s.classList.toggle("rtl",GLANG==="ar");$("#addFab").classList.add("hidden");
+  renderStep();
 }
-function renderGx(){
-  const m=$("#view-session"),{l,i}=gQuiz;
-  if(i>=l.ex.length){
-    grammarProgress()[l.id]=true;save();
-    m.innerHTML=`<div class="empty"><h3>Bitti! 🌷</h3>
-      <p>${gQuiz.correct}/${l.ex.length} correct. Lesson complete.</p>
-      <button class="btn reveal" id="gDone" style="margin-top:16px">Back to grammar</button></div>`;
-    $("#gDone").onclick=()=>{const s=$("#view-session");if(s)s.remove();document.body.dataset.session="";openLesson=null;show("grammar");};
-    return;
+function lessonQuit(){const s=$("#view-session");if(s)s.remove();document.body.dataset.session="";show("grammar");}
+function lessonNext(){lesson.i++;renderStep();}
+function renderStep(){
+  const m=$("#view-session"),T=gt(),L=lesson.l,st=lesson.steps[lesson.i];
+  if(!st){
+    grammarProgress()[L.id]=true;save();
+    m.innerHTML=`<div class="lesson-top"><span></span>
+      <div class="bar lesson-bar"><i style="width:100%"></i></div></div>
+      <div class="lesson-done"><div class="done-badge">🌷</div>
+      <h3>${T.finished}</h3><p>${T.complete(lesson.correct+"/"+lesson.exTotal)}</p>
+      <button class="btn reveal" id="gDone" style="margin-top:18px">${T.done}</button></div>`;
+    $("#gDone").onclick=lessonQuit;return;
   }
-  const ex=l.ex[i];
-  m.innerHTML=`<button class="back-btn" id="gQuit">‹ Leave</button><div id="stage"></div>
-    <div class="qprogress">${i+1} / ${l.ex.length}</div>`;
-  $("#gQuit").onclick=()=>{const s=$("#view-session");if(s)s.remove();document.body.dataset.session="";show("grammar");};
+  const pct=Math.round(lesson.i/lesson.steps.length*100);
+  m.innerHTML=`<div class="lesson-top">
+      <button class="icon-x" id="gQuit" aria-label="Close">✕</button>
+      <div class="bar lesson-bar"><i style="width:${pct}%"></i></div></div>
+    <div id="stage" class="stage"></div>`;
+  $("#gQuit").onclick=lessonQuit;
   const stage=$("#stage");
-  if(ex.t==="choose")gxChoose(stage,ex);
-  else if(ex.t==="fill")gxFill(stage,ex);
-  else gxBuild(stage,ex);
+  if(st.k==="intro")stepIntro(stage,L);
+  else if(st.k==="concept")stepConcept(stage,st,L);
+  else if(st.k==="example")stepExample(stage,st);
+  else stepEx(stage,st.ex);
 }
-function gxNext(){gQuiz.i++;renderGx();}
+function stepIntro(m,L){
+  const T=gt();
+  m.innerHTML=`<div class="lesson-hero">
+      <div class="hero-ic">📘</div>
+      <h2 class="hero-title">${esc(L.title)}</h2>
+      <div class="hero-sub"><span class="pill grammar">${L.level}</span> ${esc(L.sub)}</div>
+      <p class="hero-count">${L.sections.length} ${T.concepts} · ${L.ex.length} ${T.exercises}</p>
+    </div>
+    <button class="btn reveal sticky-cta" id="go">${T.start}</button>`;
+  $("#go").onclick=lessonNext;
+}
+function stepConcept(m,st){
+  const T=gt();
+  m.innerHTML=`<div class="step-kind">${T.concept} ${st.idx+1}</div>
+    <div class="concept-card"><p class="concept-p">${esc(st.text)}</p></div>
+    <button class="btn reveal sticky-cta" id="c">${T.cont}</button>`;
+  $("#c").onclick=lessonNext;
+}
+function stepExample(m,st){
+  const T=gt(),ar=GLANG==="ar";
+  m.innerHTML=`<div class="step-kind">${T.example}</div>
+    <div class="ex-card">
+      <div class="ex-tr" dir="ltr">${esc(st.tr)}</div>
+      <button class="spk big" id="say" aria-label="Pronounce">${SPK}</button>
+      <button class="reveal-btn" id="rev">${T.reveal}</button>
+      <div class="ex-tx${ar?" ar":""}" id="tx" ${ar?'dir="rtl"':''} hidden>${esc(st.tx)}</div>
+    </div>
+    <button class="btn reveal sticky-cta" id="c" hidden>${T.cont}</button>`;
+  $("#say").onclick=()=>speak(st.tr);
+  speak(st.tr);
+  $("#rev").onclick=()=>{$("#tx").hidden=false;$("#rev").hidden=true;$("#c").hidden=false;};
+  $("#c").onclick=lessonNext;
+}
+function stepEx(m,ex){
+  if(ex.t==="choose")gxChoose(m,ex);
+  else if(ex.t==="fill")gxFill(m,ex);
+  else gxBuild(m,ex);
+}
 function gxFeedback(m,ok,why){
+  const T=gt();
   const fb=document.createElement("div");
-  fb.className="note";fb.style.marginTop="14px";
-  fb.innerHTML=`<b>${ok?"✓ Correct":"Not quite"}.</b> ${esc(why||"")}`;
+  fb.className="fb "+(ok?"ok":"no");
+  fb.innerHTML=`<b>${ok?T.correct:T.wrong}.</b> ${esc(why||"")}`;
   m.appendChild(fb);
   const nx=document.createElement("button");
-  nx.className="btn reveal";nx.style.marginTop="14px";nx.textContent="Continue";
-  nx.onclick=gxNext;m.appendChild(nx);
-  if(ok)gQuiz.correct++;
+  nx.className="btn reveal";nx.style.marginTop="14px";nx.textContent=T.cont;
+  nx.onclick=lessonNext;m.appendChild(nx);
+  if(ok)lesson.correct++;
 }
 function gxChoose(m,ex){
-  m.innerHTML=`<div class="qbox"><div class="kind grammar">Grammar</div>
-    <div class="qprompt" style="font-size:20px">${esc(ex.q)}</div></div>
-    <div class="opts">${ex.opts.map((o,j)=>`<button class="opt" data-j="${j}">${esc(o)}</button>`).join("")}</div>`;
+  m.innerHTML=`<div class="qbox"><div class="kind grammar">${gt().kind}</div>
+    <div class="qprompt">${esc(ex.q)}</div></div>
+    <div class="opts">${ex.opts.map((o,j)=>`<button class="opt" data-j="${j}" dir="ltr">${esc(o)}</button>`).join("")}</div>`;
   let answered=false;
   m.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(answered)return;answered=true;
     const j=+b.dataset.j,ok=j===ex.a;
@@ -1055,28 +1159,30 @@ function gxChoose(m,ex){
     gxFeedback(m,ok,ex.why);});
 }
 function gxFill(m,ex){
-  m.innerHTML=`<div class="qbox"><div class="kind grammar">Grammar</div>
-    <div class="qprompt" style="font-size:20px">${esc(ex.q)}</div></div>
-    <input id="gxIn" class="typein" autocomplete="off" autocapitalize="off" placeholder="Type your answer">
-    <button class="btn reveal" id="gxCheck" style="margin-top:12px">Check</button>`;
+  const T=gt();
+  m.innerHTML=`<div class="qbox"><div class="kind grammar">${T.kind}</div>
+    <div class="qprompt">${esc(ex.q)}</div></div>
+    <input id="gxIn" class="typein" dir="ltr" autocomplete="off" autocapitalize="off" placeholder="${T.type}">
+    <button class="btn reveal" id="gxCheck" style="margin-top:12px">${T.check}</button>`;
   const go=()=>{const val=norm($("#gxIn").value);
     const ok=ex.a.some(a=>norm(a)===val);
     $("#gxIn").disabled=true;$("#gxCheck").remove();
-    gxFeedback(m,ok,(ok?"":"Answer: "+ex.a[0]+". ")+(ex.why||""));};
+    gxFeedback(m,ok,(ok?"":T.answer+": "+ex.a[0]+". ")+(ex.why||""));};
   $("#gxCheck").onclick=go;
   $("#gxIn").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
   setTimeout(()=>$("#gxIn").focus(),50);
 }
 function gxBuild(m,ex){
+  const T=gt();
   const pool=shuffle(ex.tokens.slice());let picked=[];
-  m.innerHTML=`<div class="qbox"><div class="kind grammar">Grammar</div>
-    <div class="qprompt" style="font-size:19px">${esc(ex.q)}</div></div>
-    <div id="gxLine" class="build-line"></div>
-    <div id="gxPool" class="build-pool"></div>
-    <button class="btn reveal" id="gxDone" style="margin-top:12px" disabled>Check</button>`;
+  m.innerHTML=`<div class="qbox"><div class="kind grammar">${T.kind}</div>
+    <div class="qprompt">${esc(ex.q)}</div></div>
+    <div id="gxLine" class="build-line" dir="ltr"></div>
+    <div id="gxPool" class="build-pool" dir="ltr"></div>
+    <button class="btn reveal" id="gxDone" style="margin-top:12px" disabled>${T.check}</button>`;
   const line=$("#gxLine"),poolEl=$("#gxPool"),done=$("#gxDone");
   function draw(){
-    line.innerHTML=picked.map((w,i)=>`<button class="tok" data-p="${i}">${esc(w)}</button>`).join("")||`<span class="chap-c">Tap words in order…</span>`;
+    line.innerHTML=picked.map((w,i)=>`<button class="tok" data-p="${i}">${esc(w)}</button>`).join("")||`<span class="chap-c">${T.tap}</span>`;
     poolEl.innerHTML=pool.map((w,i)=>w==null?"":`<button class="tok pool" data-i="${i}">${esc(w)}</button>`).join("");
     done.disabled=picked.length!==ex.tokens.length;
     line.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{const i=+b.dataset.p;
@@ -1085,8 +1191,9 @@ function gxBuild(m,ex){
   }
   draw();
   done.onclick=()=>{const ok=picked.join(" ")===ex.a.join(" ");
-    done.remove();gxFeedback(m,ok,(ok?"":"Answer: "+ex.a.join(" ")+". ")+(ex.why||""));};
+    done.remove();gxFeedback(m,ok,(ok?"":T.answer+": "+ex.a.join(" ")+". ")+(ex.why||""));};
 }
+
 
 /* =====================================================================
    STUDY SESSION (used by chapter practice AND review)
