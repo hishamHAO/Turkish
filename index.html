@@ -301,12 +301,18 @@
     </div>
     <div class="panel">
       <h3>AI conversation</h3>
-      <p class="lead">Paste your Anthropic API key to enable the AI partner in Talk. Stored only in this browser — fine for personal use; move to a server before any public launch, and never commit it to GitHub.</p>
+      <p class="lead">Connect a free AI endpoint so the Talk partner works with no key box and no per-message cost. Deploy the little proxy (worker.js) once, then paste its URL here.</p>
       <div class="goalinput">
-        <input id="aiKey" type="password" placeholder="sk-ant-…" autocomplete="off">
-        <button class="btn reveal" id="aiKeySave" style="width:auto;padding:10px 16px">Save</button>
+        <input id="aiProxy" type="url" placeholder="https://…workers.dev" autocomplete="off">
+        <button class="btn reveal" id="aiProxySave" style="width:auto;padding:10px 16px">Save</button>
       </div>
       <div id="aiKeyState" class="lead" style="margin-top:8px"></div>
+      <details style="margin-top:10px"><summary class="lead">Advanced: use your own Anthropic key instead</summary>
+      <p class="lead" style="margin-top:8px">Stored only in this browser. Fine for personal testing; the endpoint above is preferred.</p>
+      <div class="goalinput">
+        <input id="aiKey" type="password" placeholder="sk-ant-…" autocomplete="off">
+        <button class="btn ghost" id="aiKeySave" style="width:auto;padding:10px 16px">Save key</button>
+      </div></details>
     </div>
     <div class="panel">
       <h3>Bulk vocabulary</h3>
@@ -1968,9 +1974,18 @@ const SCENARIOS=[
 let aiOpen=null,aiMsgs=[],aiBusy=false;
 function curScen(){return SCENARIOS.find(s=>s.id===aiOpen);}
 function getKey(){return localStorage.getItem("lale.aikey")||"";}
+function getProxy(){return (localStorage.getItem("lale.proxy")||"").trim();}
 function sysPrompt(s){return `You are ${s.role} in Türkiye, talking with someone learning Turkish at about A2/B1 level. Situation: ${s.scene} Rules: reply ONLY in simple, natural Turkish — 1 to 2 short sentences, never English. Stay in character. Keep the conversation going with an easy question. Do not correct the learner mid-conversation; just respond naturally. Begin by greeting them.`;}
 async function callClaude(system,messages,maxTokens){
-  const key=getKey();if(!key)throw new Error("nokey");
+  const proxy=getProxy();
+  if(proxy){
+    const r=await fetch(proxy,{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({system,messages,max_tokens:maxTokens||400})});
+    let j;try{j=await r.json();}catch(e){throw new Error("Bad response from AI endpoint");}
+    if(!r.ok||j.error)throw new Error(j.error||("HTTP "+r.status));
+    return (j.text||"").trim();
+  }
+  const key=getKey();if(!key)throw new Error("noai");
   const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
     headers:{"content-type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
     body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:maxTokens||400,system,messages})});
@@ -1979,10 +1994,10 @@ async function callClaude(system,messages,maxTokens){
 }
 function renderAIChat(v){
   const s=curScen();if(!s){aiOpen=null;return renderTalk();}
-  if(!getKey()){
+  if(!getProxy()&&!getKey()){
     v.innerHTML=`<button class="back-btn" id="aiBack">‹ Talk</button>
-      <div class="panel"><h3>Add your API key first</h3>
-      <p class="lead">The AI partner needs your Anthropic API key. Add it in Profile → AI conversation, then come back.</p>
+      <div class="panel"><h3>Set up the AI partner</h3>
+      <p class="lead">Connect a free AI endpoint once in Profile → AI conversation, then come back. No per-message cost.</p>
       <button class="btn reveal" id="aiToProfile">Go to Profile</button></div>`;
     $("#aiBack").onclick=()=>{aiOpen=null;renderTalk();};$("#aiToProfile").onclick=()=>show("profile");return;
   }
@@ -2041,12 +2056,13 @@ async function aiGetFeedback(){
   catch(e){aiBusy=false;aiErr(e);}
 }
 function aiErr(e){
-  const msg=(""+e.message).indexOf("nokey")>=0?"Add your API key in Profile first.":"Couldn't reach the AI. "+e.message;
+  const msg=(""+e.message).indexOf("noai")>=0?"Set up the AI endpoint in Profile first.":"Couldn't reach the AI. "+e.message;
   const c=$("#aiChat");if(c){const d=document.createElement("div");d.className="feedback bad";d.textContent=msg;c.appendChild(d);}else alert(msg);
 }
 function updateKeyState(){const el=$("#aiKeyState");if(!el)return;
-  const has=!!getKey();el.textContent=has?"✓ Key saved in this browser.":"No key saved yet.";
-  el.style.color=has?"var(--turq)":"var(--muted)";}
+  const proxy=getProxy(),key=getKey();
+  el.textContent=proxy?"✓ AI endpoint connected — no key needed.":key?"✓ Using your Anthropic key (advanced).":"Not set up yet.";
+  el.style.color=(proxy||key)?"var(--turq)":"var(--muted)";}
 
 /* ---------- offline / PWA ---------- */
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
@@ -2062,6 +2078,9 @@ $("#bulkFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new F
   r.readAsText(f);e.target.value="";};
 $("#aiKeySave").onclick=()=>{const v=$("#aiKey").value.trim();
   if(v){localStorage.setItem("lale.aikey",v);$("#aiKey").value="";}updateKeyState();};
+$("#aiProxySave").onclick=()=>{const v=$("#aiProxy").value.trim();
+  localStorage.setItem("lale.proxy",v);updateKeyState();};
+if($("#aiProxy"))$("#aiProxy").value=getProxy();
 show("learn");
 </script>
 </body>
