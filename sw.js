@@ -1,5 +1,5 @@
 /* Lale service worker — offline support */
-const CACHE = "lale-v27";
+const CACHE = "lale-v28";
 const SHELL = ["./", "./index.html", "./freq.js", "./grammar.js", "./grammar-ar.js", "./book.js", "./vocab.js", "./vocab2.js", "./reading.js", "./icon.svg"];
 
 self.addEventListener("install", e => {

@@ -301,7 +301,7 @@
     </div>
     <div class="panel">
       <h3>AI conversation</h3>
-      <p class="lead">Connect a free AI endpoint so the Talk partner works with no key box and no per-message cost. Deploy the little proxy (worker.js) once, then paste its URL here.</p>
+      <p class="lead">The Talk partner is already connected to a free AI endpoint — nothing to set up. You can change the endpoint URL below if you ever move it.</p>
       <div class="goalinput">
         <input id="aiProxy" type="url" placeholder="https://…workers.dev" autocomplete="off">
         <button class="btn reveal" id="aiProxySave" style="width:auto;padding:10px 16px">Save</button>
@@ -1974,7 +1974,7 @@ const SCENARIOS=[
 let aiOpen=null,aiMsgs=[],aiBusy=false;
 function curScen(){return SCENARIOS.find(s=>s.id===aiOpen);}
 function getKey(){return localStorage.getItem("lale.aikey")||"";}
-function getProxy(){return (localStorage.getItem("lale.proxy")||"").trim();}
+function getProxy(){return (localStorage.getItem("lale.proxy")||"https://lale-ai.hishamob.workers.dev").trim();}
 function sysPrompt(s){return `You are ${s.role} in Türkiye, talking with someone learning Turkish at about A2/B1 level. Situation: ${s.scene} Rules: reply ONLY in simple, natural Turkish — 1 to 2 short sentences, never English. Stay in character. Keep the conversation going with an easy question. Do not correct the learner mid-conversation; just respond naturally. Begin by greeting them.`;}
 async function callClaude(system,messages,maxTokens){
   const proxy=getProxy();
